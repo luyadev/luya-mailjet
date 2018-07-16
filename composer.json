@@ -1,0 +1,30 @@
+{
+	"name" : "luyadev/luya-mailjet",
+	"type" : "luya-extension",
+	"keywords" : [
+		"luya"
+	],
+	"license" : "MIT",
+	"authors" : [
+		{
+			"name" : "Basil Suter",
+			"email" : "basil@nadar.io"
+		}
+	],
+	"require-dev" : {
+		"luyadev/luya-testsuite" : "~1.0.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"luya\\mailjet\\" : "src/"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"luya\\mailjet\\tests\\" : "tests/"
+		}
+	},
+	"require": {
+		"mailjet/mailjet-apiv3-php": "^1.3"
+	}
+}
