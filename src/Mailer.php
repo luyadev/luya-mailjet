@@ -46,7 +46,7 @@ class Mailer extends BaseMailer
         ];
         
         // create response
-        $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body]);
+        $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
         
         // return
         return $this->response->success();

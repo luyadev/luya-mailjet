@@ -14,8 +14,8 @@ class MailjetTest extends WebApplicationTestCase
             'components' => [
                 'mailjet' => [
                     'class' => 'luya\mailjet\Client',
-                    'apiKey' => 'xxx',
-                    'apiSecret' => 'xxx',
+                    'apiKey' => 'xx',
+                    'apiSecret' => 'xx',
                 ],
                 'mailer' => [
                     'class' => 'luya\mailjet\Mailer',
@@ -24,13 +24,12 @@ class MailjetTest extends WebApplicationTestCase
         ];
     }
     
-    /*
     public function testSendMessage()
     {
         $mail = $this->app->mailer->compose()
             ->setFrom('basil@zephir.ch')
             ->setSubject('Hello!')
-            ->setHtmlBody('<p>foo</p>')
+            ->setHtmlBody('<p>foo <a href="https://luya.io">luya.io</a></p>')
             ->setTextBody('foo')
             ->setTo(['basil@nadar.io'])
             ->send();
@@ -50,14 +49,24 @@ class MailjetTest extends WebApplicationTestCase
         
         $this->assertTrue($mail);
     }
-    */
     
     public function testContacts()
     {
-        /** @var \luya\mailjet\Client $client */
         $client = $this->app->mailjet;
-        $response = $client->contacts()->add('basil+1@nadar.io', 'Basil 1')->add('basil+2@nadar.io', 'Basil 2')->sync();
+        $response = $client->contacts()
+        ->list(12561)
+            ->add('basil+1@nadar.io', ['firstname' => 'b1'])
+            ->add('basil+2@nadar.io', ['firstname' => 'b2'])
+            ->add('basil+3@nadar.io', ['firstname' => 'b3'])
+            ->sync();
         
         $this->assertTrue($response);
+    }
+    
+    public function testCreateSnippet()
+    {
+        $r = $this->app->mailjet->createSnippet('foo 4 - snippet x ' . time(), '<p>FOOBAR</p>', 'foo');
+        
+        $this->assertTrue($r);
     }
 }

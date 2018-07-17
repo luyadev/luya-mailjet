@@ -5,6 +5,7 @@ namespace luya\mailjet;
 use yii\base\Component;
 use Mailjet\Client as MailjetClient;
 use yii\base\InvalidConfigException;
+use Mailjet\Resources;
 
 /**
  * Mailjet Component.
@@ -36,7 +37,7 @@ class Client extends Component
     public function getClient()
     {
         if (!$this->_client) {
-            $this->_client = new MailjetClient($this->apiKey, $this->apiSecret, true, ['version' => 'v3.1']);
+            $this->_client = new MailjetClient($this->apiKey, $this->apiSecret, true);
         }
 
         return $this->_client;
@@ -49,5 +50,31 @@ class Client extends Component
     public function contacts()
     {
         return new Contacts($this->client);
+    }
+    
+    public function createSnippet($name, $html, $text)
+    {
+        $body = [
+            'Name' => $name,
+            'EditMode' => 3,
+            'OwnerType' => 'apikey',
+        ];
+        
+        $response = $this->client->post(Resources::$Template, ['body' => $body]);
+        
+        if (!$response->success()) {
+            throw new \Exception("Fehler!");   
+        }
+
+        $id = $response->getData()[0]['ID'];
+        
+        $updateBody = [
+            'Html-part' => $html,
+            'Text-part' => $text,
+        ];
+        
+        $resp = $this->client->post(Resources::$TemplateDetailcontent, ['id' => $id, 'body' => $updateBody]);
+        
+        return $resp->success();
     }
 }
