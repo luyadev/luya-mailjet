@@ -14,8 +14,8 @@ class MailjetTest extends WebApplicationTestCase
             'components' => [
                 'mailjet' => [
                     'class' => 'luya\mailjet\Client',
-                    'apiKey' => 'xx',
-                    'apiSecret' => 'xx',
+                    'apiKey' => 'xxx',
+                    'apiSecret' => 'xxx',
                 ],
                 'mailer' => [
                     'class' => 'luya\mailjet\Mailer',
@@ -53,6 +53,7 @@ class MailjetTest extends WebApplicationTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
+        
         $response = $client->contacts()
         ->list(12561)
             ->add('basil+1@nadar.io', ['firstname' => 'b1'])
@@ -65,8 +66,6 @@ class MailjetTest extends WebApplicationTestCase
     
     public function testCreateSnippet()
     {
-        $r = $this->app->mailjet->createSnippet('foo 4 - snippet x ' . time(), '<p>FOOBAR</p>', 'foo');
-        
-        $this->assertTrue($r);
+        $this->assertTrue($this->app->mailjet->createSnippet('title', []));
     }
 }
