@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "4baaa8b045177f98591136c2946e3518",
@@ -823,16 +823,16 @@
         },
         {
             "name": "luyadev/luya-core",
-            "version": "1.0.9",
+            "version": "1.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-core.git",
-                "reference": "449fd840937e88a0f7a013770c544c61a959df41"
+                "reference": "2619b21764ce1ecea301b33d01ba7307877607f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/449fd840937e88a0f7a013770c544c61a959df41",
-                "reference": "449fd840937e88a0f7a013770c544c61a959df41",
+                "url": "https://api.github.com/repos/luyadev/luya-core/zipball/2619b21764ce1ecea301b33d01ba7307877607f5",
+                "reference": "2619b21764ce1ecea301b33d01ba7307877607f5",
                 "shasum": ""
             },
             "require": {
@@ -866,7 +866,7 @@
                     "homepage": "https://github.com/nadar"
                 }
             ],
-            "description": "LUYA is a fast and flexible PHP framework and content management system built with the goal to please developers, clients and users alike. Built upon Yii 2.",
+            "description": "LUYA is a scalable web framework and content management system with the goal to please developers, clients and users alike.",
             "homepage": "https://luya.io",
             "keywords": [
                 "admin",
@@ -876,7 +876,7 @@
                 "yii",
                 "yii2"
             ],
-            "time": "2018-06-01T10:03:31+00:00"
+            "time": "2018-07-18T14:13:30+00:00"
         },
         {
             "name": "luyadev/luya-module-admin",
@@ -1017,16 +1017,16 @@
         },
         {
             "name": "luyadev/luya-testsuite",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/luyadev/luya-testsuite.git",
-                "reference": "cf085193dfb4e2fc24f97a8edd57b1240bf02e83"
+                "reference": "0fb63f6192458f42b4bd0546d9f9f1a3fb9e40e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/cf085193dfb4e2fc24f97a8edd57b1240bf02e83",
-                "reference": "cf085193dfb4e2fc24f97a8edd57b1240bf02e83",
+                "url": "https://api.github.com/repos/luyadev/luya-testsuite/zipball/0fb63f6192458f42b4bd0546d9f9f1a3fb9e40e9",
+                "reference": "0fb63f6192458f42b4bd0546d9f9f1a3fb9e40e9",
                 "shasum": ""
             },
             "require": {
@@ -1066,7 +1066,7 @@
                 "module",
                 "php"
             ],
-            "time": "2018-05-09T12:42:53+00:00"
+            "time": "2018-07-18T14:21:43+00:00"
         },
         {
             "name": "myclabs/deep-copy",
