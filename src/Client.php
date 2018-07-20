@@ -62,6 +62,12 @@ class Client extends Component
      */
     public function createSnippet($name, $mjml)
     {
+        $json = Mjml::getArray($mjml);
+        
+        if (!$json) {
+            throw new \Exception("Invalid MJML code template. The xml(mjml) could not be parsed correctly.");
+        }
+        
         $body = [
             'Name' => $name,
             'Description' => $name,
@@ -80,8 +86,10 @@ class Client extends Component
         
         $id = $response->getData()[0]['ID'];
         
+        
+        
         $updateBody = [
-            'MJMLContent' => Mjml::getArray($mjml),
+            'MJMLContent' => $json,
         ];
         
         $resp = $this->client->post(Resources::$TemplateDetailcontent, ['id' => $id, 'body' => $updateBody]);
