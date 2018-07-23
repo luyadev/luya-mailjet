@@ -54,46 +54,13 @@ class Client extends Component
     }
     
     /**
-     * Create MJML Snippet (Section): https://mjml.io
      * 
-     * @param string $name
-     * @param string $mjml See https://mjml.io
-     * @throws \Exception
+     * @return \luya\mailjet\Sections
      */
-    public function createSnippet($name, $mjml)
+    public function sections()
     {
-        $json = Mjml::getArray($mjml);
-        
-        if (!$json) {
-            throw new \Exception("Invalid MJML code template. The xml(mjml) could not be parsed correctly.");
-        }
-        
-        $body = [
-            'Name' => $name,
-            'Description' => $name,
-            'EditMode' => 3,
-            'Locale' => 'de_DE',
-            'IsStarred' => false,
-            'Purposes' => ['marketing', 'transactional', 'automation'],
-            'OwnerType' => 'user',
-        ];
-        
-        $response = $this->client->post(Resources::$Template, ['body' => $body]);
-        
-        if (!$response->success()) {
-            throw new \Exception("Unable to create Snippet on API server.");
-        }
-        
-        $id = $response->getData()[0]['ID'];
-        
-        
-        
-        $updateBody = [
-            'MJMLContent' => $json,
-        ];
-        
-        $resp = $this->client->post(Resources::$TemplateDetailcontent, ['id' => $id, 'body' => $updateBody]);
-        
-        return $resp->success();
+        return new Sections($this->client);
     }
+    
+    
 }

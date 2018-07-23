@@ -30,7 +30,9 @@ Class Mjml
     
     protected function load($mjml)
     {
+        // prevent casual xml errors
         $mjml = str_replace(array_keys($this->charMapping), array_values($this->charMapping), trim($mjml));
+        
         if (!$this->validateXml($mjml)) {
             return false;
         }
