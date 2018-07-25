@@ -2,6 +2,16 @@
 
 namespace luya\mailjet;
 
+/**
+ * Convert MJML to json/array.
+ * 
+ * This is built from the https://app.mailjet.com/passport/api-fetchr POST request.
+ * 
+ * Tested and made for passport version 3.3.5
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 Class Mjml
 {
     public $charMapping = [
@@ -63,12 +73,22 @@ Class Mjml
     
     protected function generateStructure(XmlElement $elmn)
     {
+        $attributes = $elmn->attributes;
+        
+        // auto inject passport version as its maybe required:
+        if (isset($attributes['passport'])) {
+            $attributes['passport'] = ['version' => $attributes['passport']];
+        }
+        
         $item = [
             'tagName' => $elmn->name,
             'children' => [],
-            'attributes' => $elmn->attributes,
-            'content' => $elmn->content,
+            'attributes' => $attributes,
         ];
+        
+        if ($elmn->content !== null) {
+            $item['content'] = $elmn->content;   
+        }
         
         foreach ($elmn->children as $child) {
             $item['children'][] = $this->generateStructure($child);
@@ -93,7 +113,7 @@ Class Mjml
                 $elements[$index] = new XmlElement;
                 $elements[$index]->name = $tag['tag'];
                 $elements[$index]->attributes = isset($tag['attributes']) ? $tag['attributes'] : [];
-                $elements[$index]->content = isset($tag['value']) ? $tag['value'] : '';
+                $elements[$index]->content = isset($tag['value']) ? $tag['value'] : null;
                 if ($tag['type'] == "open") {  // push
                     $elements[$index]->children = [];
                     $stack[count($stack)] = &$elements;
@@ -113,6 +133,6 @@ Class Mjml
 class XmlElement {
     var $name;
     var $attributes = [];
-    var $content = '';
+    var $content;
     var $children = [];
 };

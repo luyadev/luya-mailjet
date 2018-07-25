@@ -22,10 +22,10 @@ class SectionsTest extends MailjetTestCase
         $this->app->mailjet->sections()->create('News Eintrag Ole was weiss ich', 
         '<mj-section>
         <mj-column>
-            <mj-text>Das wär der Titel</mj-text>
+            <mj-image src="http://191n.mj.am/tplimg/191n/b/040q/qz8m.png" />
         </mj-column>
         <mj-column>
-            <mj-text>Text</mj-text>
+            <mj-text><p>The Content of right Column</p></mj-text>
         </mj-column>
 </mj-section>');
     }
