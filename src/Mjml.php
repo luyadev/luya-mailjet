@@ -9,6 +9,73 @@ namespace luya\mailjet;
  * 
  * Tested and made for passport version 3.3.5
  * 
+ * A full example payload extracted from api fetchr:
+ * 
+ * ```json
+{
+  "MJMLContent": {
+    "tagName": "mj-section",
+    "children": [
+      {
+        "tagName": "mj-column",
+        "attributes": {},
+        "children": [
+          {
+            "tagName": "mj-image",
+            "attributes": {
+              "src": "http://191n.mj.am/tplimg/191n/b/040q/qz8m.png",
+              "align": "center",
+              "width": "250px",
+              "height": "auto",
+              "padding-bottom": "0px",
+              "alt": "",
+              "href": "",
+              "border": "none",
+              "padding": "10px 25px",
+              "target": "_blank",
+              "border-radius": "",
+              "title": "",
+              "padding-top": "20px"
+            }
+          }
+        ]
+      },
+      {
+        "tagName": "mj-column",
+        "attributes": {},
+        "children": [
+          {
+            "tagName": "mj-text",
+            "content": "<p style=\"margin: 10px 0;\">The content of your email goes here.</p><p style=\"margin: 10px 0;\">You can drag and drop blocks of text, images, buttons or other content elements to add them to your message. Customize the font and the colors. Add links to track clicks.</p>",
+            "attributes": {
+              "align": "left",
+              "color": "#55575d",
+              "font-family": "Arial, sans-serif",
+              "font-size": "13px",
+              "line-height": "22px",
+              "padding": "10px 25px",
+              "padding-bottom": "0px",
+              "padding-top": "20px"
+            }
+          }
+        ]
+      }
+    ],
+    "attributes": {
+      "background-repeat": "repeat",
+      "padding": "0px 0px 0px 0px",
+      "background-size": "auto",
+      "background-color": "#ffffff",
+      "text-align": "center",
+      "vertical-align": "top",
+      "passport": {
+        "version": "3.3.5"
+      }
+    }
+  }
+}
+ * ```
+ * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
