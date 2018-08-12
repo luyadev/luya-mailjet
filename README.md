@@ -40,6 +40,8 @@ Add to config:
 
 ## Usage
 
+## Transactionals
+
 Send transactional E-Mail:
 
 ```php
@@ -49,5 +51,17 @@ Yii::$app->mailer->compose()
     ->setSubject('Message subject')
     ->setTextBody('Plain text content')
     ->setHtmlBody('<b>HTML content</b>')
+    ->send();
+```
+
+## Transactional with Template
+
+```php
+$mail = $this->app->mailer->compose()
+    ->setFrom('from@domain.com')
+    ->setSubject('Hello!')
+    ->setTemplate(484590)
+    ->setVariables(['lastnbame' => 'Lastname Value'])
+    ->setTo(['to@domain.com'])
     ->send();
 ```
