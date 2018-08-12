@@ -4,6 +4,7 @@ namespace luya\mailjet;
 
 use yii\mail\BaseMessage;
 use luya\Exception;
+use yii\helpers\VarDumper;
 
 /**
  * Mailjet Message.
@@ -307,7 +308,7 @@ class MailerMessage extends BaseMessage
      */
     public function toString()
     {
-        return implode(',', $this->getTo()) . "\n"
+        return VarDumper::dumpAsString($this->getTo(), 10, false). "\n"
             . $this->getSubject() . "\n"
                 . $this->getTextBody();
     }
