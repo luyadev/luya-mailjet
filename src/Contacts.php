@@ -22,8 +22,7 @@ use yii\base\InvalidConfigException;
  * All users will be snyced to all given lists:
  * 
  * ```php
- * 
- * ->contacts()
+ * $this->app->mailjet->contacts()
  *     ->list(1)
  *       ->add('1@foo.com')
  *     ->list(2)
@@ -31,6 +30,16 @@ use yii\base\InvalidConfigException;
  * ```
  * 
  * Now 1@foo.com and 2@foo.com are both synced to list 1 and 2.
+ * 
+ * In order to remove/unsubscribe contacts from a list use:
+ * 
+ * ```php
+ * $this->app->mailjet->contacts()
+ *     ->list(1234, Contacts::ACTION_REMOVE)
+ *         ->add('remove1@example.com')
+ *         ->add('remove2@example.com')
+ *         ->sync();
+ * ```
  * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -106,5 +115,45 @@ class Contacts extends BaseObject
         $response = $this->client->post(Resources::$ContactManagemanycontacts, ['body' => $body]);
         
         return $response->success();
+    }
+    
+    /**
+     * Search for a given Conact.
+     * 
+     * @param mixed $emailOrId
+     * @return array|boolean
+     */
+    public function search($emailOrId)
+    {
+        $response = $this->client->get(Resources::$Contact, ['id' => $emailOrId]);
+        
+        if ($response->success()) {
+            return $response->getData();
+        }
+        
+        return false;
+    }
+    
+    /**
+     * List all contacts.
+     * 
+     * @param integer $listId
+     * @return array|boolean
+     */
+    public function items($listId = null)
+    {
+        $filters = [];
+        
+        if ($listId) {
+            $filters = ['filters' => ['ContactsList' => $listId]];
+        }
+        
+        $response = $this->client->get(Resources::$Contact, $filters);
+        
+        if ($response->success()) {
+            return $response->getData();
+        }
+        
+        return false;
     }
 }
