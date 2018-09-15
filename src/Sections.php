@@ -46,7 +46,7 @@ class Sections extends BaseObject
         $response = $this->client->post(Resources::$Template, ['body' => $body]);
         
         if (!$response->success()) {
-            throw new \Exception("Unable to create Snippet on API server.");
+            throw new \Exception("Unable to create Snippet on API server: " . $response->getReasonPhrase() . ' (Status: ' . $response->getStatus().') (Raw Body: '.$response->getBody().')');
         }
         
         $id = $response->getData()[0]['ID'];
