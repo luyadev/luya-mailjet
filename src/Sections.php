@@ -40,7 +40,7 @@ class Sections extends BaseObject
             'EditMode' => 3,
             'Locale' => 'de_DE',
             'IsStarred' => false,
-            'OwnerType' => 'user',
+            'OwnerType' => 'apikey',
         ];
         
         $response = $this->client->post(Resources::$Template, ['body' => $body]);
@@ -70,7 +70,7 @@ class Sections extends BaseObject
     public function list()
     {
         $filters = [
-            'OwnerType' => 'user',
+            'OwnerType' => 'apikey',
             'Limit' => 100,
             'EditMode' => 3
         ];
