@@ -51,7 +51,7 @@ class Mailer extends BaseMailer
         $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
         
         if (!$this->response->success()) {
-            $this->lastError = $this->response->getReasonPhrase();
+            $this->lastError = $this->response->getData() . ' | ' . $this->response->getBody() . ' | ' . $this->response->getReasonPhrase();
             return false;
         }
 
