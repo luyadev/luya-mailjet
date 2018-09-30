@@ -22,6 +22,8 @@ class Mailer extends BaseMailer
      * @var \Mailjet\Response
      */
     public $response;
+
+    public $lastError;
     
     /**
      * {@inheritDoc}
@@ -48,8 +50,13 @@ class Mailer extends BaseMailer
         // create response
         $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
         
+        if (!$this->response->success()) {
+            $this->lastError = $this->response->getReasonPhrase();
+            return false;
+        }
+
         // return
-        return $this->response->success();
+        return true;
     }
     
     /**
