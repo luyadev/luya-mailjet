@@ -5,6 +5,7 @@
 # LUYA Mailjet
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
+[![Build Status](https://travis-ci.org/luyadev/luya-mailjet.svg?branch=master)](https://travis-ci.org/luyadev/luya-mailjet)
 
 LUYA and Yii Framework integration for mailjet service.
 
