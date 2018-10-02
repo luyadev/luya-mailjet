@@ -11,8 +11,8 @@ class SectionsTest extends MailjetTestCase
         $this->assertTrue(is_array($r));
         
         foreach ($r as $i) {
-            echo "DELETE: " . $i['ID'] . PHP_EOL;
-            //$this->app->mailjet->sections()->delete($i['ID']);
+            //echo "DELETE: " . $i['ID'] . PHP_EOL;
+            $this->app->mailjet->sections()->delete($i['ID']);
         }
     }
     
@@ -29,10 +29,5 @@ class SectionsTest extends MailjetTestCase
             <mj-image src="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png" alt="" align="center" border="none"></mj-image>
         </mj-column>
         </mj-section>'));
-    }
-    
-    public function testDelete()
-    {
-        $this->assertTrue($this->app->mailjet->sections()->delete(485016));
     }
 }

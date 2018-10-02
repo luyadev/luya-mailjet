@@ -6,15 +6,13 @@ use luya\testsuite\cases\WebApplicationTestCase;
 
 class MailjetTestCase extends WebApplicationTestCase
 {
-    /*
     public function beforeSetup()
     {
         $dotenv = new \Dotenv\Dotenv(__DIR__);
-        $dotenv->load();
+        $dotenv->safeLoad();
 
         parent::beforeSetup();
     }
-    */
     public function getConfigArray()
     {
         return [
