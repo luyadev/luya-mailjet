@@ -4,7 +4,6 @@ namespace luya\mailjet\tests;
 
 class SectionsTest extends MailjetTestCase
 {
-    /*
     public function testListSections()
     {
         $r = $this->app->mailjet->sections()->list();
@@ -16,12 +15,11 @@ class SectionsTest extends MailjetTestCase
             //$this->app->mailjet->sections()->delete($i['ID']);
         }
     }
-    */
     
     
     public function testCreate()
     {
-        $this->app->mailjet->sections()->create('[TEST SECTIONS] ' . time(), 
+        $this->assertTrue($this->app->mailjet->sections()->create('[TEST SECTIONS] ' . time(), 
         '<mj-section passport="3.3.5">
         <mj-column>
             <mj-text>TEST1</mj-text>
@@ -30,13 +28,11 @@ class SectionsTest extends MailjetTestCase
         <mj-column>
             <mj-image src="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png" alt="" align="center" border="none"></mj-image>
         </mj-column>
-        </mj-section>');
+        </mj-section>'));
     }
     
-    /*
     public function testDelete()
     {
         $this->assertTrue($this->app->mailjet->sections()->delete(485016));
     }
-    */
 }

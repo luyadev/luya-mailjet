@@ -6,6 +6,13 @@ use luya\testsuite\cases\WebApplicationTestCase;
 
 class MailjetTestCase extends WebApplicationTestCase
 {
+    public function beforeSetup()
+    {
+        $dotenv = new \Dotenv\Dotenv(__DIR__);
+        $dotenv->load();
+
+        parent::beforeSetup();
+    }
     public function getConfigArray()
     {
         return [
@@ -15,8 +22,8 @@ class MailjetTestCase extends WebApplicationTestCase
             'components' => [
                 'mailjet' => [
                     'class' => 'luya\mailjet\Client',
-                    'apiKey' => 'xx',
-                    'apiSecret' => 'xx',
+                    'apiKey' => getenv('apikey'),
+                    'apiSecret' => getenv('apisecret'),
                 ],
                 'mailer' => [
                     'class' => 'luya\mailjet\Mailer',
