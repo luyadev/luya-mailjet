@@ -106,7 +106,7 @@ class MailerMessage extends BaseMessage
     public function setVariables(array $vars)
     {
         foreach ($vars as $k => $v) {
-            if (is_null($v) || is_bool($v) || empty($v)) {
+            if (is_null($v) || is_bool($v) || empty($v)) {
                 $vars[$k] = '';
             }
         }
