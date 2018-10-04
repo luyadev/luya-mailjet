@@ -75,6 +75,10 @@ class Mailer extends BaseMailer
             'TemplateID' => $message->getTemplate(),
             'TemplateLanguage' => $message->getTemplateLanguage(),
             'Variables' => $message->getVariables(),
+            'ReplyTo' => $message->getReplyTo(),
+            'Sender' => $message->getSender(),
+            'Cc' => $message->getCc(),
+            'Bcc' => $message->getBcc()
         ];
         
         // remove empty values from array

@@ -57,25 +57,42 @@ class MailerMessage extends BaseMessage
         return $this->_from;
     }
     
-    
     /**
      * @inheritdoc
      */
     public function setFrom($from)
     {
-        if (is_array($from)) {
-            $this->_from = [
-                'Email' => key($from),
-                'Name' => array_shift($from),
-            ];
-        } else {
-            $this->_from['Email'] = $from;
-        }
-        
+        $this->_from = $this->toEmailAndName($from);
         return $this;
     }
-    
+
+    private $_sender;
+
+    /**
+     * Change sender:
+     * 
+     * > Your account is not authorized to use the "Sender" header. Please contact our support team to be granted permission.
+     *
+     * @param [type] $sender
+     * @return void
+     */
+    public function setSender($sender)
+    {
+        $this->_sender = $this->toEmailAndName($sender);
+        return $this;
+    }
+
+    public function getSender()
+    {
+        return $this->_sender;
+    }
+
     private $_template;
+
+    public function getTemplate()
+    {
+        return $this->_template;
+    }
     
     /**
      * Set the template id from mailjet.
@@ -120,11 +137,6 @@ class MailerMessage extends BaseMessage
         return $this->_variables;
     }
     
-    public function getTemplate()
-    {
-        return $this->_template;
-    }
-    
     private $_templateLanguage;
     
     public function getTemplateLanguage()
@@ -142,29 +154,17 @@ class MailerMessage extends BaseMessage
     
     /**
      * @inheritdoc
+     * $to = 'foo@bar.com';
+     * $to = ['foo@bar.com', 'quix@baz.com'];
+     * $to = ['foo@bar.com' => 'John Doe'];
      */
     public function setTo($to)
     {
-        // $to = 'foo@bar.com';
-        // $to = ['foo@bar.com', 'quix@baz.com'];
-        // $to = ['foo@bar.com' => 'John Doe'];
         
-        $to = (array) $to;
-        $recipients = [];
-        foreach ($to as $key => $value) {
-            if (is_numeric($key)) {
-                // email only
-                $recipients[] = ['Email' => $value, 'Name' => $value];
-            } else {
-                // key is email, value is name
-                $recipients[] = ['Email' => $key, 'Name' => $value];
-            }
-        }
-        
-        $this->_to = $recipients;
+        $this->_to = $this->toMultiEmailAndName($to);
         return $this;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -178,7 +178,7 @@ class MailerMessage extends BaseMessage
      */
     public function setReplyTo($replyTo)
     {
-        $this->_replyTo = $replyTo;
+        $this->_replyTo = $this->toEmailAndName($replyTo);
         return $this;
     }
     
@@ -195,7 +195,7 @@ class MailerMessage extends BaseMessage
      */
     public function setCc($cc)
     {
-        $this->_cc = $cc;
+        $this->_cc = $this->toMultiEmailAndName($cc);
         return $this;
     }
     
@@ -212,7 +212,7 @@ class MailerMessage extends BaseMessage
      */
     public function setBcc($bcc)
     {
-        $this->_bcc = $bcc;
+        $this->_bcc = $this->toMultiEmailAndName($bcc);
         return $this;
     }
     
@@ -316,5 +316,32 @@ class MailerMessage extends BaseMessage
         return VarDumper::dumpAsString($this->getTo(), 10, false). "\n"
             . $this->getSubject() . "\n"
                 . $this->getTextBody();
+    }
+
+    private function toMultiEmailAndName($input)
+    {
+        $to = (array) $input;
+        $adresses = [];
+        foreach ($to as $key => $value) {
+            $adresses[] = $this->toEmailAndName([$key => $value]);
+        }
+
+        return $adresses;
+    }
+
+    private function toEmailAndName($input)
+    {
+        if (is_scalar($input)) {
+            return ['Email' => $input, 'Name' => $input];
+        }
+
+        $key = key($input);
+        $value = current($input);
+
+        if (is_numeric($key)) {
+            return ['Email' => $value, 'Name' => $value];
+        }
+
+        return ['Email' => $key, 'Name' => $value];
     }
 }
