@@ -104,7 +104,7 @@ class MailerMessage extends BaseMessage
      */
     public function setTemplate($id)
     {
-        $this->_template = $id;
+        $this->_template = (int) $id;
         $this->_templateLanguage = true;
         
         return $this;
