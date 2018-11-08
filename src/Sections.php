@@ -61,7 +61,7 @@ class Sections extends BaseObject
      * 
      * @param string $name The name of the template
      * @param string $mjml See https://mjml.io
-     * @return boolean
+     * @return boolean|integer returns the id of the template or false otherwise.
      */
     public function create($name, $mjml)
     {
@@ -98,7 +98,11 @@ class Sections extends BaseObject
         
         $resp = $this->client->post(Resources::$TemplateDetailcontent, ['id' => $id, 'body' => $updateBody]);
         
-        return $resp->success();
+        if ($resp->success()) {
+            return $id;
+        }
+
+        return false;
     }
     
     /**
