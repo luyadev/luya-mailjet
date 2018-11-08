@@ -6,6 +6,23 @@ use Mailjet\Client;
 use Mailjet\Resources;
 use yii\base\BaseObject;
 
+/**
+ * Create a Section Snippet.
+ * 
+ * ```php
+ * $client = new \luya\mailjet\Client();
+ * $section = new Sections($client);
+ * 
+ * $response = $section->create("My section", $mjmlTemplate);
+ * 
+ * if (!$response) {
+ *     var_dump($section->getErrorMessage());
+ * }
+ * ```
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
+ */
 class Sections extends BaseObject
 {
     /**
@@ -13,25 +30,48 @@ class Sections extends BaseObject
      */
     public $client;
     
+    /**
+     * Constructor.
+     *
+     * @param Client $client
+     * @param array $config
+     */
     public function __construct(Client $client, array $config = [])
     {
         $this->client = $client;
         parent::__construct($config);
     }
+
+    private $_errorMessage;
+
+    /**
+     * Get the error message from create() method.
+     *
+     * @return string
+     */
+    public function getErrorMessage()
+    {
+        return $this->_errorMessage;
+    }
     
     /**
      * Create MJML Snippet (Section): https://mjml.io
      *
-     * @param string $name
+     * If failed, return error message from getErrorMessage().
+     * 
+     * @param string $name The name of the template
      * @param string $mjml See https://mjml.io
-     * @throws \Exception
+     * @return boolean
      */
     public function create($name, $mjml)
     {
+        $this->_errorMessage = false;
+
         $json = Mjml::getArray($mjml);
         
         if (!$json) {
-            throw new \Exception("Invalid MJML code template. The xml(mjml) could not be parsed correctly.");
+            $this->_errorMessage = var_export(Mjml::$errors, true);
+            return false;
         }
         
         $body = [
@@ -46,12 +86,11 @@ class Sections extends BaseObject
         $response = $this->client->post(Resources::$Template, ['body' => $body]);
         
         if (!$response->success()) {
-            throw new \Exception("Unable to create Snippet on API server: " . $response->getReasonPhrase() . ' (Status: ' . $response->getStatus().') (Raw Body: '.var_export($response->getBody(), true).')');
+            $this->_errorMessage = "Unable to create Snippet on API server: " . $response->getReasonPhrase() . ' (Status: ' . $response->getStatus().') (Raw Body: '.var_export($response->getBody(), true).')';
+            return false;
         }
         
         $id = $response->getData()[0]['ID'];
-        
-        
         
         $updateBody = [
             'MJMLContent' => $json,
@@ -63,8 +102,8 @@ class Sections extends BaseObject
     }
     
     /**
-     * 
-     * @throws \Exception
+     * List all sections (paginated by 100 elements).
+     *
      * @return array
      */
     public function list()
@@ -84,6 +123,12 @@ class Sections extends BaseObject
         return $response->getData();
     }
     
+    /**
+     * Delete the given section id.
+     *
+     * @param integer $id
+     * @return boolean
+     */
     public function delete($id)
     {
         $response = $this->client->delete(Resources::$Template, ['id' => $id]);

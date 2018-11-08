@@ -30,4 +30,13 @@ class SectionsTest extends MailjetTestCase
         </mj-column>
         </mj-section>'));
     }
+
+    public function testErrorMessage()
+    {
+        $section = $this->app->mailjet->sections();
+        $response = $section->create('failed mjml', '<mj->section>test</mj-section>');
+
+        $this->assertFalse($response);
+        $this->assertNotNull($section->getErrorMessage());
+    }
 }
