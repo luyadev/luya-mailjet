@@ -74,17 +74,19 @@ class MailerMessage extends BaseMessage
      * The value must be a valid e-mail-address:
      *
      * @param string $mjTemplateErrorReporting
-     * @see https://dev.mailjet.com/guides/?ruby#message-json-properties
+     * @return static
+     * @see https://dev.mailjet.com/guides/?php#send-api-json-properties-v3
      */
     public function setMjTemplateErrorReporting($mjTemplateErrorReporting)
     {
         $this->_mjTemplateErrorReporting = $mjTemplateErrorReporting;
+        return $this;
     }
 
     /**
      * Getter method
      *
-     * @return void
+     * @return string
      */
     public function getMjTemplateErrorReporting()
     {
@@ -98,8 +100,8 @@ class MailerMessage extends BaseMessage
      * 
      * > Your account is not authorized to use the "Sender" header. Please contact our support team to be granted permission.
      *
-     * @param [type] $sender
-     * @return void
+     * @param string|array $sender
+     * @return static
      */
     public function setSender($sender)
     {
@@ -107,6 +109,11 @@ class MailerMessage extends BaseMessage
         return $this;
     }
 
+    /**
+     * Get Sender
+     *
+     * @return string|array
+     */
     public function getSender()
     {
         return $this->_sender;
@@ -114,6 +121,11 @@ class MailerMessage extends BaseMessage
 
     private $_template;
 
+    /**
+     * Get template id
+     *
+     * @return integer
+     */
     public function getTemplate()
     {
         return $this->_template;
@@ -126,6 +138,7 @@ class MailerMessage extends BaseMessage
      * 
      * @param integer $id
      * @return \luya\mailjet\MailerMessage
+     * @return static
      */
     public function setTemplate($id)
     {
@@ -144,6 +157,7 @@ class MailerMessage extends BaseMessage
      * 
      * @param array $vars
      * @return \luya\mailjet\MailerMessage
+     * @return static
      */
     public function setVariables(array $vars)
     {
