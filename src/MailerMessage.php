@@ -73,13 +73,13 @@ class MailerMessage extends BaseMessage
      * 
      * The value must be a valid e-mail-address:
      *
-     * @param string $mjTemplateErrorReporting
+     * @param string $templateErrorReporting
      * @return static
      * @see https://dev.mailjet.com/guides/?php#send-api-json-properties-v3
      */
-    public function setTemplateErrorReporting($mjTemplateErrorReporting)
+    public function setTemplateErrorReporting($templateErrorReporting)
     {
-        $this->_templateErrorReporting = $mjTemplateErrorReporting;
+        $this->_templateErrorReporting = $this->toEmailAndName($templateErrorReporting);
         return $this;
     }
 
