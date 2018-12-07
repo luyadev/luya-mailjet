@@ -66,6 +66,31 @@ class MailerMessage extends BaseMessage
         return $this;
     }
 
+    private $_mjTemplateErrorReporting;
+
+    /**
+     * Set the `MJ-TemplateErrorReporting` variable for debug purposes.
+     * 
+     * The value must be a valid e-mail-address:
+     *
+     * @param string $mjTemplateErrorReporting
+     * @see https://dev.mailjet.com/guides/?ruby#message-json-properties
+     */
+    public function setMjTemplateErrorReporting($mjTemplateErrorReporting)
+    {
+        $this->_mjTemplateErrorReporting = $mjTemplateErrorReporting;
+    }
+
+    /**
+     * Getter method
+     *
+     * @return void
+     */
+    public function getMjTemplateErrorReporting()
+    {
+        return $this->_mjTemplateErrorReporting;
+    }
+
     private $_sender;
 
     /**
