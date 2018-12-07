@@ -79,7 +79,7 @@ class Mailer extends BaseMailer
             'Sender' => $message->getSender(),
             'Cc' => $message->getCc(),
             'Bcc' => $message->getBcc(),
-            'MJ-TemplateErrorReporting' => $message->getMjTemplateErrorReporting(),
+            'TemplateErrorReporting' => $message->getTemplateErrorReporting(),
         ];
         
         // remove empty values from array

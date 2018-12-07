@@ -66,7 +66,7 @@ class MailerMessage extends BaseMessage
         return $this;
     }
 
-    private $_mjTemplateErrorReporting;
+    private $_templateErrorReporting;
 
     /**
      * Set the `MJ-TemplateErrorReporting` variable for debug purposes.
@@ -77,9 +77,9 @@ class MailerMessage extends BaseMessage
      * @return static
      * @see https://dev.mailjet.com/guides/?php#send-api-json-properties-v3
      */
-    public function setMjTemplateErrorReporting($mjTemplateErrorReporting)
+    public function setTemplateErrorReporting($mjTemplateErrorReporting)
     {
-        $this->_mjTemplateErrorReporting = $mjTemplateErrorReporting;
+        $this->_templateErrorReporting = $mjTemplateErrorReporting;
         return $this;
     }
 
@@ -88,9 +88,9 @@ class MailerMessage extends BaseMessage
      *
      * @return string
      */
-    public function getMjTemplateErrorReporting()
+    public function getTemplateErrorReporting()
     {
-        return $this->_mjTemplateErrorReporting;
+        return $this->_templateErrorReporting;
     }
 
     private $_sender;
