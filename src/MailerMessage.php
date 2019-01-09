@@ -62,7 +62,7 @@ class MailerMessage extends BaseMessage
      */
     public function setFrom($from)
     {
-        $this->_from = $this->toEmailAndName($from);
+        $this->_from = Mailer::toEmailAndName($from);
         return $this;
     }
 
@@ -79,7 +79,7 @@ class MailerMessage extends BaseMessage
      */
     public function setTemplateErrorReporting($templateErrorReporting)
     {
-        $this->_templateErrorReporting = $this->toEmailAndName($templateErrorReporting);
+        $this->_templateErrorReporting = Mailer::toEmailAndName($templateErrorReporting);
         return $this;
     }
 
@@ -105,7 +105,7 @@ class MailerMessage extends BaseMessage
      */
     public function setSender($sender)
     {
-        $this->_sender = $this->toEmailAndName($sender);
+        $this->_sender = Mailer::toEmailAndName($sender);
         return $this;
     }
 
@@ -200,7 +200,7 @@ class MailerMessage extends BaseMessage
     public function setTo($to)
     {
         
-        $this->_to = $this->toMultiEmailAndName($to);
+        $this->_to = Mailer::toMultiEmailAndName($to);
         return $this;
     }
 
@@ -217,7 +217,7 @@ class MailerMessage extends BaseMessage
      */
     public function setReplyTo($replyTo)
     {
-        $this->_replyTo = $this->toEmailAndName($replyTo);
+        $this->_replyTo = Mailer::toEmailAndName($replyTo);
         return $this;
     }
     
@@ -234,7 +234,7 @@ class MailerMessage extends BaseMessage
      */
     public function setCc($cc)
     {
-        $this->_cc = $this->toMultiEmailAndName($cc);
+        $this->_cc = Mailer::toMultiEmailAndName($cc);
         return $this;
     }
     
@@ -251,7 +251,7 @@ class MailerMessage extends BaseMessage
      */
     public function setBcc($bcc)
     {
-        $this->_bcc = $this->toMultiEmailAndName($bcc);
+        $this->_bcc = Mailer::toMultiEmailAndName($bcc);
         return $this;
     }
     
@@ -362,7 +362,7 @@ class MailerMessage extends BaseMessage
         $to = (array) $input;
         $adresses = [];
         foreach ($to as $key => $value) {
-            $adresses[] = $this->toEmailAndName([$key => $value]);
+            $adresses[] = Mailer::toEmailAndName([$key => $value]);
         }
 
         return $adresses;
