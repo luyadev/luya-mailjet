@@ -165,6 +165,8 @@ class MailerMessage extends BaseMessage
             if (is_null($v) || is_bool($v) || empty($v)) {
                 $vars[$k] = '';
             }
+
+            $vars[$k] = (string) $vars[$k];
         }
         $this->_variables = $vars;
         

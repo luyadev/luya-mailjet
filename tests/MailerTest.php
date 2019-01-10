@@ -16,13 +16,21 @@ class MailerTest extends MailjetTestCase
 
         $message = new MailerMessage();
         $message->setTemplate(123);
-        $message->setVariables(['bar' => 'foo']);
+        $message->setVariables([
+            'bar' => 'foo',
+            'int' => 123,
+            'null' => null,
+            'bool' => false,    
+        ]);
 
         $this->assertSame([
             'TemplateID' => 123,
             'TemplateLanguage' => true,
             'Variables' => [
                 'bar' => 'foo',
+                'int' => '123',
+                'null' => '',
+                'bool' => '',
             ],
             'TemplateErrorReporting' => [
                 'Email' => 'error@luya.io',
