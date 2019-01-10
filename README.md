@@ -6,6 +6,10 @@
 
 [![LUYA](https://img.shields.io/badge/Powered%20by-LUYA-brightgreen.svg)](https://luya.io)
 [![Build Status](https://travis-ci.org/luyadev/luya-mailjet.svg?branch=master)](https://travis-ci.org/luyadev/luya-mailjet)
+[![Total Downloads](https://poser.pugx.org/luyadev/luya-mailjet/downloads)](https://packagist.org/packages/luyadev/luya-mailjet)
+[![Latest Stable Version](https://poser.pugx.org/luyadev/luya-mailjet/v/stable)](https://packagist.org/packages/luyadev/luya-mailjet)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/79087433986c16d7f41d/test_coverage)](https://codeclimate.com/github/luyadev/luya-mailjet/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/79087433986c16d7f41d/maintainability)](https://codeclimate.com/github/luyadev/luya-mailjet/maintainability)
 
 LUYA and Yii Framework integration for mailjet service.
 

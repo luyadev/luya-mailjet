@@ -49,6 +49,11 @@ class Mailer extends BaseMailer
     public $lastError;
     
     /**
+     * @var boolean The Send API v3.1 allows to run the API call in a Sandbox mode where all the validation of the payload will be done without delivering the message.
+     */
+    public $sandbox = false;
+
+    /**
      * {@inheritDoc}
      * @see \yii\base\BaseObject::init()
      */
@@ -94,6 +99,10 @@ class Mailer extends BaseMailer
                 $this->extractMessage($message),
             ]
         ];
+
+        if ($this->sandbox) {
+            $body['SandboxMode'] = true;
+        }
         
         // create response
         $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
