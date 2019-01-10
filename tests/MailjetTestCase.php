@@ -27,6 +27,7 @@ class MailjetTestCase extends WebApplicationTestCase
                 ],
                 'mailer' => [
                     'class' => 'luya\mailjet\Mailer',
+                    'sandbox' => true,
                 ],
             ]
         ];
