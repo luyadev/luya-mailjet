@@ -27,8 +27,8 @@ class MailerTest extends MailjetTestCase
             'TemplateErrorReporting' => [
                 'Email' => 'error@luya.io',
                 'Name' => 'John Error',
-            ]
-
+            ],
+            'TemplateErrorDeliver' => true,
         ], $mailer->extractMessage($message));
 
         $this->assertFalse($mailer->sendMessage($message));

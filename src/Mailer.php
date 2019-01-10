@@ -139,6 +139,14 @@ class Mailer extends BaseMailer
             'TemplateErrorReporting' => $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting(),
         ];
         
+        $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
+
+        if ($errorReporting) {
+            $array['TemplateErrorReporting'] = $errorReporting;
+            $array['TemplateErrorDeliver'] = true;
+        }
+
+
         // remove empty values from array
         return array_filter($array);
     }
