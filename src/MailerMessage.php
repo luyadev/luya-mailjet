@@ -32,6 +32,10 @@ class MailerMessage extends BaseMessage
     private $_textBody;
     
     private $_htmlBody;
+
+    private $_customCampaign;
+
+    private $_decoupleCampaign = true;
     
     /**
      * @inheritdoc
@@ -307,7 +311,41 @@ class MailerMessage extends BaseMessage
         $this->_htmlBody = $html;
         return $this;
     }
-    
+
+    /**
+     * @inheritdoc
+     */
+    public function getCustomCampaign()
+    {
+        return $this->_customCampaign;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCustomCampaign($campaign)
+    {
+        $this->_customCampaign = $campaign;
+        return $this;
+    }
+ 
+    /**
+    * @inheritdoc
+    */
+   public function getDecoupleCampaign()
+   {
+       return $this->_decoupleCampaign;
+   }
+
+   /**
+    * @inheritdoc
+    */
+   public function setDecoupleCampaign($decouple)
+   {
+       $this->_decoupleCampaign = $decouple;
+       return $this;
+   }
+
     /**
      * @inheritdoc
      */
