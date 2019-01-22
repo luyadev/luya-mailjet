@@ -39,6 +39,16 @@ class ContactInfoActiveWindow extends ActiveWindow
         return 'contact_mail';    
     }
 
+    public function getTitle()
+    {
+        return $this->getEmailFromModel();   
+    }
+
+    public function getViewPath()
+    {
+        return  dirname(__DIR__) . '/views/aws/contact-info';
+    }
+
     /**
      * The default action which is going to be requested when clicking the ActiveWindow.
      * 
@@ -46,11 +56,21 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function index()
     {
+        $email = $this->getEmailFromModel();
+        return $this->render('index', [
+            'email' => $email,
+            'mailjet' => $this->getMailjetResponse($email),
+        ]);
+    }
+
+    private function getMailjetResponse($email)
+    {
+        return Yii::$app->mailjet->contacts()->search($email);
+    }
+
+    private function getEmailFromModel()
+    {
         $model = $this->getModel();
-
-        $email = $model->{$this->attribute};
-        $r = Yii::$app->mailjet->contacts()->search($email);
-
-        return var_export($r, true);
+        return $model->{$this->attribute};
     }
 }
