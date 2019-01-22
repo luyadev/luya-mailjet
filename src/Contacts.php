@@ -116,6 +116,11 @@ class Contacts extends BaseObject
         
         return $response->success();
     }
+
+    public function remove()
+    {
+        
+    }
     
     /**
      * Search for a given Conact.
