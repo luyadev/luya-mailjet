@@ -36,31 +36,36 @@ class MailjetTest extends MailjetTestCase
     {
         $client = $this->app->mailjet;
         
+    $randomMail = 'johndoe'.rand(0,999999).'@luya.io';
+        
+
         $response = $client->contacts()
         ->list(622, Contacts::ACTION_ADDFORCE)
             ->add('basil+1@nadar.io', ['firstname' => 'b1'])
             ->add('basil+2@nadar.io', ['firstname' => 'b2'])
             ->add('basil+3@nadar.io', ['firstname' => 'b3'])
-            ->add('johndoe@luya.io')
+            ->add($randomMail)
             ->sync();
         
         $this->assertTrue($response);
 
-        $this->assertNotFalse($client->contacts()->search('johndoe@luya.io'));
+        sleep(3);
 
-        sleep(2);
+        $this->assertNotFalse($client->contacts()->search($randomMail));
 
-        $this->assertTrue($client->contacts()->isInList('johndoe@luya.io', 622));
+        sleep(3);
+
+        $this->assertTrue($client->contacts()->isInList($randomMail, 622));
 
         // unsubscribe
 
         $response = $client->contacts()
         ->list(622, Contacts::ACTION_UNSUBSCRIBE)
-            ->add('johndoe@luya.io')
+            ->add($randomMail)
             ->sync();
 
-        sleep(2);
+        sleep(3);
 
-        $this->assertFalse($client->contacts()->isInList('johndoe@luya.io', 622));
+        $this->assertFalse($client->contacts()->isInList($randomMail, 622));
     }
 }
