@@ -188,6 +188,12 @@ class MailerMessage extends BaseMessage
     {
         return $this->_templateLanguage;
     }
+
+    public function setTemplateLanguage($value)
+    {
+        $this->_templateLanguage=$value;
+        return $this;
+    }
     
     /**
      * @inheritdoc
