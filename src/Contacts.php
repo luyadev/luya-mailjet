@@ -116,11 +116,6 @@ class Contacts extends BaseObject
         
         return $response->success();
     }
-
-    public function remove()
-    {
-        
-    }
     
     /**
      * Search for a given Conact.
@@ -134,6 +129,61 @@ class Contacts extends BaseObject
         
         if ($response->success()) {
             return $response->getData();
+        }
+        
+        return false;
+    }
+
+    /**
+     * Check if a user is in the given list and not unsubscibred.
+     * 
+     * @param string|integer $emailOrId
+     * @param integer $listId The list ID
+     * @return boolean
+     */
+    public function isInList($emailOrId, $listId)
+    {
+        $subs = $this->subscriptions($emailOrId);
+
+        if (!$subs) {
+            return false;
+        }
+
+        foreach ($subs as $sub) {
+            if ($sub['ListID'] == $listId && $sub['IsUnsub'] === false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all list subscriptions for a given Contact.
+     */
+    public function subscriptions($emailOrId)
+    {
+        $response = $this->client->get(Resources::$ContactGetcontactslists, ['id' => $emailOrId]);
+
+        if ($response->success()) {
+            return $response->getData();
+        }
+        
+        return false;
+    }
+
+    /**
+     * Get details for a given list id (subscribes and name)
+     *
+     * @param integer $listId
+     * @return array|boolean
+     */
+    public function listDetail($listId)
+    {
+        $response = $this->client->get(Resources::$Contactslist, ['id' => $listId]);
+
+        if ($response->success()) {
+            return current($response->getData());
         }
         
         return false;

@@ -146,9 +146,14 @@ class Mailer extends BaseMailer
             $array['TemplateErrorDeliver'] = true;
         }
 
+        // filter null and '' values not not false (which array_filter does).
+        return array_filter($array, function($value) {
+            if ($value === null || $value === '') {
+                return false;
+            }
 
-        // remove empty values from array
-        return array_filter($array);
+            return true;
+        });
     }
 
     public static function toMultiEmailAndName($input)

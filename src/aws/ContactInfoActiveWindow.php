@@ -26,7 +26,7 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function defaultLabel()
     {
-        return 'Contact Info';
+        return 'Mailjet';
     }
 
     /**
@@ -57,15 +57,21 @@ class ContactInfoActiveWindow extends ActiveWindow
     public function index()
     {
         $email = $this->getEmailFromModel();
+
+        $subs = Yii::$app->mailjet->contacts()->subscriptions($email);
+
+        $lists = [];
+        foreach ($subs as $sub) {
+            $lists[] = [
+                'sub' => $sub,
+                'list' => Yii::$app->mailjet->contacts()->listDetail($sub['ListID']),
+            ];
+        }
         return $this->render('index', [
             'email' => $email,
-            'mailjet' => $this->getMailjetResponse($email),
+            'mailjet' => Yii::$app->mailjet->contacts()->search($email),
+            'lists' => $lists,
         ]);
-    }
-
-    private function getMailjetResponse($email)
-    {
-        return Yii::$app->mailjet->contacts()->search($email);
     }
 
     private function getEmailFromModel()
