@@ -190,20 +190,35 @@ class Contacts extends BaseObject
     }
     
     /**
-     * List all contacts.
-     * 
-     * @param integer $listId
+     * Get contact items.
+     *
+     * @param integer $listId If not porvided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
+     * @param integer $limit The number of items (max 1000) - Limit the response to a select number of returned objects.
+     * @param integer $offset The page offset (starts at 0) - Retrieve a list of objects starting from a certain offset. Combine this query 
+     * parameter with Limit to retrieve a specific section of the list of objects.
+     * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true, 
+     * will retrieve only contacts that have been added to the exclusion list for marketing emails. When 
+     * false, those contacts will be excluded from the response.
      * @return array|boolean
      */
-    public function items($listId = null)
+    public function items($listId = null, $limit = 1000, $offset = 0, $isExcludedFromCampaigns = null)
     {
         $filters = [];
         
         if ($listId) {
-            $filters = ['filters' => ['ContactsList' => $listId]];
+            $filters['ContactsList'] = $listId;
+        }
+
+        if ($isExcludedFromCampaigns !== null) {
+            $filters['IsExcludedFromCampaigns'] = $isExcludedFromCampaigns;
         }
         
-        $response = $this->client->get(Resources::$Contact, $filters);
+        $filters['Limit'] = $limit;
+        $filters['Offset'] = $offset;
+
+        $response = $this->client->get(Resources::$Contact, [
+            'filters' => $filters,
+        ]);
         
         if ($response->success()) {
             return $response->getData();
