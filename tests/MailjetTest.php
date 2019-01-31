@@ -35,12 +35,10 @@ class MailjetTest extends MailjetTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
-        
-    $randomMail = 'johndoe'.rand(0,999999).'@luya.io';
-        
-
+        $randomMail = 'johndoe'.rand(0,999999).'@luya.io';
+        $listId = 622;
         $response = $client->contacts()
-        ->list(622, Contacts::ACTION_ADDFORCE)
+        ->list($listId, Contacts::ACTION_ADDFORCE)
             ->add('basil+1@nadar.io', ['firstname' => 'b1'])
             ->add('basil+2@nadar.io', ['firstname' => 'b2'])
             ->add('basil+3@nadar.io', ['firstname' => 'b3'])
@@ -60,12 +58,22 @@ class MailjetTest extends MailjetTestCase
         // unsubscribe
 
         $response = $client->contacts()
-        ->list(622, Contacts::ACTION_UNSUBSCRIBE)
+        ->list($listId, Contacts::ACTION_UNSUBSCRIBE)
             ->add($randomMail)
             ->sync();
 
         sleep(3);
 
         $this->assertFalse($client->contacts()->isInList($randomMail, 622));
+
+        
+    }
+    public function testContactsItems()
+    {
+        $client = $this->app->mailjet;
+        $listId = 622;
+        $items = $client->contacts()->items($listId);
+
+        $this->assertNotEmpty($items);
     }
 }

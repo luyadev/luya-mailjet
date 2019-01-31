@@ -193,37 +193,54 @@ class Contacts extends BaseObject
      * Get contact items.
      *
      * @param integer $listId If not porvided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
-     * @param integer $limit The number of items (max 1000) - Limit the response to a select number of returned objects.
-     * @param integer $offset The page offset (starts at 0) - Retrieve a list of objects starting from a certain offset. Combine this query 
-     * parameter with Limit to retrieve a specific section of the list of objects.
      * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true, 
      * will retrieve only contacts that have been added to the exclusion list for marketing emails. When 
      * false, those contacts will be excluded from the response.
      * @return array|boolean
      */
-    public function items($listId = null, $limit = 1000, $offset = 0, $isExcludedFromCampaigns = null)
+    public function items($listId = null, $isExcludedFromCampaigns = null)
     {
+        // setup limit
+        $limit = 100;
+        // prepare filters
         $filters = [];
-        
+        $filters['Limit'] = $limit;
         if ($listId) {
             $filters['ContactsList'] = $listId;
         }
-
         if ($isExcludedFromCampaigns !== null) {
             $filters['IsExcludedFromCampaigns'] = $isExcludedFromCampaigns;
         }
         
-        $filters['Limit'] = $limit;
-        $filters['Offset'] = $offset;
+        // prepare totalAmount filter only:
+        $totalFilters = $filters;
+        $totalFilters['countOnly'] = true;
 
         $response = $this->client->get(Resources::$Contact, [
-            'filters' => $filters,
+            'filters' => $totalFilters,
         ]);
         
-        if ($response->success()) {
-            return $response->getData();
+        if (!$response->success()) {
+            return false;
+        }
+
+        // prepare total count and pages
+        $totalCount = $response->getCount();
+        $pages = ceil($totalCount / $limit);
+
+        $data = [];
+        for ($i = 0; $i <= $pages; $i++) {
+            $offset = $limit * $i;
+            $filters['Offset'] = $offset;
+            $response = $this->client->get(Resources::$Contact, [
+                'filters' => $filters,
+            ]);
+
+            if ($response->success()) {
+                $data = array_merge($data, $response->getData());
+            }
         }
         
-        return false;
+        return $data;
     }
 }
