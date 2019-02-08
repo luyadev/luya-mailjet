@@ -35,7 +35,7 @@ class MailerMessage extends BaseMessage
 
     private $_customCampaign;
 
-    private $_decoupleCampaign = true;
+    private $_deduplicateCampaign = true;
     
     /**
      * @inheritdoc
@@ -338,17 +338,17 @@ class MailerMessage extends BaseMessage
     /**
     * @inheritdoc
     */
-   public function getDecoupleCampaign()
+   public function getDeduplicateCampaign()
    {
-       return $this->_decoupleCampaign;
+       return $this->_deduplicateCampaign;
    }
 
    /**
     * @inheritdoc
     */
-   public function setDecoupleCampaign($decouple)
+   public function setDeduplicateCampaign($deduplicate)
    {
-       $this->_decoupleCampaign = $decouple;
+       $this->_deduplicateCampaign = $deduplicate;
        return $this;
    }
 
