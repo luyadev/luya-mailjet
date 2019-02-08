@@ -143,7 +143,7 @@ class Mailer extends BaseMailer
 
         if ($message->getCustomCampaign() != ''){
             $array['CustomCampaign'] = $message->getCustomCampaign();
-            $array['DeduplicateCampaign'] = $message->getDecoupleCamaign();
+            $array['DeduplicateCampaign'] = $message->getDecoupleCampaign();
         }
         
         $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
