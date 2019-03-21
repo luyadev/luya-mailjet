@@ -12,6 +12,7 @@ use yii\helpers\VarDumper;
  * Inspired by https://github.com/weluse/yii2-mailjet
  * 
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class MailerMessage extends BaseMessage
 {

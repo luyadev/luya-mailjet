@@ -8,10 +8,14 @@ use luya\admin\ngrest\base\ActiveWindow;
 /**
  * Contact Info Active Window.
  *
- * File has been created with `aw/create` command. 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ContactInfoActiveWindow extends ActiveWindow
 {
+    /**
+     * @var string The attribute from the model which should be choosen to get the address.
+     */
     public $attribute = 'email';
 
     /**
@@ -39,11 +43,17 @@ class ContactInfoActiveWindow extends ActiveWindow
         return 'contact_mail';    
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getTitle()
     {
         return $this->getEmailFromModel();   
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getViewPath()
     {
         return  dirname(__DIR__) . '/views/aws/contact-info';

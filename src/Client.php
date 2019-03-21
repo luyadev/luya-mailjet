@@ -13,15 +13,25 @@ use luya\helpers\Html;
  *
  * @property \Mailjet\Client $client
  * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class Client extends Component
 {
+    /**
+     * @var string The mailjet api key.
+     */
     public $apiKey;
     
+    /**
+     * @var string The mailjet secret key.
+     */
     public $apiSecret;
     
     private $_client;
     
+    /**
+     * @inheritDoc
+     */
     public function init()
     {
         parent::init();
