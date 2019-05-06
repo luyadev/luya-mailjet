@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\DetailView;
+
 /* @var array $mailjet */
 /* @var string $email */
 ?>

@@ -40,7 +40,7 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function defaultIcon()
     {
-        return 'contact_mail';    
+        return 'contact_mail';
     }
 
     /**
@@ -48,7 +48,7 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function getTitle()
     {
-        return $this->getEmailFromModel();   
+        return $this->getEmailFromModel();
     }
 
     /**
@@ -61,7 +61,7 @@ class ContactInfoActiveWindow extends ActiveWindow
 
     /**
      * The default action which is going to be requested when clicking the ActiveWindow.
-     * 
+     *
      * @return string The response string, render and displayed trough the angular ajax request.
      */
     public function index()

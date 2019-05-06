@@ -3,7 +3,6 @@ namespace luya\mailjet\tests;
 
 use luya\mailjet\Contacts;
 
-
 class MailjetTest extends MailjetTestCase
 {
     public function testSendMessage()
@@ -35,7 +34,7 @@ class MailjetTest extends MailjetTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
-        $randomMail = 'johndoe'.rand(0,999999).'@luya.io';
+        $randomMail = 'johndoe'.rand(0, 999999).'@luya.io';
         $listId = 622;
         $response = $client->contacts()
         ->list($listId, Contacts::ACTION_ADDFORCE)
@@ -65,8 +64,6 @@ class MailjetTest extends MailjetTestCase
         sleep(3);
 
         $this->assertFalse($client->contacts()->isInList($randomMail, 622));
-
-        
     }
     public function testContactsItems()
     {

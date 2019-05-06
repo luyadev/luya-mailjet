@@ -9,7 +9,7 @@ class MjmlTest extends MailjetTestCase
     public function testArrayParser()
     {
         $this->assertSame(
-            '{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[],"attributes":{"foo":"bar"},"content":"Hello World"}],"attributes":[]}', 
+            '{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[],"attributes":{"foo":"bar"},"content":"Hello World"}],"attributes":[]}',
             Mjml::getJson('<mj-section><mj-column foo="bar">Hello World</mj-column></mj-section>')
         );
     }
@@ -31,19 +31,55 @@ class MjmlTest extends MailjetTestCase
     
     public function testFromPassport()
     {
-        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[{"tagName":"mj-image","children":[],"attributes":{"src":"http:\/\/191n.mj.am\/tplimg\/191n\/b\/040q\/qz8m.png"}}],"attributes":[]},{"tagName":"mj-column","children":[{"tagName":"mj-text","children":[{"tagName":"p","children":[],"attributes":[],"content":"The Content of right Column"}],"attributes":[]}],"attributes":[]}],"attributes":{"passport":{"version":"3.3.5"}}}', Mjml::getJson('<mj-section passport="3.3.5">
+        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[{"tagName":"mj-image","children":[],"attributes":{"src":"http:\/\/191n.mj.am\/tplimg\/191n\/b\/040q\/qz8m.png"}}],"attributes":[]},{"tagName":"mj-column","children":[{"tagName":"mj-text","children":[],"attributes":[],"content":"<p>The Content of right Column<\/p>"}],"attributes":[]}],"attributes":{"passport":{"version":"3.3.5"}}}', Mjml::getJson('<mj-section passport="3.3.5">
         <mj-column>
             <mj-image src="http://191n.mj.am/tplimg/191n/b/040q/qz8m.png" />
         </mj-column>
         <mj-column>
             <mj-text><p>The Content of right Column</p></mj-text>
         </mj-column>
-</mj-section>'));    
+</mj-section>'));
     }
     
     public function testWithError()
     {
         $this->assertFalse(Mjml::getArray('<mj-section></mj-column>'));
         $this->assertTrue(count(Mjml::$errors) == 1);
+    }
+
+    public function testLinksInText()
+    {
+        $content = Mjml::getJson('
+            <mj-section>
+                <mj-column>
+                    <mj-text>
+<a href="https://luya.io?id=1">test</a></mj-text>
+                </mj-column>
+            </mj-section>');
+
+        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[{"tagName":"mj-text","children":[],"attributes":[],"content":"\n<a href=\"https:\/\/luya.io?id=1\">test<\/a>"}],"attributes":[]}],"attributes":[]}', $content);
+
+        $content = Mjml::getJson('
+            <mj-section>
+                <mj-column>
+                    <mj-text><a href="https://luya.io?id=1">test</a></mj-text>
+                </mj-column>
+            </mj-section>');
+
+        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[{"tagName":"mj-text","children":[],"attributes":[],"content":"<a href=\"https:\/\/luya.io?id=1\">test<\/a>"}],"attributes":[]}],"attributes":[]}', $content);
+    }
+
+    public function testNestedMjText()
+    {
+        $content = Mjml::getJson('
+            <mj-section>
+                <mj-column>
+                    <mj-text>
+                        <mj-text><a href="?">aha?</a></mj-text>
+                    </mj-text>
+                </mj-column>
+            </mj-section>');
+
+        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-column","children":[{"tagName":"mj-text","children":[],"attributes":[],"content":"\n                        <mj-text><a href=\"?\">aha?<\/a><\/mj-text>\n                    "}],"attributes":[]}],"attributes":[]}', $content);
     }
 }

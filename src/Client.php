@@ -55,7 +55,7 @@ class Client extends Component
     }
     
     /**
-     * 
+     *
      * @return \luya\mailjet\Contacts
      */
     public function contacts()
@@ -64,13 +64,11 @@ class Client extends Component
     }
     
     /**
-     * 
+     *
      * @return \luya\mailjet\Sections
      */
     public function sections()
     {
         return new Sections($this->client);
     }
-    
-    
 }

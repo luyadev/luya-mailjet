@@ -9,7 +9,7 @@ use yii\base\InvalidConfigException;
 
 /**
  * Sync contacts to lists.
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(12345)
@@ -18,9 +18,9 @@ use yii\base\InvalidConfigException;
  *         ->add('basil+3@nadar.io', ['firstname' => 'Basil'])
  *         ->sync();
  * ```
- * 
+ *
  * All users will be snyced to all given lists:
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(1)
@@ -28,11 +28,11 @@ use yii\base\InvalidConfigException;
  *     ->list(2)
  *       ->add('2@foo.com')
  * ```
- * 
+ *
  * Now 1@foo.com and 2@foo.com are both synced to list 1 and 2.
- * 
+ *
  * In order to remove/unsubscribe contacts from a list use:
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(1234, Contacts::ACTION_REMOVE)
@@ -40,7 +40,7 @@ use yii\base\InvalidConfigException;
  *         ->add('remove2@example.com')
  *         ->sync();
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -84,7 +84,7 @@ class Contacts extends BaseObject
     private $_lists = [];
     
     /**
-     * 
+     *
      * @param integer $id
      * @param string $action
      * @return \luya\mailjet\Contacts
@@ -97,7 +97,7 @@ class Contacts extends BaseObject
     }
     
     /**
-     * 
+     *
      * @throws InvalidConfigException
      * @return boolean
      */
@@ -119,7 +119,7 @@ class Contacts extends BaseObject
     
     /**
      * Search for a given Conact.
-     * 
+     *
      * @param mixed $emailOrId
      * @return array|boolean
      */
@@ -136,7 +136,7 @@ class Contacts extends BaseObject
 
     /**
      * Check if a user is in the given list and not unsubscibred.
-     * 
+     *
      * @param string|integer $emailOrId
      * @param integer $listId The list ID
      * @return boolean
@@ -193,8 +193,8 @@ class Contacts extends BaseObject
      * Get contact items.
      *
      * @param integer $listId If not porvided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
-     * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true, 
-     * will retrieve only contacts that have been added to the exclusion list for marketing emails. When 
+     * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true,
+     * will retrieve only contacts that have been added to the exclusion list for marketing emails. When
      * false, those contacts will be excluded from the response.
      * @return array|boolean
      */

@@ -5,7 +5,6 @@ namespace luya\mailjet\tests;
 use luya\mailjet\Mailer;
 use luya\mailjet\MailerMessage;
 
-
 class MailerTest extends MailjetTestCase
 {
     public function testDefaultErrorReportingValue()
@@ -20,7 +19,7 @@ class MailerTest extends MailjetTestCase
             'bar' => 'foo',
             'int' => 123,
             'null' => null,
-            'bool' => false,    
+            'bool' => false,
         ]);
 
         $this->assertSame([

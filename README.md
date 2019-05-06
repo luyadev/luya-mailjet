@@ -17,6 +17,7 @@ Contains:
 
 + Yii Framework BaseMailer for Transaction E-Mails trough API.
 + Interface for Subscription Mail Sync including CLI command for Synchronisation.
++ A PHP library to convert MJML content into Mailjet Passport json format.
 
 ## Installation
 

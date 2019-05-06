@@ -8,9 +8,9 @@ use yii\helpers\VarDumper;
 
 /**
  * Mailjet Message.
- * 
+ *
  * Inspired by https://github.com/weluse/yii2-mailjet
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -71,7 +71,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set the `MJ-TemplateErrorReporting` variable for debug purposes.
-     * 
+     *
      * The value must be a valid e-mail-address:
      *
      * @param string $templateErrorReporting
@@ -98,7 +98,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Change sender:
-     * 
+     *
      * > Your account is not authorized to use the "Sender" header. Please contact our support team to be granted permission.
      *
      * @param string|array $sender
@@ -134,9 +134,9 @@ class MailerMessage extends BaseMessage
     
     /**
      * Set the template id from mailjet.
-     * 
+     *
      * > Transactional Templates
-     * 
+     *
      * @param integer $id
      * @return \luya\mailjet\MailerMessage
      * @return static
@@ -153,9 +153,9 @@ class MailerMessage extends BaseMessage
     
     /**
      * Set variables to a template.
-     * 
+     *
      * Where key is the variable name.
-     * 
+     *
      * @param array $vars
      * @return \luya\mailjet\MailerMessage
      * @return static
@@ -202,7 +202,6 @@ class MailerMessage extends BaseMessage
      */
     public function setTo($to)
     {
-        
         $this->_to = Mailer::toMultiEmailAndName($to);
         return $this;
     }
