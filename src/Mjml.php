@@ -92,10 +92,10 @@ class Mjml
     protected function wrapCdataForRawElements($content)
     {
         foreach ($this->rawElements as $name) {
-            preg_match_all('/<'.preg_quote($name, '/').'>(.*)<\/'.preg_quote($name, '/').'>/s', $content, $result, PREG_SET_ORDER);
+            preg_match_all('/<'.preg_quote($name, '/').'(.*?)>(.*?)<\/'.preg_quote($name, '/').'>/s', $content, $result, PREG_SET_ORDER);
 
             foreach ($result as $match) {
-                $content = str_replace($match[1], '<![CDATA['.$match[1].']]>', $content);
+                $content = str_replace($match[2], '<![CDATA['.$match[2].']]>', $content);
             }
         }
 
@@ -118,8 +118,14 @@ class Mjml
             return false;
         }
 
+        $cDataContent = $this->wrapCdataForRawElements($mjml);
+
+        if (!$this->validateXml($cDataContent)) {
+            return false;
+        }
+
         // generate the array of elements
-        $array = $this->mjmlToArray($this->wrapCdataForRawElements($mjml));
+        $array = $this->mjmlToArray($cDataContent);
         // starte structure parsing
         return $this->generateStructure($array);
     }
