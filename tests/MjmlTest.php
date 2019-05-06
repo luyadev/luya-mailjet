@@ -105,4 +105,15 @@ class MjmlTest extends MailjetTestCase
 
         $this->assertFalse($content);
     }
+
+    public function testSameLineMultiple()
+    {
+        $content = Mjml::getJson('
+            <mj-section>
+                <mj-text>1</mj-text>
+                <mj-text>1</mj-text>
+            </mj-section>');
+
+        $this->assertSame('{"tagName":"mj-section","children":[{"tagName":"mj-text","children":[],"attributes":[],"content":"1"},{"tagName":"mj-text","children":[],"attributes":[],"content":"1"}],"attributes":[]}', $content);
+    }
 }

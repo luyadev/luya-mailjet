@@ -92,10 +92,14 @@ class Mjml
     protected function wrapCdataForRawElements($content)
     {
         foreach ($this->rawElements as $name) {
+            // save the replacmenets which are done in order to ensure no double replacements happens.
+            $doneReplacements = [];
             preg_match_all('/<'.preg_quote($name, '/').'(.*?)>(.*?)<\/'.preg_quote($name, '/').'>/s', $content, $result, PREG_SET_ORDER);
-
             foreach ($result as $match) {
-                $content = str_replace($match[2], '<![CDATA['.$match[2].']]>', $content);
+                if (!in_array($match[0], $doneReplacements)) {
+                    $content = str_replace($match[2], '<![CDATA['.$match[2].']]>', $content);
+                    $doneReplacements[] = $match[0];
+                }
             }
         }
 

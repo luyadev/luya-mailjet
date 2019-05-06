@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.2 (6. May 2019)
+
++ Fixed bug with double replacements.
+
 ## 1.1.1 (6. May 2019)
 
 + Fixed bug with nested elements an `mj-text` also with `mj-text` tags with attributes like `<mj-text color="black">text</mj-text>`.
