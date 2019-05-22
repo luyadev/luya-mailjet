@@ -8,18 +8,18 @@ use yii\base\BaseObject;
 
 /**
  * Create a Section Snippet.
- * 
+ *
  * ```php
  * $client = new \luya\mailjet\Client();
  * $section = new Sections($client);
- * 
+ *
  * $response = $section->create("My section", $mjmlTemplate);
- * 
+ *
  * if (!$response) {
  *     var_dump($section->getErrorMessage());
  * }
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -58,7 +58,7 @@ class Sections extends BaseObject
      * Create MJML Snippet (Section): https://mjml.io
      *
      * If failed, return error message from getErrorMessage().
-     * 
+     *
      * @param string $name The name of the template
      * @param string $mjml See https://mjml.io
      * @return boolean|integer returns the id of the template or false otherwise.

@@ -8,10 +8,14 @@ use luya\admin\ngrest\base\ActiveWindow;
 /**
  * Contact Info Active Window.
  *
- * File has been created with `aw/create` command. 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.0.0
  */
 class ContactInfoActiveWindow extends ActiveWindow
 {
+    /**
+     * @var string The attribute from the model which should be choosen to get the address.
+     */
     public $attribute = 'email';
 
     /**
@@ -26,7 +30,7 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function defaultLabel()
     {
-        return 'Contact Info';
+        return 'Mailjet';
     }
 
     /**
@@ -36,14 +40,20 @@ class ContactInfoActiveWindow extends ActiveWindow
      */
     public function defaultIcon()
     {
-        return 'contact_mail';    
+        return 'contact_mail';
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getTitle()
     {
-        return $this->getEmailFromModel();   
+        return $this->getEmailFromModel();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getViewPath()
     {
         return  dirname(__DIR__) . '/views/aws/contact-info';
@@ -51,21 +61,27 @@ class ContactInfoActiveWindow extends ActiveWindow
 
     /**
      * The default action which is going to be requested when clicking the ActiveWindow.
-     * 
+     *
      * @return string The response string, render and displayed trough the angular ajax request.
      */
     public function index()
     {
         $email = $this->getEmailFromModel();
+
+        $subs = Yii::$app->mailjet->contacts()->subscriptions($email);
+
+        $lists = [];
+        foreach ($subs as $sub) {
+            $lists[] = [
+                'sub' => $sub,
+                'list' => Yii::$app->mailjet->contacts()->listDetail($sub['ListID']),
+            ];
+        }
         return $this->render('index', [
             'email' => $email,
-            'mailjet' => $this->getMailjetResponse($email),
+            'mailjet' => Yii::$app->mailjet->contacts()->search($email),
+            'lists' => $lists,
         ]);
-    }
-
-    private function getMailjetResponse($email)
-    {
-        return Yii::$app->mailjet->contacts()->search($email);
     }
 
     private function getEmailFromModel()

@@ -19,8 +19,9 @@ class SectionsTest extends MailjetTestCase
     
     public function testCreate()
     {
-        $this->assertNotFalse($this->app->mailjet->sections()->create('[TEST SECTIONS] ' . time(), 
-        '<mj-section passport="3.3.5">
+        $this->assertNotFalse($this->app->mailjet->sections()->create(
+            '[TEST SECTIONS] ' . time(),
+            '<mj-section passport="3.3.5">
         <mj-column>
             <mj-text>TEST1</mj-text>
             <mj-text>TEASER1</mj-text>
@@ -28,7 +29,8 @@ class SectionsTest extends MailjetTestCase
         <mj-column>
             <mj-image src="https://api.heartbeat.gmbh/image/logo-heartbeat-gmbh_ea057f17.png" alt="" align="center" border="none"></mj-image>
         </mj-column>
-        </mj-section>'));
+        </mj-section>'
+        ));
     }
 
     public function testErrorMessage()

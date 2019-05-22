@@ -4,96 +4,72 @@ namespace luya\mailjet;
 
 /**
  * Convert MJML to json/array.
- * 
- * This is built from the https://app.mailjet.com/passport/api-fetchr POST request.
- * 
- * Tested and made for passport version 3.3.5
- * 
- * A full example payload extracted from api fetchr:
- * 
- * ```json
-{
-  "MJMLContent": {
-    "tagName": "mj-section",
-    "children": [
-      {
-        "tagName": "mj-column",
-        "attributes": {},
-        "children": [
-          {
-            "tagName": "mj-image",
-            "attributes": {
-              "src": "http://191n.mj.am/tplimg/191n/b/040q/qz8m.png",
-              "align": "center",
-              "width": "250px",
-              "height": "auto",
-              "padding-bottom": "0px",
-              "alt": "",
-              "href": "",
-              "border": "none",
-              "padding": "10px 25px",
-              "target": "_blank",
-              "border-radius": "",
-              "title": "",
-              "padding-top": "20px"
-            }
-          }
-        ]
-      },
-      {
-        "tagName": "mj-column",
-        "attributes": {},
-        "children": [
-          {
-            "tagName": "mj-text",
-            "content": "<p style=\"margin: 10px 0;\">The content of your email goes here.</p><p style=\"margin: 10px 0;\">You can drag and drop blocks of text, images, buttons or other content elements to add them to your message. Customize the font and the colors. Add links to track clicks.</p>",
-            "attributes": {
-              "align": "left",
-              "color": "#55575d",
-              "font-family": "Arial, sans-serif",
-              "font-size": "13px",
-              "line-height": "22px",
-              "padding": "10px 25px",
-              "padding-bottom": "0px",
-              "padding-top": "20px"
-            }
-          }
-        ]
-      }
-    ],
-    "attributes": {
-      "background-repeat": "repeat",
-      "padding": "0px 0px 0px 0px",
-      "background-size": "auto",
-      "background-color": "#ffffff",
-      "text-align": "center",
-      "vertical-align": "top",
-      "passport": {
-        "version": "3.3.5"
-      }
-    }
-  }
-}
+ *
+ * The main goal of this helper method is to generate valid json code from mjml string
+ * in order to work with miljate passport html editor.
+ *
+ * > This is built from the https://app.mailjet.com/passport/api-fetchr POST request.
+ * > Tested and made for passport version 3.3.5
+ *
+ * Since version 1.1.0 tha tags in $rawElements list will be compiled with its RAW content witout
+ * allowance of nesting of child elements. For example <mj-text><a href="luya.io"></a></mj-text> will
+ * wrap the `<a href="luya.io"></a>` into CDATA even for newlines!
+ *
+ * ```php
+ * $passportJson = Mjml::getJson('<mj-section>
+ *     <mj-column>
+ *         <mj-text>Read more!</mj-text>
+ *         <mj-text><a href="https://luya.io">luya.io</a></mj-text>
+ *     </mj-column>
+ * </mj-section>');
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
-Class Mjml
+class Mjml
 {
+    /**
+     * @var array A list of chars which will be transcoded (search left, replace with value)
+     */
     public $charMapping = [
         '&nbsp;' => ' ',
         '<br>' => '<br />',
     ];
+
+    /**
+     * @var array An array with elements where the content between those tags will be used as raw content (which means wrap with CDATA tag).
+     * @since 1.1.0
+     */
+    public $rawElements = [
+        'mj-text',
+    ];
     
-    public static $errors;
+    /**
+     * @var array An array which holds all xml parser errors.
+     */
+    public static $errors = [];
     
+    /**
+     * Get the mjml array from a string
+     *
+     * @param string $mjml
+     * @return array
+     */
     public static function getArray($mjml)
     {
         $object = new self();
         return $object->load($mjml);
     }
     
+    /**
+     * Get the json string from the mjml content string.
+     *
+     * This generates the mailjet passport valid content
+     *
+     * @param string $mjml
+     * @return string A json valid for mailjet passport editor.
+     */
     public static function getJson($mjml)
     {
         $array = self::getArray($mjml);
@@ -104,21 +80,68 @@ Class Mjml
         
         return json_encode($array);
     }
+
+    /**
+     * In order to prevent child attribute generation for html valid raw elements like <mj-text> try
+     * to wrap the content in CDATA tags.
+     *
+     * @param string $content
+     * @return string
+     * @since 1.1.0
+     */
+    protected function wrapCdataForRawElements($content)
+    {
+        foreach ($this->rawElements as $name) {
+            // save the replacmenets which are done in order to ensure no double replacements happens.
+            $doneReplacements = [];
+            preg_match_all('/<'.preg_quote($name, '/').'(.*?)>(.*?)<\/'.preg_quote($name, '/').'>/s', $content, $result, PREG_SET_ORDER);
+            foreach ($result as $match) {
+                if (!in_array($match[0], $doneReplacements)) {
+                    $content = str_replace($match[2], '<![CDATA['.$match[2].']]>', $content);
+                    $doneReplacements[] = $match[0];
+                }
+            }
+        }
+
+        return $content;
+    }
     
+    /**
+     * Get the parsed and nested php array from the mjml string
+     *
+     * @param string $mjml
+     * @return array
+     */
     protected function load($mjml)
     {
         // prevent casual xml errors
         $mjml = str_replace(array_keys($this->charMapping), array_values($this->charMapping), trim($mjml));
         
+        // validate whether the xml input is valid or not.
         if (!$this->validateXml($mjml)) {
             return false;
         }
-        $a = $this->mjmlToArray(trim($mjml));
-        $array = $this->generateStructure($a);
-        
-        return $array;
+
+        $cDataContent = $this->wrapCdataForRawElements($mjml);
+
+        if (!$this->validateXml($cDataContent)) {
+            return false;
+        }
+
+        // generate the array of elements
+        $array = $this->mjmlToArray($cDataContent);
+        // starte structure parsing
+        return $this->generateStructure($array);
     }
     
+    /**
+     * Validate the current xml content (which is the mjml input).
+     *
+     * @param string $xmlContent
+     * @param string $version
+     * @param string $encoding
+     * @return boolean
+     */
     protected function validateXml($xmlContent, $version = '1.0', $encoding = 'utf-8')
     {
         if (trim($xmlContent) == '') {
@@ -138,7 +161,13 @@ Class Mjml
         return empty($errors);
     }
     
-    protected function generateStructure(XmlElement $elmn)
+    /**
+     * Generate the structure
+     *
+     * @param MjmlXmlElement $elmn
+     * @return array
+     */
+    protected function generateStructure(MjmlXmlElement $elmn)
     {
         $attributes = $elmn->attributes;
         
@@ -154,7 +183,7 @@ Class Mjml
         ];
         
         if ($elmn->content !== null) {
-            $item['content'] = $elmn->content;   
+            $item['content'] = $elmn->content;
         }
         
         foreach ($elmn->children as $child) {
@@ -164,6 +193,12 @@ Class Mjml
         return $item;
     }
         
+    /**
+     * Load the mjml fcontent and return as array.
+     *
+     * @param [type] $mjml
+     * @return MjmlXmlElement
+     */
     protected function mjmlToArray($mjml)
     {
         $parser = xml_parser_create();
@@ -172,12 +207,12 @@ Class Mjml
         xml_parse_into_struct($parser, $mjml, $tags);
         xml_parser_free($parser);
         
-        $elements = []; // the currently filling [child] XmlElement array
+        $elements = []; // the currently filling [child] MjmlXmlElement array
         $stack = [];
         foreach ($tags as $tag) {
             $index = count($elements);
             if ($tag['type'] == "complete" || $tag['type'] == "open") {
-                $elements[$index] = new XmlElement;
+                $elements[$index] = new MjmlXmlElement;
                 $elements[$index]->name = $tag['tag'];
                 $elements[$index]->attributes = isset($tag['attributes']) ? $tag['attributes'] : [];
                 $elements[$index]->content = isset($tag['value']) ? $tag['value'] : null;
@@ -196,10 +231,3 @@ Class Mjml
         return $elements[0];
     }
 }
-
-class XmlElement {
-    var $name;
-    var $attributes = [];
-    var $content;
-    var $children = [];
-};

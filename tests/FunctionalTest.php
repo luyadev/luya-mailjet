@@ -4,7 +4,6 @@ namespace luya\mailjet\tests;
 
 use luya\mailjet\MailerMessage;
 
-
 class FunctionalTest extends MailjetTestCase
 {
     public function testNotEmptyTemplateVariables()

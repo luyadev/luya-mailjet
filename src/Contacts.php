@@ -9,7 +9,7 @@ use yii\base\InvalidConfigException;
 
 /**
  * Sync contacts to lists.
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(12345)
@@ -18,9 +18,9 @@ use yii\base\InvalidConfigException;
  *         ->add('basil+3@nadar.io', ['firstname' => 'Basil'])
  *         ->sync();
  * ```
- * 
+ *
  * All users will be snyced to all given lists:
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(1)
@@ -28,11 +28,11 @@ use yii\base\InvalidConfigException;
  *     ->list(2)
  *       ->add('2@foo.com')
  * ```
- * 
+ *
  * Now 1@foo.com and 2@foo.com are both synced to list 1 and 2.
- * 
+ *
  * In order to remove/unsubscribe contacts from a list use:
- * 
+ *
  * ```php
  * $this->app->mailjet->contacts()
  *     ->list(1234, Contacts::ACTION_REMOVE)
@@ -40,7 +40,7 @@ use yii\base\InvalidConfigException;
  *         ->add('remove2@example.com')
  *         ->sync();
  * ```
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -84,7 +84,7 @@ class Contacts extends BaseObject
     private $_lists = [];
     
     /**
-     * 
+     *
      * @param integer $id
      * @param string $action
      * @return \luya\mailjet\Contacts
@@ -97,7 +97,7 @@ class Contacts extends BaseObject
     }
     
     /**
-     * 
+     *
      * @throws InvalidConfigException
      * @return boolean
      */
@@ -116,15 +116,10 @@ class Contacts extends BaseObject
         
         return $response->success();
     }
-
-    public function remove()
-    {
-        
-    }
     
     /**
      * Search for a given Conact.
-     * 
+     *
      * @param mixed $emailOrId
      * @return array|boolean
      */
@@ -138,27 +133,114 @@ class Contacts extends BaseObject
         
         return false;
     }
-    
+
     /**
-     * List all contacts.
-     * 
-     * @param integer $listId
-     * @return array|boolean
+     * Check if a user is in the given list and not unsubscibred.
+     *
+     * @param string|integer $emailOrId
+     * @param integer $listId The list ID
+     * @return boolean
      */
-    public function items($listId = null)
+    public function isInList($emailOrId, $listId)
     {
-        $filters = [];
-        
-        if ($listId) {
-            $filters = ['filters' => ['ContactsList' => $listId]];
+        $subs = $this->subscriptions($emailOrId);
+
+        if (!$subs) {
+            return false;
         }
-        
-        $response = $this->client->get(Resources::$Contact, $filters);
-        
+
+        foreach ($subs as $sub) {
+            if ($sub['ListID'] == $listId && $sub['IsUnsub'] === false) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all list subscriptions for a given Contact.
+     */
+    public function subscriptions($emailOrId)
+    {
+        $response = $this->client->get(Resources::$ContactGetcontactslists, ['id' => $emailOrId]);
+
         if ($response->success()) {
             return $response->getData();
         }
         
         return false;
+    }
+
+    /**
+     * Get details for a given list id (subscribes and name)
+     *
+     * @param integer $listId
+     * @return array|boolean
+     */
+    public function listDetail($listId)
+    {
+        $response = $this->client->get(Resources::$Contactslist, ['id' => $listId]);
+
+        if ($response->success()) {
+            return current($response->getData());
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get contact items.
+     *
+     * @param integer $listId If not porvided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
+     * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true,
+     * will retrieve only contacts that have been added to the exclusion list for marketing emails. When
+     * false, those contacts will be excluded from the response.
+     * @return array|boolean
+     */
+    public function items($listId = null, $isExcludedFromCampaigns = null)
+    {
+        // setup limit
+        $limit = 100;
+        // prepare filters
+        $filters = [];
+        $filters['Limit'] = $limit;
+        if ($listId) {
+            $filters['ContactsList'] = $listId;
+        }
+        if ($isExcludedFromCampaigns !== null) {
+            $filters['IsExcludedFromCampaigns'] = $isExcludedFromCampaigns;
+        }
+        
+        // prepare totalAmount filter only:
+        $totalFilters = $filters;
+        $totalFilters['countOnly'] = true;
+
+        $response = $this->client->get(Resources::$Contact, [
+            'filters' => $totalFilters,
+        ]);
+        
+        if (!$response->success()) {
+            return false;
+        }
+
+        // prepare total count and pages
+        $totalCount = $response->getCount();
+        $pages = ceil($totalCount / $limit);
+
+        $data = [];
+        for ($i = 0; $i <= $pages; $i++) {
+            $offset = $limit * $i;
+            $filters['Offset'] = $offset;
+            $response = $this->client->get(Resources::$Contact, [
+                'filters' => $filters,
+            ]);
+
+            if ($response->success()) {
+                $data = array_merge($data, $response->getData());
+            }
+        }
+        
+        return $data;
     }
 }
