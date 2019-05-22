@@ -36,6 +36,8 @@ class MailerMessage extends BaseMessage
 
     private $_customCampaign;
 
+    private $_customID;
+
     private $_deduplicateCampaign = true;
     
     /**
@@ -335,6 +337,23 @@ class MailerMessage extends BaseMessage
         return $this;
     }
  
+        /**
+     * @inheritdoc
+     */
+    public function getCustomID()
+    {
+        return $this->_customID;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setCustomID($customid)
+    {
+        $this->_customID = $customid;
+        return $this;
+    }
+
     /**
     * @inheritdoc
     */

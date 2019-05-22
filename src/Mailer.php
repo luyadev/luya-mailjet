@@ -136,14 +136,15 @@ class Mailer extends BaseMailer
             'Sender' => $message->getSender(),
             'Cc' => $message->getCc(),
             'Bcc' => $message->getBcc(),
-            //'CustomCampaign' => $message->getCustomCampaign(),
             'DeduplicateCampaign' => $message->getDeduplicateCampaign(),
             'TemplateErrorReporting' => $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting(),
         ];
 
         if ($message->getCustomCampaign() != ''){
             $array['CustomCampaign'] = $message->getCustomCampaign();
-            //$array['DeduplicateCampaign'] = $message->getDeduplicateCampaign();
+        }
+        if ($message->getCustomID() != ''){
+            $array['CustomID'] = $message->getCustomID();
         }
         
         $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
