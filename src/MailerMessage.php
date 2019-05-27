@@ -36,7 +36,7 @@ class MailerMessage extends BaseMessage
 
     private $_customCampaign;
 
-    private $_customID;
+    private $_customId;
 
     private $_deduplicateCampaign = true;
     
@@ -321,7 +321,9 @@ class MailerMessage extends BaseMessage
     }
 
     /**
-     * @inheritdoc
+     * Get Custom Campaign
+     * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
+     * @since 1.1.3
      */
     public function getCustomCampaign()
     {
@@ -329,7 +331,9 @@ class MailerMessage extends BaseMessage
     }
 
     /**
-     * @inheritdoc
+     * Set Custom Campaign
+     * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
+     * @since 1.1.3
      */
     public function setCustomCampaign($campaign)
     {
@@ -337,20 +341,26 @@ class MailerMessage extends BaseMessage
         return $this;
     }
  
-        /**
-     * @inheritdoc
+    /**
+     * Get the CustomID
+     * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
+     * @since 1.1.3
      */
-    public function getCustomID()
+    public function getCustomId()
     {
-        return $this->_customID;
+        return $this->_customId;
     }
 
     /**
-     * @inheritdoc
+     * Set the CustomID
+     * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
+     * @since 1.1.3
      */
-    public function setCustomID($customid)
+    public function setCustomId($customid)
     {
-        $this->_customID = $customid;
+        $this->_customId = $customid;
         return $this;
     }
 
