@@ -143,8 +143,8 @@ class Mailer extends BaseMailer
         if ($message->getCustomCampaign() != ''){
             $array['CustomCampaign'] = $message->getCustomCampaign();
         }
-        if (!$message->getCustomID()){
-            $array['CustomID'] = $message->getCustomID();
+        if (!$message->getCustomId()){
+            $array['CustomID'] = $message->getCustomId();
         }
         
         $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();

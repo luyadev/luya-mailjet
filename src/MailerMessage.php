@@ -324,6 +324,8 @@ class MailerMessage extends BaseMessage
      * Get Custom Campaign
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.1.3
+     * 
+     * @return string CustomCampaign
      */
     public function getCustomCampaign()
     {
@@ -334,6 +336,10 @@ class MailerMessage extends BaseMessage
      * Set Custom Campaign
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.1.3
+     * 
+     * @param string $campaign
+     * @return \luya\mailjet\MailerMessage
+     * @return static
      */
     public function setCustomCampaign($campaign)
     {
@@ -342,10 +348,12 @@ class MailerMessage extends BaseMessage
     }
  
     /**
-     * Get the CustomID
+     * Get the CustomId
      * With the Custom ID you can group events, if the Custom ID is provided at send time
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.1.3
+     * 
+     * @return string CustomId
      */
     public function getCustomId()
     {
@@ -353,10 +361,14 @@ class MailerMessage extends BaseMessage
     }
 
     /**
-     * Set the CustomID
+     * Set the CustomId
      * With the Custom ID you can group events, if the Custom ID is provided at send time
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.1.3
+     * 
+     * @param string $customid
+     * @return \luya\mailjet\MailerMessage
+     * @return static
      */
     public function setCustomId($customid)
     {
@@ -365,21 +377,29 @@ class MailerMessage extends BaseMessage
     }
 
     /**
-    * @inheritdoc
-    */
-   public function getDeduplicateCampaign()
-   {
-       return $this->_deduplicateCampaign;
-   }
+     * Get DeduplicateCampaign
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
+     * 
+     * @return boolean DeduplicateCampaign
+     */
+    public function getDeduplicateCampaign()
+    {
+        return $this->_deduplicateCampaign;
+    }
 
-   /**
-    * @inheritdoc
-    */
-   public function setDeduplicateCampaign($deduplicate)
-   {
-       $this->_deduplicateCampaign = $deduplicate;
-       return $this;
-   }
+    /**
+     * Set DeduplicateCampaign
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
+     * 
+     * @param boolean $deduplicate
+     * @return \luya\mailjet\MailerMessage
+     * @return static
+     */
+    public function setDeduplicateCampaign($deduplicate)
+    {
+        $this->_deduplicateCampaign = $deduplicate;
+        return $this;
+    }
 
     /**
      * @inheritdoc
