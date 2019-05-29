@@ -192,6 +192,14 @@ class MailerMessage extends BaseMessage
         return $this->_templateLanguage;
     }
 
+    /**
+     * Set TemplateLanguage
+     * 
+     * @see https://dev.mailjet.com/guides/#use-templating-language
+     * @since 1.1.3
+     * @return \luya\mailjet\MailerMessage
+     * @return static
+     */
     public function setTemplateLanguage($value)
     {
         $this->_templateLanguage=$value;
@@ -322,10 +330,9 @@ class MailerMessage extends BaseMessage
 
     /**
      * Get Custom Campaign
+     * 
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.1.3
-     * 
-     * @return string CustomCampaign
      */
     public function getCustomCampaign()
     {
@@ -334,9 +341,9 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set Custom Campaign
+     * 
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.1.3
-     * 
      * @param string $campaign
      * @return \luya\mailjet\MailerMessage
      * @return static
@@ -349,11 +356,11 @@ class MailerMessage extends BaseMessage
  
     /**
      * Get the CustomId
+     * 
      * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * 
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.1.3
-     * 
-     * @return string CustomId
      */
     public function getCustomId()
     {
@@ -362,10 +369,11 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set the CustomId
+     * 
      * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * 
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.1.3
-     * 
      * @param string $customid
      * @return \luya\mailjet\MailerMessage
      * @return static
@@ -378,9 +386,8 @@ class MailerMessage extends BaseMessage
 
     /**
      * Get DeduplicateCampaign
-     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * 
-     * @return boolean DeduplicateCampaign
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      */
     public function getDeduplicateCampaign()
     {
@@ -389,8 +396,8 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set DeduplicateCampaign
-     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * 
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return \luya\mailjet\MailerMessage
      * @return static

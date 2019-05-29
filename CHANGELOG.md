@@ -5,8 +5,9 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 1.1.3 (27. May 2019)
 
-+ Added deduplicate flag to be able to send a mail more than once to a recipient in the same campaign
-+ Added CustomCampaign and CustomId to provide additional tagging ability
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added deduplicate flag to be able to send a mail more than once to a recipient in the same campaign
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added CustomCampaign and CustomId to provide additional tagging ability
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added setTemplateLanguage to avtivly set the TemplateLanguage-Flag (true to parse variables into template)
 
 ## 1.1.2 (6. May 2019)
 

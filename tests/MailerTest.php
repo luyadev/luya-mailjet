@@ -21,20 +21,27 @@ class MailerTest extends MailjetTestCase
             'null' => null,
             'bool' => false,
         ]);
+        $message->setDeduplicateCampaign(false);
+        $message->setCustomId('MyCustomId');
+        $message->setCustomCampaign('MyCustomCampaign');
+        $message->setTemplateLanguage(false);
 
         $this->assertSame([
             'TemplateID' => 123,
-            'TemplateLanguage' => true,
+            'TemplateLanguage' => false,
             'Variables' => [
                 'bar' => 'foo',
                 'int' => '123',
                 'null' => '',
                 'bool' => '',
             ],
+            'DeduplicateCampaign' => false,
             'TemplateErrorReporting' => [
                 'Email' => 'error@luya.io',
                 'Name' => 'John Error',
             ],
+            'CustomCampaign' => 'MyCustomCampaign',
+            'CustomID' => 'MyCustomId',
             'TemplateErrorDeliver' => true,
         ], $mailer->extractMessage($message));
 

@@ -140,10 +140,10 @@ class Mailer extends BaseMailer
             'TemplateErrorReporting' => $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting(),
         ];
 
-        if ($message->getCustomCampaign() != ''){
+        if ($message->getCustomCampaign()){
             $array['CustomCampaign'] = $message->getCustomCampaign();
         }
-        if (!$message->getCustomId()){
+        if ($message->getCustomId()){
             $array['CustomID'] = $message->getCustomId();
         }
         
