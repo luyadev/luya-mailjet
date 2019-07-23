@@ -342,9 +342,9 @@ class MailerMessage extends BaseMessage
      * Set Custom Campaign
      * 
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
-     * @since 1.1.3
      * @param string $campaign
      * @return static
+     * @since 1.1.3
      */
     public function setCustomCampaign($campaign)
     {
@@ -371,9 +371,9 @@ class MailerMessage extends BaseMessage
      * With the Custom ID you can group events, if the Custom ID is provided at send time
      * 
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
-     * @since 1.1.3
      * @param string $customid
      * @return static
+     * @since 1.1.3
      */
     public function setCustomId($customId)
     {
@@ -385,6 +385,7 @@ class MailerMessage extends BaseMessage
      * Get DeduplicateCampaign
      * 
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
+     * @since 1.1.3
      */
     public function getDeduplicateCampaign()
     {
@@ -397,6 +398,7 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return static
+     @since 1.1.3
      */
     public function setDeduplicateCampaign($deduplicate)
     {
