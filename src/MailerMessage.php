@@ -197,12 +197,11 @@ class MailerMessage extends BaseMessage
      * 
      * @see https://dev.mailjet.com/guides/#use-templating-language
      * @since 1.1.3
-     * @return \luya\mailjet\MailerMessage
      * @return static
      */
     public function setTemplateLanguage($value)
     {
-        $this->_templateLanguage=$value;
+        $this->_templateLanguage = $value;
         return $this;
     }
     
@@ -345,7 +344,6 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.1.3
      * @param string $campaign
-     * @return \luya\mailjet\MailerMessage
      * @return static
      */
     public function setCustomCampaign($campaign)
@@ -375,12 +373,11 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.1.3
      * @param string $customid
-     * @return \luya\mailjet\MailerMessage
      * @return static
      */
-    public function setCustomId($customid)
+    public function setCustomId($customId)
     {
-        $this->_customId = $customid;
+        $this->_customId = $customId;
         return $this;
     }
 
@@ -399,7 +396,6 @@ class MailerMessage extends BaseMessage
      * 
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
-     * @return \luya\mailjet\MailerMessage
      * @return static
      */
     public function setDeduplicateCampaign($deduplicate)
