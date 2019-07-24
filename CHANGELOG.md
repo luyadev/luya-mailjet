@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.1.3 (27. May 2019)
+
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added deduplicate flag to be able to send a mail more than once to a recipient in the same campaign
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added CustomCampaign and CustomId to provide additional tagging ability
++ [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added setTemplateLanguage to avtivly set the TemplateLanguage-Flag (true to parse variables into template)
+
 ## 1.1.2 (6. May 2019)
 
 + Fixed bug with double replacements.

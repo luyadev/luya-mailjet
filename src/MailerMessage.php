@@ -33,6 +33,12 @@ class MailerMessage extends BaseMessage
     private $_textBody;
     
     private $_htmlBody;
+
+    private $_customCampaign;
+
+    private $_customId;
+
+    private $_deduplicateCampaign = true;
     
     /**
      * @inheritdoc
@@ -185,6 +191,19 @@ class MailerMessage extends BaseMessage
     {
         return $this->_templateLanguage;
     }
+
+    /**
+     * Set TemplateLanguage
+     * 
+     * @see https://dev.mailjet.com/guides/#use-templating-language
+     * @since 1.1.3
+     * @return static
+     */
+    public function setTemplateLanguage($value)
+    {
+        $this->_templateLanguage = $value;
+        return $this;
+    }
     
     /**
      * @inheritdoc
@@ -307,7 +326,86 @@ class MailerMessage extends BaseMessage
         $this->_htmlBody = $html;
         return $this;
     }
-    
+
+    /**
+     * Get Custom Campaign
+     * 
+     * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
+     * @since 1.1.3
+     */
+    public function getCustomCampaign()
+    {
+        return $this->_customCampaign;
+    }
+
+    /**
+     * Set Custom Campaign
+     * 
+     * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
+     * @param string $campaign
+     * @return static
+     * @since 1.1.3
+     */
+    public function setCustomCampaign($campaign)
+    {
+        $this->_customCampaign = $campaign;
+        return $this;
+    }
+ 
+    /**
+     * Get the CustomId
+     * 
+     * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * 
+     * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
+     * @since 1.1.3
+     */
+    public function getCustomId()
+    {
+        return $this->_customId;
+    }
+
+    /**
+     * Set the CustomId
+     * 
+     * With the Custom ID you can group events, if the Custom ID is provided at send time
+     * 
+     * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
+     * @param string $customid
+     * @return static
+     * @since 1.1.3
+     */
+    public function setCustomId($customId)
+    {
+        $this->_customId = $customId;
+        return $this;
+    }
+
+    /**
+     * Get DeduplicateCampaign
+     * 
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
+     * @since 1.1.3
+     */
+    public function getDeduplicateCampaign()
+    {
+        return $this->_deduplicateCampaign;
+    }
+
+    /**
+     * Set DeduplicateCampaign
+     * 
+     * @see https://dev.mailjet.com/guides/#group-into-a-campaign
+     * @param boolean $deduplicate
+     * @return static
+     @since 1.1.3
+     */
+    public function setDeduplicateCampaign($deduplicate)
+    {
+        $this->_deduplicateCampaign = $deduplicate;
+        return $this;
+    }
+
     /**
      * @inheritdoc
      */
