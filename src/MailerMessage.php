@@ -196,7 +196,7 @@ class MailerMessage extends BaseMessage
      * Set TemplateLanguage
      * 
      * @see https://dev.mailjet.com/guides/#use-templating-language
-     * @since 1.1.3
+     * @since 1.2.0
      * @return static
      */
     public function setTemplateLanguage($value)
@@ -331,7 +331,7 @@ class MailerMessage extends BaseMessage
      * Get Custom Campaign
      * 
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
-     * @since 1.1.3
+     * @since 1.2.0
      */
     public function getCustomCampaign()
     {
@@ -344,7 +344,7 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @param string $campaign
      * @return static
-     * @since 1.1.3
+     * @since 1.2.0
      */
     public function setCustomCampaign($campaign)
     {
@@ -358,7 +358,7 @@ class MailerMessage extends BaseMessage
      * With the Custom ID you can group events, if the Custom ID is provided at send time
      * 
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
-     * @since 1.1.3
+     * @since 1.2.0
      */
     public function getCustomId()
     {
@@ -373,7 +373,7 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @param string $customid
      * @return static
-     * @since 1.1.3
+     * @since 1.2.0
      */
     public function setCustomId($customId)
     {
@@ -385,7 +385,7 @@ class MailerMessage extends BaseMessage
      * Get DeduplicateCampaign
      * 
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
-     * @since 1.1.3
+     * @since 1.2.0
      */
     public function getDeduplicateCampaign()
     {
@@ -395,10 +395,12 @@ class MailerMessage extends BaseMessage
     /**
      * Set DeduplicateCampaign
      * 
+     * > This will only has an effect if CustomCompain is used.
+     * 
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return static
-     @since 1.1.3
+     * @since 1.2.0
      */
     public function setDeduplicateCampaign($deduplicate)
     {
