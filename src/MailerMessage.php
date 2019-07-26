@@ -398,7 +398,7 @@ class MailerMessage extends BaseMessage
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return static
-     @since 1.2.0
+     * @since 1.2.0
      */
     public function setDeduplicateCampaign($deduplicate)
     {
