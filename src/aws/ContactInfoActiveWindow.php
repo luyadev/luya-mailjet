@@ -4,6 +4,7 @@ namespace luya\mailjet\aws;
 
 use Yii;
 use luya\admin\ngrest\base\ActiveWindow;
+use luya\mailjet\Contacts;
 
 /**
  * Contact Info Active Window.
@@ -71,17 +72,41 @@ class ContactInfoActiveWindow extends ActiveWindow
         $subs = Yii::$app->mailjet->contacts()->subscriptions($email);
 
         $lists = [];
-        foreach ($subs as $sub) {
-            $lists[] = [
-                'sub' => $sub,
-                'list' => Yii::$app->mailjet->contacts()->listDetail($sub['ListID']),
-            ];
+        if ($subs) {
+            foreach ($subs as $sub) {
+                $lists[] = [
+                    'sub' => $sub,
+                    'list' => Yii::$app->mailjet->contacts()->listDetail($sub['ListID']),
+                ];
+            }
         }
         return $this->render('index', [
             'email' => $email,
             'mailjet' => Yii::$app->mailjet->contacts()->search($email),
             'lists' => $lists,
         ]);
+    }
+
+    /**
+     * Unsubscribe the given user from a list
+     *
+     * @param integer $listId
+     * @param string $type
+     * @return boolean
+     */
+    public function callbackHandle($listId, $type)
+    {
+        $response = Yii::$app->mailjet
+            ->contacts()
+            ->list($listId, $type)
+            ->add($this->getEmailFromModel())
+            ->sync();
+
+        if ($response) {
+            return $this->sendSuccess("List action was successfull.");
+        }
+
+        return $this->sendError("Error while updating the list.");
     }
 
     private function getEmailFromModel()
