@@ -35,12 +35,12 @@ class MailerTest extends MailjetTestCase
                 'null' => '',
                 'bool' => '',
             ],
-            'DeduplicateCampaign' => false,
             'TemplateErrorReporting' => [
                 'Email' => 'error@luya.io',
                 'Name' => 'John Error',
             ],
             'CustomCampaign' => 'MyCustomCampaign',
+            'DeduplicateCampaign' => false,
             'CustomID' => 'MyCustomId',
             'TemplateErrorDeliver' => true,
         ], $mailer->extractMessage($message));

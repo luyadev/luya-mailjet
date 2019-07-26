@@ -15,6 +15,10 @@ class MailjetTest extends MailjetTestCase
             ->setTo(['basil+unittest@nadar.io'])
             ->send();
         
+        if (!$mail) {
+            var_dump($this->app->mailer->lastError);
+        }
+
         $this->assertTrue($mail);
     }
     
@@ -27,6 +31,10 @@ class MailjetTest extends MailjetTestCase
         ->setVariables(['nachname' => 'Lastname Value'])
         ->setTo(['basil+unittest@nadar.io'])
         ->send();
+
+        if (!$mail) {
+            var_dump($this->app->mailer->lastError);
+        }
         
         $this->assertTrue($mail);
     }

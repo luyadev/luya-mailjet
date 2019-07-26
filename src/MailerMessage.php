@@ -395,6 +395,8 @@ class MailerMessage extends BaseMessage
     /**
      * Set DeduplicateCampaign
      * 
+     * > This will only has an effect if CustomCompain is used.
+     * 
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return static
