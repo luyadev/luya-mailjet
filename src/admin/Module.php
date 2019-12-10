@@ -24,10 +24,10 @@ class Module extends \luya\admin\base\Module
     public function getMenu()
     {
         return (new \luya\admin\components\AdminMenuBuilder($this))
-            ->node('Template', 'extension')
-                ->group('Group')
-                    ->itemApi('Template', 'mailjetadmin/template/index', 'label', 'api-mailjet-template')
-                    ->itemApi('TemplateVariable', 'mailjetadmin/template-variable/index', 'label', 'api-mailjet-templatevariable');
+            ->node('Mailjet', 'mail')
+                ->group('Data')
+                    ->itemApi('Templates', 'mailjetadmin/template/index', 'picture_in_picture', 'api-mailjet-template')
+                    ->itemApi('Variables', 'mailjetadmin/template-variable/index', 'input', 'api-mailjet-templatevariable');
 
     }
 }

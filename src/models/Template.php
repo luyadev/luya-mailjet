@@ -7,6 +7,7 @@ use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\mailjet\admin\aws\MjmlPreviewActiveWindow;
 use luya\mailjet\admin\Module;
+use yii\base\InvalidParamException;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -54,6 +55,11 @@ class Template extends NgRestModel
         $this->on(self::EVENT_AFTER_UPDATE, [$this, 'generateHtmlFromApi']);
     }
 
+    /**
+     * Converts the mjml data into a template trough mjml API.
+     *
+     * @return The html content based on the mjml variable.
+     */
     public function generateHtmlFromApi()
     {
         $module = Module::getInstance();
@@ -69,9 +75,11 @@ class Template extends NgRestModel
             throw new \RuntimeException(curl_error($ch));
         }
 
+        // decode response
         $decode = json_decode($response, true);
 
-        $this->updateAttributes(['html' => $decode['html']]);
+        // update the html variable with html content
+        return $this->updateAttributes(['html' => $decode['html']]);
     }
 
     /**
@@ -89,30 +97,9 @@ class Template extends NgRestModel
         ];
     }
 
-    public function renderWithVariables()
-    {
-        $vars = [];
-        foreach ($this->templateVariables as $var) {
-            $vars[$var->key] = $var->value;
-        }
-
-        return $this->render($vars);
-    }
-
-    public function render(array $params = [])
-    {
-        $html = $this->html;
-        if (preg_match_all("/{{%(.*?)}}/", $this->html, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $match) {
-                if (isset($params[$match[1]])) {
-                    $html = str_replace($match[0], $params[$match[1]], $html);
-                }
-            }
-        }
-
-        return $html;
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function attributeHints()
     {
         return [
@@ -139,7 +126,7 @@ class Template extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'slug' => 'text',
+            'slug' => 'slug',
             'mjml' => 'raw',
             'html' => 'raw',
             'created_at' => 'datetime',
@@ -154,11 +141,14 @@ class Template extends NgRestModel
     {
         return [
             ['list', ['slug']],
-            [['create', 'update'], ['slug', 'mjml', 'html', 'created_at', 'updated_at']],
+            [['create', 'update'], ['slug', 'mjml']],
             ['delete', false],
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function ngRestActiveWindows()
     {
         return [
@@ -166,6 +156,9 @@ class Template extends NgRestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function ngRestRelations()
     {
         return [
@@ -173,8 +166,72 @@ class Template extends NgRestModel
         ];
     }
 
+    /**
+     * Get template variable relation.
+     * 
+     * @return TemplateVariable[]
+     */
     public function getTemplateVariables()
     {
         return $this->hasMany(TemplateVariable::class, ['template_id' => 'id']);
+    }
+
+    /**
+     * Find a template by its slug and retutn the html with optional params.
+     *
+     * @param string $slug The slug of the template
+     * @param array $params An array with key values to replace.
+     * @return string THe html with variables.
+     */
+    public static function renderHtml($slug, array $params = [])
+    {
+        $template = self::findOne($slug);
+
+        if (!$template) {
+            throw new InvalidParamException("The slug could not be found");
+        }
+
+        return $template->render($params);
+    }
+
+    /**
+     * Render the current template with all defined variables in the relation.
+     *
+     * @return string Returns the html with variables, if any.
+     */
+    public function renderWithVariables()
+    {
+        $vars = [];
+        foreach ($this->templateVariables as $var) {
+            $vars[$var->key] = $var->value;
+        }
+
+        return $this->render($vars);
+    }
+
+    /**
+     * Render the current html template with variables as param.
+     * 
+     * Assuming {{%foo}} is used in the mjml tmeplate, the param to replace would be:
+     * 
+     * ```
+     * render(['foo' => 'bar']);
+     * ```
+     *
+     * @param array $params A list of params to replace wihtin the html content, variables are declared in curly brackets with a leading percent sign.
+     * @return string The rendered template with replaced variables.
+     */
+    public function render(array $params = [])
+    {
+        $html = $this->html;
+        if (preg_match_all("/{{%(.*?)}}/", $this->html, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                if (isset($params[$match[1]])) {
+                    $html = str_replace($match[0], $params[$match[1]], $html);
+                }
+            }
+        }
+
+        return $html;
     }
 }

@@ -34,7 +34,7 @@ class MjmlPreviewActiveWindow extends ActiveWindow
      */
     public function defaultIcon()
     {
-        return 'extension';    
+        return 'mail';    
     }
 
     /**

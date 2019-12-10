@@ -4,6 +4,7 @@ namespace luya\mailjet\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\admin\ngrest\plugins\SelectModel;
 
 /**
  * Template Variable.
@@ -46,6 +47,14 @@ class TemplateVariable extends NgRestModel
         ];
     }
 
+    public function attributeHints()
+    {
+        return [
+            'key' => 'The identifier key of the variable without curly bracks. E.g <code>url</code>',
+            'value' => 'The value which should be associdated with, when viewing the preview.',
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -65,7 +74,7 @@ class TemplateVariable extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'template_id' => 'number',
+            'template_id' => ['class' => SelectModel::class, 'modelClass' => Template::class, 'labelField' => ['slug']],
             'key' => 'text',
             'value' => 'textarea',
         ];
