@@ -81,7 +81,13 @@ With version 1.3 of LUYA Mailjet library there is an admin module you can config
     'mailjetadmin' => [
         'class' => 'luya\mailjet\admin\Module',
         'mjmlApiApplicationId' => 'ApplicationIdFromMjml.io',
-        'mjmlApiSecretKey' => 'ApplicationSecretFromMjml.io,
+        'mjmlApiSecretKey' => 'ApplicationSecretFromMjml.io',
     ]
 ]
+```
+
+Afterwards you can retrieve and render the HTML of MJML template with:
+
+```php
+luya\mailjet\models\Template::renderHtml('slug', ['foo' => 'bar']);
 ```

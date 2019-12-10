@@ -13,14 +13,14 @@ use yii\behaviors\TimestampBehavior;
 /**
  * Template.
  * 
- * File has been created with `crud/create` command. 
- *
  * @property integer $id
  * @property string $slug
  * @property text $mjml
  * @property text $html
  * @property integer $created_at
  * @property integer $updated_at
+ * 
+ * @since 1.3.0
  */
 class Template extends NgRestModel
 {

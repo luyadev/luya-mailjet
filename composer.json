@@ -27,5 +27,8 @@
 		"psr-4" : {
 			"luya\\mailjet\\tests\\" : "tests/"
 		}
+	},
+	"config": {
+		"platform": {"php": "7.0"}
 	}
 }
