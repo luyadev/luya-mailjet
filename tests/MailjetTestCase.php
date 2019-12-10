@@ -29,6 +29,10 @@ class MailjetTestCase extends WebApplicationTestCase
                     'class' => 'luya\mailjet\Mailer',
                     'sandbox' => true,
                 ],
+                'db' => [
+                    'class' => 'yii\db\Connection',
+                    'dsn' => 'sqlite::memory:',
+                ]
             ]
         ];
     }
