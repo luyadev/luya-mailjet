@@ -5,7 +5,7 @@ namespace luya\mailjet\admin\apis;
 /**
  * Template Variable Controller.
  * 
- * File has been created with `crud/create` command. 
+ * @since 1.3.0
  */
 class TemplateVariableController extends \luya\admin\ngrest\base\Api
 {

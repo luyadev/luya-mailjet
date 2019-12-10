@@ -2,6 +2,12 @@
 
 namespace luya\mailjet\admin;
 
+/**
+ * The mailjet admin Module.
+ * 
+ * @author Basil Suter <basil@nadar.io>
+ * @since 1.3.0
+ */
 class Module extends \luya\admin\base\Module
 {
     /**

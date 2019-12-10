@@ -8,7 +8,7 @@ use luya\admin\ngrest\base\ActiveWindow;
 /**
  * Mjml Preview Active Window.
  *
- * File has been created with `aw/create` command. 
+ * @since 1.3.0
  */
 class MjmlPreviewActiveWindow extends ActiveWindow
 {

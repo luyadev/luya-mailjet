@@ -5,7 +5,7 @@ namespace luya\mailjet\admin\controllers;
 /**
  * Template Controller.
  * 
- * File has been created with `crud/create` command. 
+ * @since 1.3.0
  */
 class TemplateController extends \luya\admin\ngrest\base\Controller
 {
