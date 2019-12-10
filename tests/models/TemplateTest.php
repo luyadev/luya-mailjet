@@ -20,5 +20,9 @@ class TemplateTest extends MailjetTestCase
         $model->html = '<p>{{%foo}}</p>';
 
         $this->assertSame('<p>bar</p>', $model->render(['foo' => 'bar']));
+        $this->assertSame('<p>{{%foo}}</p>', $model->render());
+
+        $model->html = '<p></p>';
+        $this->assertSame('<p></p>', $model->render());
     }
 }

@@ -70,7 +70,6 @@ class Template extends NgRestModel
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['mjml' => $this->mjml]));
         $response = curl_exec($ch);
-        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (curl_errno($ch)) {
             throw new \RuntimeException(curl_error($ch));
         }
@@ -224,11 +223,15 @@ class Template extends NgRestModel
     public function render(array $params = [])
     {
         $html = $this->html;
-        if (preg_match_all("/{{%(.*?)}}/", $this->html, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $match) {
-                if (isset($params[$match[1]])) {
-                    $html = str_replace($match[0], $params[$match[1]], $html);
-                }
+        preg_match_all("/{{%(.*?)}}/", $this->html, $matches, PREG_SET_ORDER);
+
+        if (empty($matches)) {
+            return $html;
+        }
+
+        foreach ($matches as $match) {
+            if (isset($params[$match[1]])) {
+                $html = str_replace($match[0], $params[$match[1]], $html);
             }
         }
 
