@@ -4,7 +4,6 @@ namespace luya\mailjet\aws;
 
 use Yii;
 use luya\admin\ngrest\base\ActiveWindow;
-use luya\mailjet\Contacts;
 
 /**
  * Contact Info Active Window.
