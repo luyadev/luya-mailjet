@@ -60,7 +60,7 @@ Yii::$app->mailer->compose()
     ->send();
 ```
 
-Send a transactional emil based on the Template id stored in Mailjet:
+Send a transactional E-Mail based on the Template id stored in Mailjet:
 
 ```php
 $mail = $this->app->mailer->compose()
