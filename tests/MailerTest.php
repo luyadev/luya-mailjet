@@ -2,6 +2,7 @@
 
 namespace luya\mailjet\tests;
 
+use luya\mailjet\jobs\TemplateEmailSendJob;
 use luya\mailjet\Mailer;
 use luya\mailjet\MailerMessage;
 
@@ -47,6 +48,15 @@ class MailerTest extends MailjetTestCase
 
         $this->assertFalse($mailer->sendMessage($message));
         $this->assertNotEmpty($mailer->lastError);
+        
+        // invoke job tests
+
+        $job = new TemplateEmailSendJob();
+        $job->variables = [];
+        $job->templateId = 1;
+        $job->recipient = ['none'];
+        $job->from = 'sender';
+        $job->execute($this->app->adminqueue);
     }
 
     public function testToEmailAndName()
