@@ -34,6 +34,7 @@ class TemplateTest extends MailjetTestCase
         // test active window context
 
         $model->off($model::EVENT_BEFORE_INSERT);
+        $model->off($model::EVENT_BEFORE_UPDATE);
         $r = $model->save();
 
         $this->assertNull($model->renderWithVariables());
