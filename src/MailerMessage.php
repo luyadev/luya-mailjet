@@ -458,31 +458,4 @@ class MailerMessage extends BaseMessage
             . $this->getSubject() . "\n"
                 . $this->getTextBody();
     }
-
-    private function toMultiEmailAndName($input)
-    {
-        $to = (array) $input;
-        $adresses = [];
-        foreach ($to as $key => $value) {
-            $adresses[] = Mailer::toEmailAndName([$key => $value]);
-        }
-
-        return $adresses;
-    }
-
-    private function toEmailAndName($input)
-    {
-        if (is_scalar($input)) {
-            return ['Email' => $input, 'Name' => $input];
-        }
-
-        $key = key($input);
-        $value = current($input);
-
-        if (is_numeric($key)) {
-            return ['Email' => $value, 'Name' => $value];
-        }
-
-        return ['Email' => $key, 'Name' => $value];
-    }
 }

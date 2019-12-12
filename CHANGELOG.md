@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.3.0
+
++ [#3](https://github.com/luyadev/luya-mailjet/pull/3) Admin Module to parse MJML into HTML with optional variables. Add the module to your configure and define mjml.io API Keys
+
 ## 1.2.0 (26. July 2019)
 
 + [#1](https://github.com/luyadev/luya-mailjet/pull/1) Added deduplicate flag to be able to send a mail more than once to a recipient in the same campaign, Added CustomCampaign and CustomId to provide additional tagging ability, Added setTemplateLanguage to avtivly set the TemplateLanguage-Flag (true to parse variables into template)

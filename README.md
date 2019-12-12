@@ -11,13 +11,15 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/79087433986c16d7f41d/test_coverage)](https://codeclimate.com/github/luyadev/luya-mailjet/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/79087433986c16d7f41d/maintainability)](https://codeclimate.com/github/luyadev/luya-mailjet/maintainability)
 
-LUYA and Yii Framework integration for mailjet service.
+LUYA and Yii Framework integration for [Mailjet](https://mailjet.com) service.
 
 Contains:
 
 + Yii Framework BaseMailer for Transaction E-Mails trough API.
 + Interface for Subscription Mail Sync including CLI command for Synchronisation.
 + A PHP library to convert MJML content into Mailjet Passport json format.
++ LUYA Admin Module to convert MJML into HTML based on MJML.io API.
++ LUYA Active Window to retrieve informations about a given User E-Mail.
 
 ## Installation
 
@@ -44,11 +46,9 @@ Add to config:
 ]
 ```
 
-## Usage
+## Basic Send Mail
 
-## Transactionals
-
-Send transactional E-Mail:
+Sending transactional E-Mail:
 
 ```php
 Yii::$app->mailer->compose()
@@ -60,7 +60,7 @@ Yii::$app->mailer->compose()
     ->send();
 ```
 
-## Transactional with Template
+Send a transactional E-Mail based on the Template id stored in Mailjet:
 
 ```php
 $mail = $this->app->mailer->compose()
@@ -70,4 +70,24 @@ $mail = $this->app->mailer->compose()
     ->setVariables(['lastnbame' => 'Lastname Value'])
     ->setTo(['to@domain.com'])
     ->send();
+```
+
+## MJML to HTML
+
+With version 1.3 of LUYA Mailjet library there is an admin module you can configured in order to parser MJML into HTML, therefore add the module to your configuration and provide mjml.io API keys:
+
+```php
+'modules' => [
+    'mailjetadmin' => [
+        'class' => 'luya\mailjet\admin\Module',
+        'mjmlApiApplicationId' => 'ApplicationIdFromMjml.io',
+        'mjmlApiSecretKey' => 'ApplicationSecretFromMjml.io',
+    ]
+]
+```
+
+Afterwards you can retrieve and render the HTML of MJML template with:
+
+```php
+luya\mailjet\models\Template::renderHtml('slug', ['foo' => 'bar']);
 ```

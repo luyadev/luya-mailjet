@@ -42,8 +42,19 @@ class MailjetTest extends MailjetTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
-        $randomMail = 'johndoe'.rand(0, 999999).'@luya.io';
+        $randomMail = 'johndoe'.rand(0, 999999999999).'@luya.io';
         $listId = 622;
+
+        $this->app->mailjet->contacts()
+        ->list($listId, Contacts::ACTION_REMOVE)
+            ->add('basil+1@nadar.io', ['firstname' => 'b1'])
+            ->add('basil+2@nadar.io', ['firstname' => 'b2'])
+            ->add('basil+3@nadar.io', ['firstname' => 'b3'])
+            ->add($randomMail)
+            ->sync();
+
+        sleep(10);
+
         $response = $client->contacts()
         ->list($listId, Contacts::ACTION_ADDFORCE)
             ->add('basil+1@nadar.io', ['firstname' => 'b1'])
@@ -54,11 +65,11 @@ class MailjetTest extends MailjetTestCase
         
         $this->assertTrue($response);
 
-        sleep(3);
+        sleep(10);
 
         $this->assertNotFalse($client->contacts()->search($randomMail));
 
-        sleep(3);
+        sleep(10);
 
         $this->assertTrue($client->contacts()->isInList($randomMail, 622));
 

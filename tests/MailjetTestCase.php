@@ -3,6 +3,7 @@
 namespace luya\mailjet\tests;
 
 use luya\testsuite\cases\WebApplicationTestCase;
+use yii\queue\file\Queue;
 
 class MailjetTestCase extends WebApplicationTestCase
 {
@@ -19,7 +20,13 @@ class MailjetTestCase extends WebApplicationTestCase
             'id' => 'packagetest',
             'basePath' => __DIR__,
             'language' => 'en',
+            'modules' => [
+                'mailjetadmin' => 'luya\mailjet\admin\Module',
+            ],
             'components' => [
+                'adminqueue' => [
+                    'class' => Queue::class,
+                ],
                 'mailjet' => [
                     'class' => 'luya\mailjet\Client',
                     'apiKey' => getenv('apikey'),
@@ -29,6 +36,10 @@ class MailjetTestCase extends WebApplicationTestCase
                     'class' => 'luya\mailjet\Mailer',
                     'sandbox' => true,
                 ],
+                'db' => [
+                    'class' => 'yii\db\Connection',
+                    'dsn' => 'sqlite::memory:',
+                ]
             ]
         ];
     }
