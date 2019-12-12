@@ -25,15 +25,15 @@ class TemplateEmailSendJob implements JobInterface
 
     public function execute($queue)
     {
-        $mailer = Yii::$app->mailer->compose();
-        ->setTemplate($this->templateId)
-        ->setVariables($this->variables)
-        ->setTo($this->recipient);
+        $mailer = Yii::$app->mailer->compose()
+            ->setTemplate($this->templateId)
+            ->setVariables($this->variables)
+            ->setTo($this->recipient);
 
         if ($this->from) {
             $mailer->setFrom($this->from);
         }
-        
+
         $send = $mailer->send();
 
         if (!$send) {
