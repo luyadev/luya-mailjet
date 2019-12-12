@@ -2,6 +2,7 @@
 
 namespace luya\mailjet;
 
+use luya\Exception;
 use yii\mail\BaseMailer;
 use yii\di\Instance;
 use Mailjet\Resources;
@@ -178,6 +179,10 @@ class Mailer extends BaseMailer
 
     public static function toEmailAndName($input)
     {
+        if (empty($input)) {
+            throw new Exception("An email or name must be provided and can not be empty.");
+        }
+
         if (is_scalar($input)) {
             return ['Email' => $input, 'Name' => $input];
         }
