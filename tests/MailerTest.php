@@ -48,7 +48,10 @@ class MailerTest extends MailjetTestCase
 
         $this->assertFalse($mailer->sendMessage($message));
         $this->assertNotEmpty($mailer->lastError);
-        
+    }
+
+    public function testJobWithMailer()
+    {
         // invoke job tests
 
         $job = new TemplateEmailSendJob();
@@ -56,6 +59,7 @@ class MailerTest extends MailjetTestCase
         $job->templateId = 1;
         $job->recipient = ['none'];
         $job->from = 'sender';
+        $this->expectException('luya\Exception');
         $job->execute($this->app->adminqueue);
     }
 
