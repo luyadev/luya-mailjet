@@ -36,11 +36,17 @@ class TemplateTest extends MailjetTestCase
         $model->off($model::EVENT_BEFORE_INSERT);
         $r = $model->save();
 
+        $this->assertNull($model->renderWithVariables());
+
 
         $aw = new MjmlPreviewActiveWindow();
         $aw->ngRestModelClass = get_class($model);
         $aw->setItemId(1);
 
         $this->assertNotNUll($aw->index());
+
+
+        $this->expectException('yii\base\InvalidParamException');
+        Template::renderHtml('foobar');
     }
 }
