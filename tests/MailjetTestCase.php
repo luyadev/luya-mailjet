@@ -19,6 +19,9 @@ class MailjetTestCase extends WebApplicationTestCase
             'id' => 'packagetest',
             'basePath' => __DIR__,
             'language' => 'en',
+            'modules' => [
+                'mailjetadmin' => 'luya\mailjet\admin\Module',
+            ],
             'components' => [
                 'mailjet' => [
                     'class' => 'luya\mailjet\Client',

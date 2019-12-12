@@ -166,6 +166,11 @@ class Mailer extends BaseMailer
         });
     }
 
+    /**
+     * Generate Email and Name format based on input.
+     * 
+     * @param array|string A list of recipieints.
+     */
     public static function toMultiEmailAndName($input)
     {
         $to = (array) $input;
@@ -177,6 +182,12 @@ class Mailer extends BaseMailer
         return $adresses;
     }
 
+    /**
+     * Generate name and email from a given input.
+     *
+     * @param array|string $input A string with e-mail or an array with key value where key is the email and value the name
+     * @return array
+     */
     public static function toEmailAndName($input)
     {
         if (empty($input)) {

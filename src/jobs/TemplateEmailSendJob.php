@@ -15,14 +15,29 @@ use yii\queue\JobInterface;
  */
 class TemplateEmailSendJob implements JobInterface
 {
+    /**
+     * @var integer The template id in the mailjet system
+     */
     public $templateId;
 
+    /**
+     * @var array A list of variables.
+     */
     public $variables = [];
 
+    /**
+     * @var array The recipient(s) of the mail.
+     */
     public $recipient = [];
 
+    /**
+     * @var string Optional from config, is not required as it will.
+     */
     public $from;
 
+    /**
+     * {@inheritDoc}
+     */
     public function execute($queue)
     {
         $mailer = Yii::$app->mailer->compose()
