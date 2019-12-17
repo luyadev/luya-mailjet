@@ -64,8 +64,6 @@ Send a transactional E-Mail based on the Template id stored in Mailjet:
 
 ```php
 $mail = $this->app->mailer->compose()
-    ->setFrom('from@domain.com')
-    ->setSubject('Hello!')
     ->setTemplate(484590)
     ->setVariables(['lastnbame' => 'Lastname Value'])
     ->setTo(['to@domain.com'])
