@@ -20,6 +20,8 @@ Contains:
 + A PHP library to convert MJML content into Mailjet Passport json format.
 + LUYA Admin Module to convert MJML into HTML based on MJML.io API.
 + LUYA Active Window to retrieve informations about a given User E-Mail.
++ A Widget to subscribe to a List with double opt in (can be disabled).
++ SMS Sending helpers
 
 ## Installation
 
