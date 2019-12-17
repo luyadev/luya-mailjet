@@ -19,7 +19,7 @@ class SectionsTest extends MailjetTestCase
     
     public function testCreate()
     {
-        $this->assertNotFalse($this->app->mailjet->sections()->create(
+        $this->assertNotNull($this->app->mailjet->sections()->create(
             '[TEST SECTIONS] ' . time(),
             '<mj-section passport="3.3.5">
         <mj-column>
