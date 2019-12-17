@@ -77,8 +77,11 @@ class Template extends NgRestModel
         // decode response
         $decode = json_decode($response, true);
 
-        // update the html variable with html content
-        return $this->updateAttributes(['html' => $decode['html']]);
+        // ensure response contains html json key
+        if (isset($decode['html'])) {
+            // update the html variable with html content
+            return $this->updateAttributes(['html' => $decode['html']]);
+        }
     }
 
     /**

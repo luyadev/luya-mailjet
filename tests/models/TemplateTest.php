@@ -37,7 +37,7 @@ class TemplateTest extends MailjetTestCase
         $model->off($model::EVENT_BEFORE_UPDATE, [$model, 'generateHtmlFromApi']);
         $r = $model->save();
 
-        $this->assertNull($model->renderWithVariables());
+        $this->assertSame('<p></p>', $model->renderWithVariables());
 
 
         $aw = new MjmlPreviewActiveWindow();
