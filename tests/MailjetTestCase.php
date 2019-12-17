@@ -39,6 +39,9 @@ class MailjetTestCase extends WebApplicationTestCase
                 'db' => [
                     'class' => 'yii\db\Connection',
                     'dsn' => 'sqlite::memory:',
+                ],
+                'session' => [
+                    'class' => 'luya\testsuite\components\DummySession',
                 ]
             ]
         ];

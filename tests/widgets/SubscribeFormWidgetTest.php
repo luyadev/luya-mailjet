@@ -14,8 +14,8 @@ class SubscribeFormWidgetTest extends MailjetTestCase
         $w::end();
 
         $this->assertSame(null, $w->modelEmail);
-        $this->assertFalse($w->isSubscribed);
-        $this->assertFalse($w->isSent);
+        $this->assertNull($w->isSubscribed);
+        $this->assertNull($w->isSent);
     }
 
     public function testWrongConfiguredException()
