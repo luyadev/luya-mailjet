@@ -14,12 +14,20 @@ class SubscribeFormWidgetTest extends MailjetTestCase
         $w::end();
 
         $this->assertSame(null, $w->modelEmail);
+        $this->assertFalse($w->isSubscribed);
+        $this->assertFalse($w->isSent);
     }
 
     public function testWrongConfiguredException()
     {
         $this->expectException(InvalidConfigException::class);
         SubscribeFormWidget::widget(['listId' => 1, 'hashSecret' => 'foobar']);
+    }
+
+    public function testMissingHashAttribute()
+    {
+        $this->expectException(InvalidConfigException::class);
+        SubscribeFormWidget::widget(['listId' => 1]);
     }
 
     public function testValidConfigWithDoubleOptInt()
