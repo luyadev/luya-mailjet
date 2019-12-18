@@ -28,9 +28,9 @@ class Sms extends BaseObject
     /**
      * Send a text message to a given number
      *
-     * @param string $text The text message
-     * @param string $to The number
-     * @param string $from The from name
+     * @param string $text The text part of the message.
+     * @param string $to Message recipient. Should be between 3 and 15 characters in length. The number always starts with a plus sign followed by a country code, followed by the number. Phone numbers are expected to comply with the E.164 format.
+     * @param string $from Customizable sender name. Should be between 3 and 11 characters in length, only alphanumeric characters are allowed.
      * @return boolean Whether sending was sucessfull or not.
      */
     public function send($text, $to, $from)
