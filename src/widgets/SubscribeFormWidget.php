@@ -80,6 +80,23 @@ class SubscribeFormWidget extends Widget
     ];
 
     /**
+     * @var array An array define the attribute labels for an attribute, internal the attribute label values
+     * will be wrapped into the `Yii::t()` method.
+     *
+     * ```
+     * 'attributeLabels' => [
+     *     'email' => 'E-Mail-Adresse',
+     * ],
+     * ```
+     */
+    public $attributeLabels = [];
+
+    /**
+     * @var array A list of attribute hints, where key is the attribute and value the hint message.
+     */
+    public $attributeHints = [];
+
+    /**
      * @var boolean Whether confirmation mail should be sent or not. If disabled, the email will be subscribed directly after successfull submit and validation of the form.
      */
     public $doubleOptIn = true;
@@ -148,6 +165,8 @@ class SubscribeFormWidget extends Widget
     {
         if ($this->_model === null) {
             $this->_model = new DynamicModel($this->attributes);
+            $this->_model->attributeLabels = $this->attributeLabels;
+            $this->_model->attributeHints = $this->attributeHints;
             foreach ($this->attributeRules as $rule) {
                 $this->_model->addRule($rule[0], $rule[1]);
             }
