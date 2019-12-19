@@ -22,6 +22,7 @@ Contains:
 + LUYA Active Window to retrieve informations about a given User E-Mail.
 + A Widget to subscribe to a List with double opt in (can be disabled).
 + SMS Sending helpers
++ Yii 2 Queue Job to send mails with a template
 
 ## Installation
 
