@@ -66,7 +66,7 @@ Yii::$app->mailer->compose()
 Send a transactional E-Mail based on the Template id stored in Mailjet:
 
 ```php
-$mail = $this->app->mailer->compose()
+Yii::$app->mailer->compose()
     ->setTemplate(484590)
     ->setVariables(['lastnbame' => 'Lastname Value'])
     ->setTo(['to@domain.com'])
