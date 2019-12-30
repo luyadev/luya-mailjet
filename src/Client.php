@@ -10,6 +10,7 @@ use yii\base\InvalidConfigException;
  * Mailjet Component.
  *
  * @property MailjetClient $client
+ * @property MailjetClient $smsClient
  * @property Contacts $contacts
  * @property Sms $sms
  * @property Sections $sections
@@ -28,8 +29,12 @@ class Client extends Component
      * @var string The mailjet secret key.
      */
     public $apiSecret;
-    
-    private $_client;
+
+    /**
+     * @var string An API Key only for sending sms.
+     * @since 1.3.0
+     */
+    public $smsKey;
     
     /**
      * @inheritDoc
@@ -43,18 +48,36 @@ class Client extends Component
         }
     }
     
+    private $_client;
     /**
      * Mailjet PHP SDK Client Library.
      *
-     * @return \Mailjet\Client
+     * @return MailjetClient
      */
     public function getClient()
     {
-        if (!$this->_client) {
+        if ($this->_client === null) {
             $this->_client = new MailjetClient($this->apiKey, $this->apiSecret, true);
         }
 
         return $this->_client;
+    }
+
+    private $_smsClient;
+
+    /**
+     * SMS Client
+     *
+     * @return MailjetClient
+     * @since 1.3.0
+     */
+    public function getSmsClient()
+    {
+        if ($this->_smsClient === null) {
+            $this->_smsClient = new MailjetClient($this->smsKey, null, true, ['version' => 'v4', 'call' => false]);
+        }   
+
+        return $this->_smsClient;
     }
 
     private $_contacts;
@@ -123,7 +146,7 @@ class Client extends Component
     public function getSms()
     {
         if ($this->_sms === null) {
-            $this->_sms = new Sms($this->client);
+            $this->_sms = new Sms($this->smsClient);
         }
 
         return $this->_sms;

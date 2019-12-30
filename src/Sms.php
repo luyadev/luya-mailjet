@@ -72,7 +72,9 @@ class Sms extends BaseObject
             'Text' => $text,
             'To' => $to,
             'From' => $from,
-        ]]);
+        ]], [
+            'version' => 'v4',
+        ]);
 
         $success = $response->success();
 
