@@ -8,7 +8,7 @@ use luya\validators\PhoneNumberValidator;
 use Mailjet\Client;
 use Mailjet\Resources;
 use yii\base\BaseObject;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
 
 /**
  * Send Mailjet SMS
@@ -61,7 +61,7 @@ class Sms extends BaseObject
 
             if (!$model->validate()) {
                 if ($throwException) {
-                    throw new InvalidParamException("The given parameters contain invalid values.");
+                    throw new InvalidArgumentException("The given parameters contain invalid values.");
                 }
 
                 return false;
