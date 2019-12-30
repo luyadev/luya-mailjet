@@ -12,14 +12,14 @@ use yii\behaviors\TimestampBehavior;
 
 /**
  * Template.
- * 
+ *
  * @property integer $id
  * @property string $slug
  * @property text $mjml
  * @property text $html
  * @property integer $created_at
  * @property integer $updated_at
- * 
+ *
  * @since 1.3.0
  */
 class Template extends NgRestModel
@@ -170,7 +170,7 @@ class Template extends NgRestModel
 
     /**
      * Get template variable relation.
-     * 
+     *
      * @return TemplateVariable[]
      */
     public function getTemplateVariables()
@@ -213,9 +213,9 @@ class Template extends NgRestModel
 
     /**
      * Render the current html template with variables as param.
-     * 
+     *
      * Assuming {{%foo}} is used in the mjml tmeplate, the param to replace would be:
-     * 
+     *
      * ```
      * render(['foo' => 'bar']);
      * ```

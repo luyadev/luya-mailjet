@@ -34,12 +34,12 @@ class MjmlPreviewActiveWindow extends ActiveWindow
      */
     public function defaultIcon()
     {
-        return 'mail';    
+        return 'mail';
     }
 
     /**
      * The default action which is going to be requested when clicking the ActiveWindow.
-     * 
+     *
      * @return string The response string, render and displayed trough the angular ajax request.
      */
     public function index()

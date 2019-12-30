@@ -194,7 +194,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set TemplateLanguage
-     * 
+     *
      * @see https://dev.mailjet.com/guides/#use-templating-language
      * @since 1.2.0
      * @return static
@@ -329,7 +329,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Get Custom Campaign
-     * 
+     *
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @since 1.2.0
      */
@@ -340,7 +340,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set Custom Campaign
-     * 
+     *
      * @see https://dev.mailjet.com/guides/?shell#group-into-a-campaign
      * @param string $campaign
      * @return static
@@ -354,9 +354,9 @@ class MailerMessage extends BaseMessage
  
     /**
      * Get the CustomId
-     * 
+     *
      * With the Custom ID you can group events, if the Custom ID is provided at send time
-     * 
+     *
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @since 1.2.0
      */
@@ -367,9 +367,9 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set the CustomId
-     * 
+     *
      * With the Custom ID you can group events, if the Custom ID is provided at send time
-     * 
+     *
      * @see https://dev.mailjet.com/guides/?shell#event-api-real-time-notifications
      * @param string $customid
      * @return static
@@ -383,7 +383,7 @@ class MailerMessage extends BaseMessage
 
     /**
      * Get DeduplicateCampaign
-     * 
+     *
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @since 1.2.0
      */
@@ -394,9 +394,9 @@ class MailerMessage extends BaseMessage
 
     /**
      * Set DeduplicateCampaign
-     * 
+     *
      * > This will only has an effect if CustomCompain is used.
-     * 
+     *
      * @see https://dev.mailjet.com/guides/#group-into-a-campaign
      * @param boolean $deduplicate
      * @return static

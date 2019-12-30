@@ -4,7 +4,7 @@ namespace luya\mailjet\admin\apis;
 
 /**
  * Template Variable Controller.
- * 
+ *
  * @since 1.3.0
  */
 class TemplateVariableController extends \luya\admin\ngrest\base\Api

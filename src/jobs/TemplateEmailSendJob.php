@@ -8,9 +8,9 @@ use yii\queue\JobInterface;
 
 /**
  * A job to trigger a send mail.
- * 
+ *
  * Compatible with Yii 2 Queue.
- * 
+ *
  * @since 1.3.0
  */
 class TemplateEmailSendJob implements JobInterface

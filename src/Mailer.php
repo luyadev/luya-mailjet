@@ -140,12 +140,12 @@ class Mailer extends BaseMailer
             'TemplateErrorReporting' => $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting(),
         ];
 
-        if ($message->getCustomCampaign()){
+        if ($message->getCustomCampaign()) {
             $array['CustomCampaign'] = $message->getCustomCampaign();
             $array['DeduplicateCampaign'] = $message->getDeduplicateCampaign();
         }
         
-        if ($message->getCustomId()){
+        if ($message->getCustomId()) {
             $array['CustomID'] = $message->getCustomId();
         }
         
@@ -168,7 +168,7 @@ class Mailer extends BaseMailer
 
     /**
      * Generate Email and Name format based on input.
-     * 
+     *
      * @param array|string A list of recipieints.
      */
     public static function toMultiEmailAndName($input)

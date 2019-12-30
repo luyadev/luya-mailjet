@@ -12,7 +12,7 @@ use yii\base\InvalidConfigException;
 
 /**
  * Subscribe Form Widget.
- * 
+ *
  * ```php
  * <?php $widget = SubscribeFormWidget::begin(['confirmTemplateId' => 123123, 'hashSecret' => '_ADD_A_RANDOM_STRING_', 'listId' => 123123]) ?>
  *     <?php if ($widget->isSent): ?>
@@ -27,9 +27,9 @@ use yii\base\InvalidConfigException;
  *     <?php endif; ?>
  * <?php $widget::end(); ?>
  * ```
- * 
+ *
  * > The SubscribeFormWidget assumes the mailjet and mailer component are configured properly! Take a look at the README installation step.
- * 
+ *
  * @property DynamicModel $model
  * @property string $modelEmail
  * @property boolean $isSent
@@ -120,7 +120,6 @@ class SubscribeFormWidget extends Widget
         $this->processConfirmLink();
 
         if ($this->getModel()->load(Yii::$app->request->post()) && $this->getModel()->validate()) {
-
             if ($this->doubleOptIn) {
                 $keys = [];
                 foreach ($this->getModel()->attributes as $key => $value) {
@@ -138,7 +137,6 @@ class SubscribeFormWidget extends Widget
                     Yii::$app->session->setFlash(self::MAIL_SUBSCRIBE_SUCCESS);
                 }
             }
-            
         }
 
         ob_start();

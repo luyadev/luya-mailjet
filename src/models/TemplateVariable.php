@@ -13,7 +13,7 @@ use luya\admin\ngrest\plugins\SelectModel;
  * @property integer $template_id
  * @property string $key
  * @property text $value
- * 
+ *
  * @since 1.3.0
  */
 class TemplateVariable extends NgRestModel

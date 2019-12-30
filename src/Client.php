@@ -13,7 +13,7 @@ use yii\base\InvalidConfigException;
  * @property Contacts $contacts
  * @property Sms $sms
  * @property Sections $sections
- * 
+ *
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
  */
@@ -45,7 +45,7 @@ class Client extends Component
     
     /**
      * Mailjet PHP SDK Client Library.
-     * 
+     *
      * @return \Mailjet\Client
      */
     public function getClient()
@@ -57,6 +57,8 @@ class Client extends Component
         return $this->_client;
     }
 
+    private $_contacts;
+
     /**
      * Get Contacts component.
      *
@@ -65,12 +67,16 @@ class Client extends Component
      */
     public function getContacts()
     {
-        return new Contacts($this->client);
+        if ($this->_contacts === null) {
+            $this->_contacts = new Contacts($this->client);
+        }
+        
+        return $this->_contacts;
     }
     
     /**
      * Mailjet Contacts Handler.
-     * 
+     *
      * @return Contacts
      * @deprecated 1.3.0 will be removed in version 2.0, used getContacts() or $contacts instead.
      */
@@ -79,6 +85,7 @@ class Client extends Component
         return $this->getContacts();
     }
 
+    private $_sections;
     /**
      * Mailjet Sections component.
      *
@@ -87,12 +94,16 @@ class Client extends Component
      */
     public function getSections()
     {
-        return new Sections($this->client); 
+        if ($this->_sections === null) {
+            $this->_sections = new Sections($this->client);
+        }
+
+        return $this->_sections;
     }
     
     /**
      * Mailjet Sections Handler.
-     * 
+     *
      * @return Sections
      * @deprecated 1.3.0 will be removed in version 2.0, used getSections() or $sections instead.
      */
@@ -101,15 +112,21 @@ class Client extends Component
         return $this->getSections();
     }
 
+    private $_sms;
+
     /**
      * Mailjet SMS component.
-     * 
+     *
      * @return Sms
      * @since 1.3.0
      */
     public function getSms()
     {
-        return new Sms($this->client);
+        if ($this->_sms === null) {
+            $this->_sms = new Sms($this->client);
+        }
+
+        return $this->_sms;
     }
 
     /**
