@@ -9,7 +9,10 @@ use yii\base\InvalidConfigException;
 /**
  * Mailjet Component.
  *
- * @property \Mailjet\Client $client
+ * @property MailjetClient $client
+ * @property Contacts $contacts
+ * @property Sms $sms
+ * @property Sections $sections
  * 
  * @author Basil Suter <basil@nadar.io>
  * @since 1.0.0
@@ -53,25 +56,60 @@ class Client extends Component
 
         return $this->_client;
     }
+
+    /**
+     * Get Contacts component.
+     *
+     * @return Contacts
+     * @since 1.3.0
+     */
+    public function getContacts()
+    {
+        return new Contacts($this->client);
+    }
     
     /**
      * Mailjet Contacts Handler.
      * 
      * @return Contacts
+     * @deprecated 1.3.0 will be removed in version 2.0, used getContacts() or $contacts instead.
      */
     public function contacts()
     {
-        return new Contacts($this->client);
+        return $this->getContacts();
+    }
+
+    /**
+     * Mailjet Sections component.
+     *
+     * @return Sections
+     * @since 1.3.0
+     */
+    public function getSections()
+    {
+        return new Sections($this->client); 
     }
     
     /**
      * Mailjet Sections Handler.
      * 
      * @return Sections
+     * @deprecated 1.3.0 will be removed in version 2.0, used getSections() or $sections instead.
      */
     public function sections()
     {
-        return new Sections($this->client);
+        return $this->getSections();
+    }
+
+    /**
+     * Mailjet SMS component.
+     * 
+     * @return Sms
+     * @since 1.3.0
+     */
+    public function getSms()
+    {
+        return new Sms($this->client);
     }
 
     /**
@@ -79,9 +117,10 @@ class Client extends Component
      *
      * @return Sms
      * @since 1.3.0
+     * @deprecated 1.3.0 will be removed in version 2.0, used getSms() or $sms instead.
      */
     public function sms()
     {
-        return new Sms($this->client);
+        return $this->getSms();
     }
 }

@@ -23,6 +23,17 @@ class Sms extends BaseObject
      */
     public $client;
     
+    /**
+     * @var string Contains the last error while sending an sms.
+     */
+    public $lastError;
+
+    /**
+     * Constructor.
+     *
+     * @param Client $client
+     * @param array $config
+     */
     public function __construct(Client $client, array $config = [])
     {
         $this->client = $client;
@@ -63,6 +74,12 @@ class Sms extends BaseObject
             'From' => $from,
         ]]);
 
-        return $response->success();
+        $success = $response->success();
+
+        if (!$success) {
+            $this->lastError = var_export($response->getData(), true) . ' | ' . var_export($response->getBody(), true) . ' | ' . var_export($response->getReasonPhrase(), true);
+        }
+
+        return $success;
     }
 }
