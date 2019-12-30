@@ -55,7 +55,7 @@ class MailjetTest extends MailjetTestCase
 
         sleep(10);
 
-        $response = $client->contacts()
+        $response = $client->contacts
         ->list($listId, Contacts::ACTION_ADDFORCE)
             ->add('basil+1@nadar.io', ['firstname' => 'b1'])
             ->add('basil+2@nadar.io', ['firstname' => 'b2'])
@@ -67,28 +67,28 @@ class MailjetTest extends MailjetTestCase
 
         sleep(10);
 
-        $this->assertNotFalse($client->contacts()->search($randomMail));
+        $this->assertNotFalse($client->contacts->search($randomMail));
 
         sleep(10);
 
-        $this->assertTrue($client->contacts()->isInList($randomMail, 622));
+        $this->assertTrue($client->contacts->isInList($randomMail, 622));
 
         // unsubscribe
 
-        $response = $client->contacts()
+        $response = $client->contacts
         ->list($listId, Contacts::ACTION_UNSUBSCRIBE)
             ->add($randomMail)
             ->sync();
 
         sleep(3);
 
-        $this->assertFalse($client->contacts()->isInList($randomMail, 622));
+        $this->assertFalse($client->contacts->isInList($randomMail, 622));
     }
     public function testContactsItems()
     {
         $client = $this->app->mailjet;
         $listId = 622;
-        $items = $client->contacts()->items($listId);
+        $items = $client->contacts->items($listId);
 
         $this->assertNotEmpty($items);
     }

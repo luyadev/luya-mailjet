@@ -7,6 +7,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 + [#4](https://github.com/luyadev/luya-mailjet/pull/4) Subscribe Form Widget which provides Double Opt In option.
 + [#3](https://github.com/luyadev/luya-mailjet/pull/3) Admin Module to parse MJML into HTML with optional variables. Add the module to your configure and define mjml.io API Keys
++ Deprecated Client::sms(), Client::contacts() and Client::sections() and replaced with Client::$sms, Client::$contacts, Client::$sections.
 
 ## 1.2.0 (26. July 2019)
 
