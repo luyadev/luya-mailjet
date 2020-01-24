@@ -46,12 +46,24 @@ use yii\base\InvalidConfigException;
  */
 class Contacts extends BaseObject
 {
+    /**
+     * @var string Add the contact to the list and subscribe them if not already
+     */
     const ACTION_ADDFORCE = 'addforce';
     
+    /**
+     * @var string Add the contact to the list, but do not change the status of subscribe / unsubscribe from it’s current value
+     */
     const ACTION_ADDNOFORCE = 'addnoforce';
     
+    /**
+     * @var string Remove the contact from the list
+     */
     const ACTION_REMOVE = 'remove';
     
+    /**
+     * @var string Leave the contact on the list, but unsubscribe them from future campaigns.
+     */
     const ACTION_UNSUBSCRIBE = 'unsub';
     
     /**
