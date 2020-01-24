@@ -59,7 +59,7 @@ class SubscribeFormWidget extends Widget
     /**
      * @var string The action which should be taken when the list sync is called, this can either be a force add or even a remove (to build unsubscribe forms).
      */
-    public $listAction = Contacts::ACTION_ADDNOFORCE;
+    public $listAction = Contacts::ACTION_ADDFORCE;
 
     /**
      * @var string The name of attribute which contains the email adresse. This attribute email value will be taken to confirm and subscribe
