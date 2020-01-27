@@ -75,7 +75,7 @@ class Client extends Component
     {
         if ($this->_smsClient === null) {
             $this->_smsClient = new MailjetClient($this->smsKey, null, true, ['version' => 'v4', 'call' => false]);
-        }   
+        }
 
         return $this->_smsClient;
     }
