@@ -3,10 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.3.0
+## 1.3.0 (27. January 2020)
 
 + [#4](https://github.com/luyadev/luya-mailjet/pull/4) Subscribe Form Widget which provides Double Opt In option.
-+ [#3](https://github.com/luyadev/luya-mailjet/pull/3) Admin Module to parse MJML into HTML with optional variables. Add the module to your configure and define mjml.io API Keys
++ [#3](https://github.com/luyadev/luya-mailjet/pull/3) Admin Module to parse MJML into HTML with optional variables. Add the module to your configure and define mjml.io API Keys (run migrate and import commands of LUYA)
 + Deprecated Client::sms(), Client::contacts() and Client::sections() and replaced with Client::$sms, Client::$contacts, Client::$sections.
 
 ## 1.2.0 (26. July 2019)
