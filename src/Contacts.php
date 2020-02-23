@@ -78,6 +78,17 @@ class Contacts extends BaseObject
     }
     
     private $_contacts = [];
+
+    /**
+     * Reset the contacst and lists values
+     *
+     * @since 1.3.1
+     */
+    public function reset()
+    {
+        $this->_contacts = [];
+        $this->_lists = [];
+    }
     
     /**
      * @param string $email
@@ -133,6 +144,8 @@ class Contacts extends BaseObject
         
         $response = $this->client->post(Resources::$ContactManagemanycontacts, ['body' => $body]);
         
+        $this->reset();
+
         return $response->success();
     }
     

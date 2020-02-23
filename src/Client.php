@@ -80,8 +80,6 @@ class Client extends Component
         return $this->_smsClient;
     }
 
-    private $_contacts;
-
     /**
      * Get Contacts component.
      *
@@ -90,11 +88,7 @@ class Client extends Component
      */
     public function getContacts()
     {
-        if ($this->_contacts === null) {
-            $this->_contacts = new Contacts($this->client);
-        }
-        
-        return $this->_contacts;
+        return new Contacts($this->client);
     }
     
     /**
@@ -108,7 +102,6 @@ class Client extends Component
         return $this->getContacts();
     }
 
-    private $_sections;
     /**
      * Mailjet Sections component.
      *
@@ -117,11 +110,7 @@ class Client extends Component
      */
     public function getSections()
     {
-        if ($this->_sections === null) {
-            $this->_sections = new Sections($this->client);
-        }
-
-        return $this->_sections;
+        return new Sections($this->client);
     }
     
     /**
@@ -135,8 +124,6 @@ class Client extends Component
         return $this->getSections();
     }
 
-    private $_sms;
-
     /**
      * Mailjet SMS component.
      *
@@ -145,11 +132,7 @@ class Client extends Component
      */
     public function getSms()
     {
-        if ($this->_sms === null) {
-            $this->_sms = new Sms($this->smsClient);
-        }
-
-        return $this->_sms;
+        return new Sms($this->smsClient);
     }
 
     /**
