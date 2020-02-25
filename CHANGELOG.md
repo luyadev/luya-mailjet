@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.3.1 (23. February 2020)
+## 1.3.1 (23. February 2020)
 
 + Fix bug with same instance. This will lead into problems when runing sync command several times in the same "controller".
 
