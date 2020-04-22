@@ -187,7 +187,7 @@ class Template extends NgRestModel
      */
     public static function renderHtml($slug, array $params = [])
     {
-        $template = self::findOne($slug);
+        $template = self::findOne(['slug' => $slug]);
 
         if (!$template) {
             throw new InvalidParamException("The slug could not be found");
