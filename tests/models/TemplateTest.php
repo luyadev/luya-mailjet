@@ -53,6 +53,4 @@ class TemplateTest extends MailjetTestCase
         $this->expectException('yii\base\InvalidParamException');
         Template::renderHtml('foobarnotfound');
     }
-
-    
 }

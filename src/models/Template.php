@@ -40,6 +40,9 @@ class Template extends NgRestModel
         return 'api-mailjet-template';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function behaviors()
     {
         return [
@@ -47,6 +50,9 @@ class Template extends NgRestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function init()
     {
         parent::init();
@@ -71,47 +77,6 @@ class Template extends NgRestModel
         }
 
         $this->addError('html', "Either the api.mjml.io has an error or the input data is wrong.");
-    }
-
-    /**
-     * Generate and return the HTML data from the API.
-     *
-     * @return string
-     * @since 1.4.0
-     */
-    public function generateHtml()
-    {
-        return self::parseMjmlToHtml($this->mjml);
-    }
-
-    /**
-     * Request the HTML for a given MJML section.
-     *
-     * @param string $mjml The mjml data to parse into HTML.
-     * @return string The parsed HTML
-     * @since 1.4.0
-     */
-    public static function parseMjmlToHtml($mjml)
-    {
-        $module = Module::getInstance();
-        $ch = curl_init('https://api.mjml.io/v1/render');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERPWD, sprintf('%s:%s', $module->mjmlApiApplicationId, $module->mjmlApiSecretKey));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['mjml' => $mjml]));
-        $response = curl_exec($ch);
-        if (curl_errno($ch)) {
-            throw new \RuntimeException(curl_error($ch));
-        }
-        // decode response
-        $decode = json_decode($response, true);
-        // ensure response contains html json key
-        if (isset($decode['html'])) {
-            return $decode['html'];
-        }
-
-        return false;
     }
 
     /**
@@ -300,5 +265,48 @@ class Template extends NgRestModel
     public function render(array $params = [])
     {
         return $this->parseTemplate($this->html, $params);
+    }
+
+
+
+    /**
+     * Generate and return the HTML data from the API.
+     *
+     * @return string
+     * @since 1.4.0
+     */
+    public function generateHtml()
+    {
+        return self::parseMjmlToHtml($this->mjml);
+    }
+
+    /**
+     * Request the HTML for a given MJML section.
+     *
+     * @param string $mjml The mjml data to parse into HTML.
+     * @return string The parsed HTML
+     * @since 1.4.0
+     */
+    public static function parseMjmlToHtml($mjml)
+    {
+        $module = Module::getInstance();
+        $ch = curl_init('https://api.mjml.io/v1/render');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, sprintf('%s:%s', $module->mjmlApiApplicationId, $module->mjmlApiSecretKey));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['mjml' => $mjml]));
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new \RuntimeException(curl_error($ch));
+        }
+        // decode response
+        $decode = json_decode($response, true);
+        // ensure response contains html json key
+        if (isset($decode['html'])) {
+            return $decode['html'];
+        }
+
+        return false;
     }
 }
