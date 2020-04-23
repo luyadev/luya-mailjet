@@ -65,6 +65,7 @@ class Template extends NgRestModel
      * Converts the mjml data into a template trough mjml API.
      *
      * @return The html content based on the mjml variable.
+     * @since 1.4.0
      */
     protected function generateAndUpdateHtml()
     {
