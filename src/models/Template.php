@@ -234,7 +234,7 @@ class Template extends NgRestModel
      * @return string The rendered mjml content.
      * @since 1.4.0
      */
-    public function renderMjml($slug, array $params = [])
+    public static function renderMjml($slug, array $params = [])
     {
         $template = self::findOne(['slug' => $slug]);
 
