@@ -2,12 +2,12 @@
 
 namespace luya\mailjet\models;
 
-use Curl\Curl;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\mailjet\admin\aws\MjmlPreviewActiveWindow;
 use luya\mailjet\admin\Module;
-use yii\base\InvalidParamException;
+use yii\base\InvalidArgumentException;
+use yii\base\InvalidConfigException;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -40,6 +40,9 @@ class Template extends NgRestModel
         return 'api-mailjet-template';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function behaviors()
     {
         return [
@@ -47,41 +50,34 @@ class Template extends NgRestModel
         ];
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function init()
     {
         parent::init();
 
-        $this->on(self::EVENT_AFTER_INSERT, [$this, 'generateHtmlFromApi']);
-        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'generateHtmlFromApi']);
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'generateAndUpdateHtml']);
+        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'generateAndUpdateHtml']);
     }
 
     /**
      * Converts the mjml data into a template trough mjml API.
      *
      * @return The html content based on the mjml variable.
+     * @since 1.4.0
      */
-    public function generateHtmlFromApi()
+    protected function generateAndUpdateHtml()
     {
-        $module = Module::getInstance();
-        $ch = curl_init('https://api.mjml.io/v1/render');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_USERPWD, sprintf('%s:%s', $module->mjmlApiApplicationId, $module->mjmlApiSecretKey));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['mjml' => $this->mjml]));
-        $response = curl_exec($ch);
-        if (curl_errno($ch)) {
-            throw new \RuntimeException(curl_error($ch));
-        }
-
-        // decode response
-        $decode = json_decode($response, true);
+        $html = self::parseMjmlToHtml($this->mjml);
 
         // ensure response contains html json key
-        if (isset($decode['html'])) {
+        if ($html) {
             // update the html variable with html content
-            return $this->updateAttributes(['html' => $decode['html']]);
+            return $this->updateAttributes(['html' => $html]);
         }
+
+        $this->addError('html', "Either the api.mjml.io has an error or the input data is wrong.");
     }
 
     /**
@@ -179,7 +175,7 @@ class Template extends NgRestModel
     }
 
     /**
-     * Find a template by its slug and retutn the html with optional params.
+     * Find a template by its slug and retutn the HTML with template params.
      *
      * @param string $slug The slug of the template
      * @param array $params An array with key values to replace.
@@ -190,10 +186,29 @@ class Template extends NgRestModel
         $template = self::findOne(['slug' => $slug]);
 
         if (!$template) {
-            throw new InvalidParamException("The slug could not be found");
+            throw new InvalidArgumentException("Unable to find the given template.");
         }
 
         return $template->render($params);
+    }
+
+    /**
+     * Find Template by slug and renders the MJML template for the given variables.
+     *
+     * @param string $slug The slug of the template
+     * @param array $params A list of params to replace wihtin the html content, variables are declared in curly brackets with a leading percent sign.
+     * @return string The rendered mjml content.
+     * @since 1.4.0
+     */
+    public static function renderMjml($slug, array $params = [])
+    {
+        $template = self::findOne(['slug' => $slug]);
+
+        if (!$template) {
+            throw new InvalidArgumentException("Unable to find the given template.");
+        }
+
+        return $template->parseTemplate($template->mjml, $params);
     }
 
     /**
@@ -212,7 +227,32 @@ class Template extends NgRestModel
     }
 
     /**
-     * Render the current html template with variables as param.
+     * Parse variables inside a given template
+     *
+     * @param string $template
+     * @param array $params
+     * @return string
+     * @since 1.4.0
+     */
+    public function parseTemplate($template, array $params = [])
+    {
+        preg_match_all("/{{%(.*?)}}/", $template, $matches, PREG_SET_ORDER);
+
+        if (empty($matches)) {
+            return $template;
+        }
+
+        foreach ($matches as $match) {
+            if (isset($params[$match[1]])) {
+                $template = str_replace($match[0], $params[$match[1]], $template);
+            }
+        }
+
+        return $template;
+    }
+
+    /**
+     * Render the current HTML template for the given params.
      *
      * Assuming {{%foo}} is used in the mjml tmeplate, the param to replace would be:
      *
@@ -221,23 +261,53 @@ class Template extends NgRestModel
      * ```
      *
      * @param array $params A list of params to replace wihtin the html content, variables are declared in curly brackets with a leading percent sign.
-     * @return string The rendered template with replaced variables.
+     * @return string The rendered html with replaced variables.
      */
     public function render(array $params = [])
     {
-        $html = $this->html;
-        preg_match_all("/{{%(.*?)}}/", $this->html, $matches, PREG_SET_ORDER);
+        return $this->parseTemplate($this->html, $params);
+    }
 
-        if (empty($matches)) {
-            return $html;
+
+
+    /**
+     * Generate and return the HTML data from the API.
+     *
+     * @return string
+     * @since 1.4.0
+     */
+    public function generateHtml()
+    {
+        return self::parseMjmlToHtml($this->mjml);
+    }
+
+    /**
+     * Request the HTML for a given MJML section.
+     *
+     * @param string $mjml The mjml data to parse into HTML.
+     * @return string The parsed HTML
+     * @since 1.4.0
+     */
+    public static function parseMjmlToHtml($mjml)
+    {
+        $module = Module::getInstance();
+        $ch = curl_init('https://api.mjml.io/v1/render');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, sprintf('%s:%s', $module->mjmlApiApplicationId, $module->mjmlApiSecretKey));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['mjml' => $mjml]));
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new \RuntimeException(curl_error($ch));
+        }
+        // decode response
+        $decode = json_decode($response, true);
+        // ensure response contains html json key
+        if (isset($decode['html'])) {
+            return $decode['html'];
         }
 
-        foreach ($matches as $match) {
-            if (isset($params[$match[1]])) {
-                $html = str_replace($match[0], $params[$match[1]], $html);
-            }
-        }
-
-        return $html;
+        return false;
     }
 }

@@ -47,7 +47,28 @@ class TemplateTest extends MailjetTestCase
         $this->assertNotNUll($aw->index());
 
 
+        $this->assertSame('<p></p>', Template::renderHtml('foobar'));
+        $this->assertSame('<content></content>', Template::renderMjml('foobar'));
+
         $this->expectException('yii\base\InvalidParamException');
-        Template::renderHtml('foobar');
+        Template::renderHtml('foobarnotfound');
+    }
+
+    public function testNotFoundMjml()
+    {
+        $fixture = new NgRestModelFixture([
+            'modelClass' => Template::class,
+        ]);
+        $this->expectException('yii\base\InvalidParamException');
+        Template::renderMjml('notfound');
+    }
+
+    public function testGenerateHtml()
+    {
+        $fixture = new NgRestModelFixture([
+            'modelClass' => Template::class,
+        ]);
+        $model = new Template();
+        $this->assertFalse($model->generateHtml());
     }
 }

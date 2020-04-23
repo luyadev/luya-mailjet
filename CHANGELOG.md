@@ -3,8 +3,9 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.3.2
+## 1.4.0
 
++ [#7](https://github.com/luyadev/luya-mailjet/pull/7) Added new helpers to render MJML with variables and generate the HTML data on request instead of while saving/updating.
 + [#5](https://github.com/luyadev/luya-mailjet/pull/5) Fix bug with template loading by id instead of slog.
 
 ## 1.3.1 (23. February 2020)
