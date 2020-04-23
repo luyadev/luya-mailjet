@@ -60,7 +60,7 @@ class Template extends NgRestModel
      *
      * @return The html content based on the mjml variable.
      */
-    private function generateAndUpdateHtml()
+    protected function generateAndUpdateHtml()
     {
         $html = self::parseMjmlToHtml($this->mjml);
 
@@ -69,6 +69,8 @@ class Template extends NgRestModel
             // update the html variable with html content
             return $this->updateAttributes(['html' => $html]);
         }
+
+        $this->addError('html', "Either the api.mjml.io has an error or the input data is wrong.");
     }
 
     /**
@@ -109,7 +111,7 @@ class Template extends NgRestModel
             return $decode['html'];
         }
 
-        throw new InvalidConfigException("Either the api.mjml.io has an error or the input data is wrong.");
+        return false;
     }
 
     /**
@@ -276,7 +278,7 @@ class Template extends NgRestModel
 
         foreach ($matches as $match) {
             if (isset($params[$match[1]])) {
-                $html = str_replace($match[0], $params[$match[1]], $template);
+                $template = str_replace($match[0], $params[$match[1]], $template);
             }
         }
 

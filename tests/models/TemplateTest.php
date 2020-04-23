@@ -47,7 +47,12 @@ class TemplateTest extends MailjetTestCase
         $this->assertNotNUll($aw->index());
 
 
+        $this->assertSame('<p></p>', Template::renderHtml('foobar'));
+        $this->assertSame('<content></content>', Template::renderMjml('foobar'));
+
         $this->expectException('yii\base\InvalidParamException');
         Template::renderHtml('foobarnotfound');
     }
+
+    
 }
