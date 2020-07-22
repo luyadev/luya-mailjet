@@ -35,6 +35,9 @@ jobs:
 
       ## run unit tests
       - name: PHP Unit tests for PHP 
+        env: # Or as an environment variable
+          apikey: ${{ secrets.apikey }}
+          apisecret: ${{ secrets.apisecret }}
         run: vendor/bin/phpunit --verbose --configuration actions.phpunit.xml
         if: matrix.php == '7.4' || matrix.php == '7.3' || matrix.php == '7.2' || matrix.php == '7.0'
 
