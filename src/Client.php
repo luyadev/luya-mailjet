@@ -35,6 +35,18 @@ class Client extends Component
      * @since 1.3.0
      */
     public $smsKey;
+
+    /**
+     * @var integer Describing the number of seconds to wait while trying to connect to a server. The mailjet library default value is 2.
+     * @since 1.5.0
+     */
+    public $connectionTimeout = 10;
+
+    /**
+     * @var integer Describing the timeout of the request in seconds. The mailjet library default value is 15
+     * @since 1.5.0
+     */
+    public $timeout = 25;
     
     /**
      * @inheritDoc
@@ -58,6 +70,8 @@ class Client extends Component
     {
         if ($this->_client === null) {
             $this->_client = new MailjetClient($this->apiKey, $this->apiSecret, true);
+            $this->_client->setConnectionTimeout($this->connectionTimeout);
+            $this->_client->setTimeout($this->timeout);
         }
 
         return $this->_client;
