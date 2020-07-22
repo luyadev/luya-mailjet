@@ -35,14 +35,17 @@ jobs:
 
       ## run unit tests
       - name: PHP Unit tests for PHP 
-        env: # Or as an environment variable
-          apikey: ${{ secrets.apikey }}
-          apisecret: ${{ secrets.apisecret }}
+        env:
+          apikey: ${{ secrets.APIKEY }}
+          apisecret: ${{ secrets.APISECRET }}
         run: vendor/bin/phpunit --verbose --configuration actions.phpunit.xml
         if: matrix.php == '7.4' || matrix.php == '7.3' || matrix.php == '7.2' || matrix.php == '7.0'
 
       ## unit test with coverage
       - name: PHP Unit tests for PHP 7.1
+        env:
+          apikey: ${{ secrets.apikey }}
+          apisecret: ${{ secrets.apisecret }}
         run: vendor/bin/phpunit --verbose --coverage-clover=clover.xml --configuration actions.phpunit.xml
         if: matrix.php == '7.1'
 
