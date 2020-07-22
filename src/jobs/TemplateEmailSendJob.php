@@ -4,6 +4,7 @@ namespace luya\mailjet\jobs;
 
 use Yii;
 use luya\Exception;
+use yii\base\BaseObject;
 use yii\queue\JobInterface;
 
 /**
@@ -13,7 +14,7 @@ use yii\queue\JobInterface;
  *
  * @since 1.3.0
  */
-class TemplateEmailSendJob implements JobInterface
+class TemplateEmailSendJob extends BaseObject implements JobInterface
 {
     /**
      * @var integer The template id in the mailjet system
