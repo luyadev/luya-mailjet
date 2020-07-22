@@ -22,7 +22,7 @@ class TemplateEmailSendJob extends BaseObject implements JobInterface
     public $templateId;
 
     /**
-     * @var array A list of variables.
+     * @var array A list of variables. If empty no values will be sent as variables, an empty array might end in a `'Type mismatch. Expected type "object".', 'ErrorRelatedTo' => array ( 0 => 'Messages.Variables' )` execption.
      */
     public $variables = [];
 
@@ -32,7 +32,7 @@ class TemplateEmailSendJob extends BaseObject implements JobInterface
     public $recipient = [];
 
     /**
-     * @var string Optional from config, is not required as it will.
+     * @var string This is optional, as the from address can be set inside the transactional templates.
      */
     public $from;
 
