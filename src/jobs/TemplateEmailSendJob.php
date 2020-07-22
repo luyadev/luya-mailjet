@@ -43,8 +43,11 @@ class TemplateEmailSendJob extends BaseObject implements JobInterface
     {
         $mailer = Yii::$app->mailer->compose()
             ->setTemplate($this->templateId)
-            ->setVariables($this->variables)
             ->setTo($this->recipient);
+
+        if (!empty($this->variables)) {
+            $mailer->setVariables($this->variables);
+        }
 
         if ($this->from) {
             $mailer->setFrom($this->from);
