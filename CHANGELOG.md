@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.4.1 (22. July 2020)
+
++ Replace Travis with GitHub Actions
++ Implement `yii\base\BaseObject` for `luya\mailjet\jobs\TemplateEmailSendJob` class. 
+
 ## 1.4.0 (23. April 2020)
 
 + [#7](https://github.com/luyadev/luya-mailjet/pull/7) Added new helpers to render MJML with variables and generate the HTML data on request instead of while saving/updating.
