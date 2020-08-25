@@ -156,6 +156,10 @@ class Mailer extends BaseMailer
             $array['TemplateErrorDeliver'] = true;
         }
 
+        if ($message->attachments) {
+            $array['Attachments'] = $message->attachments;
+        }
+
         // filter null and '' values not not false (which array_filter does).
         return array_filter($array, function ($value) {
             if ($value === null || $value === '') {

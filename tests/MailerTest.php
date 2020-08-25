@@ -79,4 +79,48 @@ class MailerTest extends MailjetTestCase
             ['Email' => 'foo2', 'Name' => 'foo2'],
         ], Mailer::toMultiEmailAndName(['foo1', 'foo2']));
     }
+
+    public function testAttachementBody()
+    {
+        $mailer = new Mailer();
+        $mailer->sandbox = true;
+
+        $message = new MailerMessage();
+        $message->attachContent('helloworld');
+
+        $this->assertSame([
+            'Attachments' => [
+                0 => [
+                    'ContentType' => 'text/plain',
+                    'Filename' => 'attachment.txt',
+                    'Base64Content' => 'aGVsbG93b3JsZA==',
+                ]
+            ]
+        ], $mailer->extractMessage($message));
+
+        $this->assertFalse($mailer->sendMessage($message));
+        $this->assertNotEmpty($mailer->lastError);
+    }
+
+    public function testAttachementBodyWithNames()
+    {
+        $mailer = new Mailer();
+        $mailer->sandbox = true;
+
+        $message = new MailerMessage();
+        $message->attachContent('helloworld', ['fileName' => 'foobar.txt', 'contentType' => 'application/pdf']);
+
+        $this->assertSame([
+            'Attachments' => [
+                0 => [
+                    'ContentType' => 'application/pdf',
+                    'Filename' => 'foobar.txt',
+                    'Base64Content' => 'aGVsbG93b3JsZA==',
+                ]
+            ]
+        ], $mailer->extractMessage($message));
+
+        $this->assertFalse($mailer->sendMessage($message));
+        $this->assertNotEmpty($mailer->lastError);
+    }
 }
