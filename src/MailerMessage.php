@@ -4,6 +4,8 @@ namespace luya\mailjet;
 
 use yii\mail\BaseMessage;
 use luya\Exception;
+use luya\helpers\ArrayHelper;
+use luya\helpers\FileHelper;
 use yii\helpers\VarDumper;
 
 /**
@@ -408,21 +410,20 @@ class MailerMessage extends BaseMessage
         return $this;
     }
 
+    public $attachments = [];
+
     /**
      * @inheritdoc
      */
     public function attach($fileName, array $options = [])
     {
-        /*
-         * 'Attachments' => [
-                [
-                    'ContentType' => "text/plain",
-                    'Filename' => "test.txt",
-                    'Base64Content' => "VGhpcyBpcyB5b3VyIGF0dGFjaGVkIGZpbGUhISEK"
-                ]
-            ]
-         */
-        throw new Exception('Not Implemented');
+        $this->attachments[] = [
+            'ContentType' => ArrayHelper::getValue($options, 'contentType', FileHelper::getMimeType($fileName)),
+            'Filename' => ArrayHelper::getValue($options, 'fileName', basename($fileName)),
+            'Base64Content' => base64_encode(FileHelper::getFileContent($fileName)),
+        ];
+
+        return $this;
     }
     
     /**
@@ -430,8 +431,15 @@ class MailerMessage extends BaseMessage
      */
     public function attachContent($content, array $options = [])
     {
-        throw new Exception('Not Implemented');
+        $this->attachments[] = [
+            'ContentType' => ArrayHelper::getValue($options, 'contentType', 'text/plain'),
+            'Filename' => ArrayHelper::getValue($options, 'fileName', 'attachment.txt'),
+            'Base64Content' => base64_encode($content),
+        ];
+
+        return $this;
     }
+    
     
     /**
      * @inheritdoc
