@@ -123,4 +123,26 @@ class MailerTest extends MailjetTestCase
         $this->assertFalse($mailer->sendMessage($message));
         $this->assertNotEmpty($mailer->lastError);
     }
+
+    public function testAttachementBodyWithPathToFile()
+    {
+        $mailer = new Mailer();
+        $mailer->sandbox = true;
+
+        $message = new MailerMessage();
+        $message->attach(__DIR__ . '/.env.dist');
+
+        $this->assertSame([
+            'Attachments' => [
+                0 => [
+                    'ContentType' => 'text/plain',
+                    'Filename' => '.env.dist',
+                    'Base64Content' => 'YXBpa2V5PWZvbwphcGlzZWNyZXQ9YmFy',
+                ]
+            ]
+        ], $mailer->extractMessage($message));
+
+        $this->assertFalse($mailer->sendMessage($message));
+        $this->assertNotEmpty($mailer->lastError);
+    }
 }
