@@ -3,9 +3,9 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
-## 1.6.0
+## 1.6.0 (25. August 2020)
 
-+ Implemented the option to attache files to a given message.
++ [#9](https://github.com/luyadev/luya-mailjet/pull/9) Implemented the option to attache files to a given message with `attach()` or `attachContent()`.
 
 ## 1.5.0 (22. July 2020)
 
