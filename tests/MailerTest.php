@@ -145,4 +145,26 @@ class MailerTest extends MailjetTestCase
         $this->assertFalse($mailer->sendMessage($message));
         $this->assertNotEmpty($mailer->lastError);
     }
+
+    public function testNoneScalarVariables()
+    {
+        $message = new MailerMessage();
+        $message->setVariables([
+            'bar' => 'foo',
+            'int' => 123,
+            'null' => null,
+            'bool' => false,
+            'array' => ['foo' => 'bar'],
+        ]);
+
+        $this->assertSame([
+            'bar' => 'foo',
+            'int' => '123',
+            'null' => '',
+            'bool' => '',
+            'array' => [
+                'foo' => 'bar',
+            ]
+        ], $message->getVariables());
+    }
 }
