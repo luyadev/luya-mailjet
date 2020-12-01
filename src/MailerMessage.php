@@ -175,7 +175,7 @@ class MailerMessage extends BaseMessage
                 $vars[$k] = '';
             }
 
-            $vars[$k] = (string) $vars[$k];
+            $vars[$k] = is_scalar($v) ? (string) $v : $v;
         }
         $this->_variables = $vars;
         
