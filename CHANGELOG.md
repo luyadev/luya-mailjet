@@ -5,7 +5,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 1.6.1 (1. December 2020)
 
-+ []() Allow none scalar values as variable when using `setVariables()` in `MailerMessage`.
++ [#11](https://github.com/luyadev/luya-mailjet/pull/11) Allow none scalar values as variable when using `setVariables()` in `MailerMessage`.
 
 ## 1.6.0 (25. August 2020)
 
