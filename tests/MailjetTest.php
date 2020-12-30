@@ -53,7 +53,7 @@ class MailjetTest extends MailjetTestCase
             ->add($randomMail)
             ->sync();
 
-        sleep(10);
+        sleep(20);
 
         $response = $client->contacts
         ->list($listId, Contacts::ACTION_ADDFORCE)
@@ -65,11 +65,11 @@ class MailjetTest extends MailjetTestCase
         
         $this->assertTrue($response);
 
-        sleep(10);
+        sleep(20);
 
         $this->assertNotFalse($client->contacts->search($randomMail));
 
-        sleep(10);
+        sleep(20);
 
         $this->assertTrue($client->contacts->isInList($randomMail, 622));
 
