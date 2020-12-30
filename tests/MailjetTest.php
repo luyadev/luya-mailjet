@@ -80,9 +80,20 @@ class MailjetTest extends MailjetTestCase
             ->add($randomMail)
             ->sync();
 
-        sleep(3);
+        sleep(20);
 
         $this->assertFalse($client->contacts->isInList($randomMail, 622));
+
+        sleep(20);
+
+        // just remove all the data :-)
+        $this->app->mailjet->contacts()
+        ->list($listId, Contacts::ACTION_REMOVE)
+            ->add('basil+1@nadar.io', ['firstname' => 'b1'])
+            ->add('basil+2@nadar.io', ['firstname' => 'b2'])
+            ->add('basil+3@nadar.io', ['firstname' => 'b3'])
+            ->add($randomMail)
+            ->sync();
     }
     public function testContactsItems()
     {
