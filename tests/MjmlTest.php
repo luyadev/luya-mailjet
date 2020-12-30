@@ -89,8 +89,8 @@ class MjmlTest extends MailjetTestCase
         <mj-text>1</mj-text>
         <mj-text>2</mj-text>
         </mj-section>');
-        $this->assertContains('{"tagName":"mj-text","children":[],"attributes":[],"content":"1"}', $content);
-        $this->assertContains('{"tagName":"mj-text","children":[],"attributes":[],"content":"2"}', $content);
+        $this->assertStringContainsString('{"tagName":"mj-text","children":[],"attributes":[],"content":"1"}', $content);
+        $this->assertStringContainsString('{"tagName":"mj-text","children":[],"attributes":[],"content":"2"}', $content);
 
         // test is an invalid nesting of content!
 
