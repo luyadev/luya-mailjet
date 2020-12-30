@@ -149,11 +149,13 @@ class Mailer extends BaseMailer
             $array['CustomID'] = $message->getCustomId();
         }
         
-        $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
+        if ($message->getTemplate()) {
+            $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
 
-        if ($errorReporting) {
-            $array['TemplateErrorReporting'] = $errorReporting;
-            $array['TemplateErrorDeliver'] = true;
+            if ($errorReporting) {
+                $array['TemplateErrorReporting'] = $errorReporting;
+                $array['TemplateErrorDeliver'] = true;
+            }
         }
 
         if ($message->attachments) {

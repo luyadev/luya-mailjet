@@ -5,3 +5,4 @@
 /luya
 /tests/.env
 /.env
+composer.lock
