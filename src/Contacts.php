@@ -5,6 +5,7 @@ namespace luya\mailjet;
 use yii\base\BaseObject;
 use Mailjet\Client;
 use Mailjet\Resources;
+use Mailjet\Response;
 use yii\base\InvalidConfigException;
 
 /**
@@ -67,6 +68,12 @@ class Contacts extends BaseObject
     const ACTION_UNSUBSCRIBE = 'unsub';
     
     /**
+     * @var boolean If a response is not sucessfull, the data will be dumped.
+     * @since 1.6.2
+     */
+    public $verboseError = false;
+
+    /**
      * @var Client
      */
     public $client;
@@ -77,6 +84,19 @@ class Contacts extends BaseObject
         parent::__construct($config);
     }
     
+    /**
+     * Dump data if response not successful
+     *
+     * @param Response $response
+     * @return void
+     */
+    private function dumpFailure(Response $response)
+    {
+        if ($this->verboseError && !$response->success()) {
+            var_dump($response->request->getUrl(), $response->getStatus(), $response->getBody());
+        }
+    }
+
     private $_contacts = [];
 
     /**
@@ -159,6 +179,8 @@ class Contacts extends BaseObject
     {
         $response = $this->client->get(Resources::$Contact, ['id' => $emailOrId]);
         
+        $this->dumpFailure($response);
+
         if ($response->success()) {
             return $response->getData();
         }
@@ -197,6 +219,8 @@ class Contacts extends BaseObject
     {
         $response = $this->client->get(Resources::$ContactGetcontactslists, ['id' => $emailOrId]);
 
+        $this->dumpFailure($response);
+
         if ($response->success()) {
             return $response->getData();
         }
@@ -213,6 +237,8 @@ class Contacts extends BaseObject
     public function listDetail($listId)
     {
         $response = $this->client->get(Resources::$Contactslist, ['id' => $listId]);
+
+        $this->dumpFailure($response);
 
         if ($response->success()) {
             return current($response->getData());
@@ -251,6 +277,8 @@ class Contacts extends BaseObject
         $response = $this->client->get(Resources::$Contact, [
             'filters' => $totalFilters,
         ]);
+
+        $this->dumpFailure($response);
         
         if (!$response->success()) {
             return false;
@@ -267,6 +295,8 @@ class Contacts extends BaseObject
             $response = $this->client->get(Resources::$Contact, [
                 'filters' => $filters,
             ]);
+
+            $this->dumpFailure($response);
 
             if ($response->success()) {
                 $data = array_merge($data, $response->getData());

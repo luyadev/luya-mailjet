@@ -42,47 +42,57 @@ class MailjetTest extends MailjetTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
-        $randomMail = 'johndoe'.rand(0, 999999999999).'@luya.io';
+        $randomMail = 'johndoe'.rand(0, 999999999999999).'@luya.io';
         $listId = 622;
 
-        $this->app->mailjet->contacts()
-        ->list($listId, Contacts::ACTION_REMOVE)
-            ->add('basil+1@nadar.io', ['firstname' => 'b1'])
-            ->add('basil+2@nadar.io', ['firstname' => 'b2'])
-            ->add('basil+3@nadar.io', ['firstname' => 'b3'])
-            ->add($randomMail)
-            ->sync();
+        // as the jobs run at the same time concurrent, we need a random timeout for all requests.
+        $randomTimeout = rand(1,5);
 
-        sleep(10);
+        echo "random email: " . $randomMail;
 
-        $response = $client->contacts
+        $contactsClass = $client->contacts;
+        $contactsClass->verboseError = true;
+
+        $response = $contactsClass
         ->list($listId, Contacts::ACTION_ADDFORCE)
-            ->add('basil+1@nadar.io', ['firstname' => 'b1'])
-            ->add('basil+2@nadar.io', ['firstname' => 'b2'])
-            ->add('basil+3@nadar.io', ['firstname' => 'b3'])
             ->add($randomMail)
             ->sync();
         
         $this->assertTrue($response);
 
         sleep(10);
+        sleep($randomTimeout);
 
-        $this->assertNotFalse($client->contacts->search($randomMail));
+        $search = $contactsClass->search($randomMail);
+        $this->assertNotFalse($search);
 
         sleep(10);
+        sleep($randomTimeout);
 
-        $this->assertTrue($client->contacts->isInList($randomMail, 622));
+        $this->assertTrue($contactsClass->isInList($randomMail, $listId));
 
         // unsubscribe
+        sleep(10);
+        sleep($randomTimeout);
 
-        $response = $client->contacts
+        $response = $contactsClass
         ->list($listId, Contacts::ACTION_UNSUBSCRIBE)
             ->add($randomMail)
             ->sync();
 
-        sleep(3);
+        sleep(10);
+        sleep($randomTimeout);
 
-        $this->assertFalse($client->contacts->isInList($randomMail, 622));
+        $this->assertFalse($contactsClass->isInList($randomMail, $listId));
+
+        sleep(10);
+        sleep($randomTimeout);
+
+        // just remove all the data :-)
+        $this->app->mailjet->contacts()
+        ->list($listId, Contacts::ACTION_REMOVE)
+            ->add($randomMail)
+            ->sync();
     }
     public function testContactsItems()
     {
