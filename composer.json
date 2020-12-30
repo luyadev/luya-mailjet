@@ -28,5 +28,16 @@
 		"psr-4" : {
 			"luya\\mailjet\\tests\\" : "tests/"
 		}
-	}
+	},
+	"config": {
+        "fxp-asset": {
+            "enabled": false
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }
