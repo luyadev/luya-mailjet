@@ -46,11 +46,14 @@ class MailjetTest extends MailjetTestCase
         $listId = 622;
 
         // as the jobs run at the same time concurrent, we need a random timeout for all requests.
-        $randomTimeout = rand(1,15);
+        $randomTimeout = rand(1,5);
 
         echo "random email: " . $randomMail;
 
-        $response = $client->contacts
+        $contactsClass = $client->contacts;
+        $contactsClass->verboseError = true;
+
+        $response = $contactsClass
         ->list($listId, Contacts::ACTION_ADDFORCE)
             ->add($randomMail)
             ->sync();
@@ -60,20 +63,20 @@ class MailjetTest extends MailjetTestCase
         sleep(10);
         sleep($randomTimeout);
 
-        $search = $client->contacts->search($randomMail);
+        $search = $contactsClass->search($randomMail);
         var_dump($search);
         $this->assertNotFalse($search);
 
         sleep(10);
         sleep($randomTimeout);
 
-        $this->assertTrue($client->contacts->isInList($randomMail, $listId));
+        $this->assertTrue($contactsClass->isInList($randomMail, $listId));
 
         // unsubscribe
         sleep(10);
         sleep($randomTimeout);
 
-        $response = $client->contacts
+        $response = $contactsClass
         ->list($listId, Contacts::ACTION_UNSUBSCRIBE)
             ->add($randomMail)
             ->sync();
@@ -81,7 +84,7 @@ class MailjetTest extends MailjetTestCase
         sleep(10);
         sleep($randomTimeout);
 
-        $this->assertFalse($client->contacts->isInList($randomMail, $listId));
+        $this->assertFalse($contactsClass->isInList($randomMail, $listId));
 
         sleep(10);
         sleep($randomTimeout);
