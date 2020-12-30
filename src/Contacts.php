@@ -93,8 +93,8 @@ class Contacts extends BaseObject
     private function dumpFailure(Response $response)
     {
         if ($this->verboseError && !$response->success()) {
-            var_dump($response->getStatus(), $response->getBody());
-        }    
+            var_dump($response->request->getUrl(), $response->getStatus(), $response->getBody());
+        }
     }
 
     private $_contacts = [];

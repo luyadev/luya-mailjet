@@ -64,7 +64,6 @@ class MailjetTest extends MailjetTestCase
         sleep($randomTimeout);
 
         $search = $contactsClass->search($randomMail);
-        var_dump($search);
         $this->assertNotFalse($search);
 
         sleep(10);
