@@ -42,7 +42,7 @@ class MailjetTest extends MailjetTestCase
     public function testContacts()
     {
         $client = $this->app->mailjet;
-        $randomMail = 'johndoe'.rand(0, 999999999999).'@luya.io';
+        $randomMail = 'johndoe'.rand(0, 999999999999999).'@luya.io';
         $listId = 622;
 
         $this->app->mailjet->contacts()

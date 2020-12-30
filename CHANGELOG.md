@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.6.2 (30. December 2020)
+
++ [#13](https://github.com/luyadev/luya-mailjet/pull/13) Fix issue when sending emails with enabled template error reporting
+
 ## 1.6.1 (1. December 2020)
 
 + [#11](https://github.com/luyadev/luya-mailjet/pull/11) Allow none scalar values as variable when using `setVariables()` in `MailerMessage`.
