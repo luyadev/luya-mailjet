@@ -127,7 +127,7 @@ class SubscribeFormWidget extends Widget
                 }
     
                 $crypt = base64_encode(Yii::$app->security->encryptByPassword(Json::encode($this->getModel()->attributes), $this->hashSecret));
-                $url = Url::appendQuery(['w' => self::getId(), 'subscribe' => $crypt], true);
+                $url = Url::appendQuery(['w' => $this->getId(), 'subscribe' => $crypt], true);
     
                 if ($this->sendConfirmMail($url, $this->model->attributes)) {
                     Yii::$app->session->setFlash(self::MAIL_SENT_SUCCESS);
@@ -211,13 +211,15 @@ class SubscribeFormWidget extends Widget
         $widgetId = Yii::$app->request->get('w');
         $subscribe = Yii::$app->request->get('subscribe');
 
-        if ($widgetId == self::getId() && !empty($subscribe)) {
+        if ($widgetId == $this->getId() && !empty($subscribe)) {
             $data = Yii::$app->security->decryptByPassword(base64_decode($subscribe), $this->hashSecret);
-            $attributes = Json::decode($data);
-            $this->getModel()->attributes = $attributes;
-            if ($this->getModel()->validate()) {
-                if ($this->addToList($this->getModelEmail(), $this->model->attributes)) {
-                    Yii::$app->session->setFlash(self::MAIL_SUBSCRIBE_SUCCESS);
+            if ($data) {
+                $attributes = Json::decode($data);
+                $this->getModel()->attributes = $attributes;
+                if ($this->getModel()->validate()) {
+                    if ($this->addToList($this->getModelEmail(), $this->model->attributes)) {
+                        Yii::$app->session->setFlash(self::MAIL_SUBSCRIBE_SUCCESS);
+                    }
                 }
             }
         }
