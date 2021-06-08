@@ -5,7 +5,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 1.7.0 (8. June 2021)
 
-+ [#15](https://github.com/luyadev/luya-mailjet/pull/15) Added exception if MJML parser contains errors, otherwise the request will silenctly fail.
++ [#15](https://github.com/luyadev/luya-mailjet/pull/15) Added exception if MJML parser contains errors, otherwise the request will silently fail.
 
 ## 1.6.3 (19. January 2021)
 
