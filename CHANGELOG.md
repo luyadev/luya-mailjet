@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.7.0 (8. June 2021)
+
++ [#]() Added exception if MJML parser contains errors, otherwise the request will silenctly fail.
+
 ## 1.6.3 (19. January 2021)
 
 + [#14](https://github.com/luyadev/luya-mailjet/pull/14) Fix json decode exception when the parameter is violated in the subscribe form widget.

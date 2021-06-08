@@ -4,6 +4,7 @@ namespace luya\mailjet\models;
 
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
+use luya\Exception;
 use luya\mailjet\admin\aws\MjmlPreviewActiveWindow;
 use luya\mailjet\admin\Module;
 use yii\base\InvalidArgumentException;
@@ -303,6 +304,15 @@ class Template extends NgRestModel
         }
         // decode response
         $decode = json_decode($response, true);
+
+        if (isset($decode['errors']) && !empty($decode['errors'])) {
+            $trace = [];
+            foreach ($decode['errors'] as $error) {
+                $trace[] = sprintf("%s on line %s for tag %s", $error['message'], $error['line'], $error['tagName']);
+            }
+            throw new Exception(implode(' | ', $trace));
+        }
+
         // ensure response contains html json key
         if (isset($decode['html'])) {
             return $decode['html'];
