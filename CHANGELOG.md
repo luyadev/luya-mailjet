@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.7.1 (27. July 2021)
+
++ Allow LUYA Core Version 2.0
+
 ## 1.7.0 (8. June 2021)
 
 + [#15](https://github.com/luyadev/luya-mailjet/pull/15) Added exception if MJML parser contains errors, otherwise the request will silently fail.
