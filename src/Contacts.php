@@ -68,7 +68,7 @@ class Contacts extends BaseObject
     const ACTION_UNSUBSCRIBE = 'unsub';
     
     /**
-     * @var boolean If a response is not sucessfull, the data will be dumped.
+     * @var boolean If a response is not successful, the data will be dumped.
      * @since 1.6.2
      */
     public $verboseError = false;
