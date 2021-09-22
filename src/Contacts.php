@@ -100,7 +100,7 @@ class Contacts extends BaseObject
     private $_contacts = [];
 
     /**
-     * Reset the contacst and lists values
+     * Reset the contacts and lists values
      *
      * @since 1.3.1
      */
