@@ -20,7 +20,7 @@ use yii\base\InvalidConfigException;
  *         ->sync();
  * ```
  *
- * All users will be snyced to all given lists:
+ * All users will be synced to all given lists:
  *
  * ```php
  * $this->app->mailjet->contacts()
