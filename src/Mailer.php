@@ -177,7 +177,7 @@ class Mailer extends BaseMailer
     /**
      * Generate Email and Name format based on input.
      *
-     * @param array|string A list of recipieints.
+     * @param array|string A list of recipients.
      */
     public static function toMultiEmailAndName($input)
     {
