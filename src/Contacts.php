@@ -20,7 +20,7 @@ use yii\base\InvalidConfigException;
  *         ->sync();
  * ```
  *
- * All users will be snyced to all given lists:
+ * All users will be synced to all given lists:
  *
  * ```php
  * $this->app->mailjet->contacts()
@@ -68,7 +68,7 @@ class Contacts extends BaseObject
     const ACTION_UNSUBSCRIBE = 'unsub';
     
     /**
-     * @var boolean If a response is not sucessfull, the data will be dumped.
+     * @var boolean If a response is not successful, the data will be dumped.
      * @since 1.6.2
      */
     public $verboseError = false;
@@ -100,7 +100,7 @@ class Contacts extends BaseObject
     private $_contacts = [];
 
     /**
-     * Reset the contacst and lists values
+     * Reset the contacts and lists values
      *
      * @since 1.3.1
      */
@@ -118,7 +118,7 @@ class Contacts extends BaseObject
     public function add($email, array $properties = [])
     {
         foreach ($properties as $name => $value) {
-            // ensure there is no other propertie with the name email otherwise the add won't work.
+            // ensure there is no other property with the name email otherwise the add won't work.
             if (strtolower($name) == 'email') {
                 unset($properties[$name]);
             }
@@ -170,7 +170,7 @@ class Contacts extends BaseObject
     }
     
     /**
-     * Search for a given Conact.
+     * Search for a given contact.
      *
      * @param mixed $emailOrId
      * @return array|boolean
@@ -189,7 +189,7 @@ class Contacts extends BaseObject
     }
 
     /**
-     * Check if a user is in the given list and not unsubscibred.
+     * Check if a user is in the given list and not unsubscribed.
      *
      * @param string|integer $emailOrId
      * @param integer $listId The list ID
@@ -213,7 +213,7 @@ class Contacts extends BaseObject
     }
 
     /**
-     * Get all list subscriptions for a given Contact.
+     * Get all list subscriptions for a given contact.
      */
     public function subscriptions($emailOrId)
     {
@@ -250,7 +250,7 @@ class Contacts extends BaseObject
     /**
      * Get contact items.
      *
-     * @param integer $listId If not porvided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
+     * @param integer $listId If not provided all contacts are returned - Retrieves only contacts that are part of this Contact List ID.
      * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true,
      * will retrieve only contacts that have been added to the exclusion list for marketing emails. When
      * false, those contacts will be excluded from the response.
