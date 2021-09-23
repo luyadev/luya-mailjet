@@ -149,7 +149,7 @@ class Mailer extends BaseMailer
             $array['CustomID'] = $message->getCustomId();
         }
         
-        // only enable error reporting informations when using a template based message
+        // only enable error reporting information when using a template based message
         // @see https://github.com/luyadev/luya-mailjet/issues/12
         if ($message->getTemplate()) {
             $errorReporting = $message->getTemplateErrorReporting() ? $message->getTemplateErrorReporting() : $this->getDefaultTemplateErrorReporting();
