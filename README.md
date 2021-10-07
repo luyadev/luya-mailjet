@@ -35,17 +35,16 @@ composer require luyadev/luya-mailjet
 Add to config:
 
 ```php
-[
-    'components' => [
-        'mailjet' => [
-            'class' => 'luya\mailjet\Client',
-            'apiKey' => '...',
-            'apiSecret' => '...',
-        ],
-        'mailer' => [
-            'class' => 'luya\mailjet\Mailer',
-        ],
-    ]
+'components' => [
+    //...
+    'mailjet' => [
+        'class' => 'luya\mailjet\Client',
+        'apiKey' => '...',
+        'apiSecret' => '...',
+    ],
+    'mailer' => [
+        'class' => 'luya\mailjet\Mailer',
+    ],
 ]
 ```
 
@@ -79,6 +78,7 @@ With version 1.3 of LUYA Mailjet library there is an admin module you can config
 
 ```php
 'modules' => [
+    //...
     'mailjetadmin' => [
         'class' => 'luya\mailjet\admin\Module',
         'mjmlApiApplicationId' => 'ApplicationIdFromMjml.io',
