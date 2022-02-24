@@ -6,6 +6,7 @@ use luya\Exception;
 use yii\mail\BaseMailer;
 use yii\di\Instance;
 use Mailjet\Resources;
+use yii\base\InvalidConfigException;
 
 /**
  * Mailjet Mailer Class.
@@ -89,9 +90,54 @@ class Mailer extends BaseMailer
     {
         return $this->_defaultTemplateErrorReporting;
     }
+
+    private $_bulkList = [];
+
+    /**
+     * Add new Bulk Message
+     *
+     * @param MailerMessage $message
+     * @since 1.8.0
+     */
+    public function addToBulk(MailerMessage $message)
+    {
+        $this->_bulkList[] = $message;
+    }
+
+    /**
+     * Send the bulkd message
+     *
+     * @return boolean If false, see $lastError in Mailer component.
+     * @since 1.8.0
+     */
+    public function sendBulk()
+    {
+        if (empty($this->_bulkList)) {
+            throw new InvalidConfigException("The list of bulk messages can not be empty. use addToBulk().");
+        }
+
+        $body = ['Messages' => []];
+
+        foreach ($this->_bulkList as $message) {
+            /** @var MailerMessage $message */
+            $body['Messages'][] = $this->extractMessage($message);
+        }
+
+        // create response
+        $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
+        
+        if (!$this->response->success()) {
+            $this->lastError = var_export($this->response->getData(), true) . ' | ' . var_export($this->response->getBody(), true) . ' | ' . var_export($this->response->getReasonPhrase(), true);
+            return false;
+        }
+
+        // return
+        return true;
+    }
     
     /**
      * @param MailerMessage $message
+     * @return boolean If false, see $lastError in Mailer component.
      */
     public function sendMessage($message)
     {

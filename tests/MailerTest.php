@@ -50,6 +50,28 @@ class MailerTest extends MailjetTestCase
         $this->assertNotEmpty($mailer->lastError);
     }
 
+    public function testBuldMessages()
+    {
+        $mailer = new Mailer();
+        $mailer->defaultTemplateErrorReporting = ['error@luya.io' => 'John Error'];
+        $mailer->sandbox = true;
+
+        $message = new MailerMessage();
+        $message->setTemplate(123);
+        $message->setTo(['foobar@luya.io']);
+        $message->setVariables([
+            'bar' => 'foo',
+            'int' => 123,
+            'null' => null,
+            'bool' => false,
+        ]);
+
+        $mailer->addToBulk($message);
+        $mailer->addToBulk($message);
+
+        $this->assertTrue($mailer->sendBulk());
+    }
+
     public function testJobWithMailer()
     {
         // invoke job tests
