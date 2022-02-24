@@ -136,6 +136,9 @@ class Mailer extends BaseMailer
             $body['Messages'][] = $this->extractMessage($message);
         }
 
+        // reset bulk list
+        $this->_bulkList = [];
+
         // create response
         $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
         
