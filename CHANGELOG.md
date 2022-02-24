@@ -5,7 +5,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 ## 1.8.0
 
-+ [#]() Add new option to send message as bulk. Which is an array of messages.
++ [#19](https://github.com/luyadev/luya-mailjet/pull/19) Add new option to send message as bulk. Which is an array of messages.
 
 ## 1.7.1 (27. July 2021)
 

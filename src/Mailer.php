@@ -96,6 +96,15 @@ class Mailer extends BaseMailer
     /**
      * Add new Bulk Message
      *
+     * ```php
+     * $message1 = new MailerMessage(...)
+     * $message2 = new MailerMessage(...)
+     * 
+     * $mailer->addToBulk($message1);
+     * $mailer->addToBulk($message2);
+     * 
+     * $mailer->sendBulk();
+     * ```
      * @param MailerMessage $message
      * @since 1.8.0
      */
@@ -117,6 +126,10 @@ class Mailer extends BaseMailer
         }
 
         $body = ['Messages' => []];
+        
+        if ($this->sandbox) {
+            $body['SandboxMode'] = true;
+        }
 
         foreach ($this->_bulkList as $message) {
             /** @var MailerMessage $message */
@@ -131,7 +144,6 @@ class Mailer extends BaseMailer
             return false;
         }
 
-        // return
         return true;
     }
     
@@ -159,7 +171,6 @@ class Mailer extends BaseMailer
             return false;
         }
 
-        // return
         return true;
     }
     
