@@ -306,4 +306,37 @@ class Contacts extends BaseObject
         
         return $data;
     }
+
+    /**
+     * Items with Properties
+     *
+     * @param integer $listId
+     * @param boolean $isExcludedFromCampaigns
+     * @return array
+     * @since 1.9.0
+     */
+    public function itemsWithProperties($listId, $isExcludedFromCampaigns = null)
+    {
+        $list = [];
+        foreach ($this->items($listId, $isExcludedFromCampaigns) as $mailData) {
+            $list[$mailData['ID']] = [
+                'data' => $mailData,
+                'email' => $mailData['Email'],
+                'properties' => [],
+            ];
+        }
+
+        foreach ($this->items($listId, null, true) as $contactData) {
+
+            $contactArray = [];
+            foreach ($contactData['Data'] as $p) {
+                $contactArray[$p['Name']] = $p['Value'];
+            }
+
+            $list[$contactData['ID']]['properties'] = $contactArray;
+        }
+        
+    
+        return $list;
+    }
 }
