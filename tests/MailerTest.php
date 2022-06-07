@@ -157,7 +157,7 @@ class MailerTest extends MailjetTestCase
         $this->assertSame([
             'Attachments' => [
                 0 => [
-                    'ContentType' => 'text/plain',
+                    'ContentType' => PHP_VERSION_ID == 8 && PHP_MINOR_VERSION >= 1 ? 'application/octet-stream' : 'text/plain',
                     'Filename' => '.env.dist',
                     'Base64Content' => 'YXBpa2V5PWZvbwphcGlzZWNyZXQ9YmFy',
                 ]
