@@ -254,9 +254,10 @@ class Contacts extends BaseObject
      * @param boolean $isExcludedFromCampaigns If null, this parameter has no effect, otherwise: When true,
      * will retrieve only contacts that have been added to the exclusion list for marketing emails. When
      * false, those contacts will be excluded from the response.
+     * @param boolean $contactData When enabled the endpoint https://api.mailjet.com/v3/REST/contactdata is used instead of https://api.mailjet.com/v3/REST/contact. This will return data from the given users {@since 1.9.0}
      * @return array|boolean
      */
-    public function items($listId = null, $isExcludedFromCampaigns = null)
+    public function items($listId = null, $isExcludedFromCampaigns = null, $contactData = false)
     {
         // setup limit
         $limit = 100;
@@ -274,7 +275,7 @@ class Contacts extends BaseObject
         $totalFilters = $filters;
         $totalFilters['countOnly'] = true;
 
-        $response = $this->client->get(Resources::$Contact, [
+        $response = $this->client->get($contactData ? Resources::$Contactdata : Resources::$Contact, [
             'filters' => $totalFilters,
         ]);
 
@@ -292,7 +293,7 @@ class Contacts extends BaseObject
         for ($i = 0; $i <= $pages; $i++) {
             $offset = $limit * $i;
             $filters['Offset'] = $offset;
-            $response = $this->client->get(Resources::$Contact, [
+            $response = $this->client->get($contactData ? Resources::$Contactdata : Resources::$Contact, [
                 'filters' => $filters,
             ]);
 
@@ -304,5 +305,36 @@ class Contacts extends BaseObject
         }
         
         return $data;
+    }
+
+    /**
+     * Items with Properties
+     *
+     * @param integer $listId
+     * @param boolean $isExcludedFromCampaigns
+     * @return array Returns an array with list propertie and contact data merged together.
+     * @since 1.9.0
+     */
+    public function itemsWithProperties($listId, $isExcludedFromCampaigns = null)
+    {
+        $list = [];
+        foreach ($this->items($listId, $isExcludedFromCampaigns) as $mailData) {
+            $list[$mailData['ID']] = [
+                'data' => $mailData,
+                'email' => $mailData['Email'],
+                'properties' => [],
+            ];
+        }
+
+        foreach ($this->items($listId, null, true) as $contactData) {
+            $contactArray = [];
+            foreach ($contactData['Data'] as $p) {
+                $contactArray[$p['Name']] = $p['Value'];
+            }
+            $list[$contactData['ID']]['properties'] = $contactArray;
+        }
+        
+    
+        return $list;
     }
 }
