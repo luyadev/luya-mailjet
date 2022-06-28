@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.9.1 (28. June 2022)
+
++ [#21](https://github.com/luyadev/luya-mailjet/pull/21) Slice bulk array to 50 items, as there is a limitation
+
 ## 1.9.0 (7. June 2022)
 
 + [#20](https://github.com/luyadev/luya-mailjet/pull/20) Add new option to retrieve items properties along with the email.
