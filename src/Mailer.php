@@ -117,37 +117,44 @@ class Mailer extends BaseMailer
      * Send the bulkd message
      *
      * @return boolean If false, see $lastError in Mailer component.
+     * @param int $chunk The bulk limit is 50, so each bulk request will be chunked into an array with $chunk items. You should not change that value, unless you are testing. {@since 1.9.1}
      * @since 1.8.0
      */
-    public function sendBulk()
+    public function sendBulk($chunk = 50)
     {
         if (empty($this->_bulkList)) {
             throw new InvalidConfigException("The list of bulk messages can not be empty. use addToBulk().");
         }
 
-        $body = ['Messages' => []];
-        
-        if ($this->sandbox) {
-            $body['SandboxMode'] = true;
+        if ($chunk > 50) {
+            throw new InvalidConfigException("Mailjet bulk message limit is 50 items.");
         }
 
-        foreach ($this->_bulkList as $message) {
-            /** @var MailerMessage $message */
-            $body['Messages'][] = $this->extractMessage($message);
+        $responseState = true;
+
+        foreach (array_chunk($this->_bulkList, $chunk) as $bulkMessages) {
+            $body = ['Messages' => []];
+            if ($this->sandbox) {
+                $body['SandboxMode'] = true;
+            }
+            foreach ($bulkMessages as $message) {
+                /** @var MailerMessage $message */
+                $body['Messages'][] = $this->extractMessage($message);
+            }
+
+            // create response
+            $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
+            
+            if (!$this->response->success()) {
+                $this->lastError .= var_export($this->response->getData(), true) . ' | ' . var_export($this->response->getBody(), true) . ' | ' . var_export($this->response->getReasonPhrase(), true);
+                $responseState = false;
+            }
         }
 
         // reset bulk list
         $this->_bulkList = [];
 
-        // create response
-        $this->response = $this->mailjet->client->post(Resources::$Email, ['body' => $body], ['version' => 'v3.1']);
-        
-        if (!$this->response->success()) {
-            $this->lastError = var_export($this->response->getData(), true) . ' | ' . var_export($this->response->getBody(), true) . ' | ' . var_export($this->response->getReasonPhrase(), true);
-            return false;
-        }
-
-        return true;
+        return $responseState;
     }
     
     /**
