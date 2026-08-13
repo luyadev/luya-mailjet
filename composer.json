@@ -17,7 +17,7 @@
 		"symfony/http-client": "^4.4 || ^5.4 || ^6.0 || ^7.0 || ^8.0"
 	},
 	"require-dev" : {
-		"luyadev/luya-testsuite" : "^2.0",
+		"luyadev/luya-testsuite" : "^3.1",
 		"vlucas/phpdotenv": "^2.5"
 	},
 	"autoload" : {
@@ -33,6 +33,11 @@
 	"config": {
         "fxp-asset": {
             "enabled": false
+        },
+        "allow-plugins": {
+            "luyadev/luya-composer": true,
+            "yiisoft/yii2-composer": true,
+            "php-http/discovery": true
         }
     },
     "repositories": [

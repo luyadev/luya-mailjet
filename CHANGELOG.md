@@ -7,6 +7,7 @@ In order to read more about upgrading and BC breaks have a look at the [UPGRADE 
 
 + Require `mailjet/mailjet-apiv3-php` 1.6.7 or newer, which dropped `Client::setConnectionTimeout()` and `Client::setTimeout()` when switching to PSR-18. Projects no longer need to pin the mailjet library to `~1.5.0`. The `connectionTimeout` and `timeout` properties are now applied to a `symfony/http-client` based PSR-18 client. Note that the mailjet library requires PHP 8.1 as of that version.
 + The SMS client now uses the configured `connectionTimeout` and `timeout` as well, before it silently used the library defaults.
++ Fix `composer install`, which was blocked by the `twig/twig` 1.x security advisories pulled in through `luyadev/luya-testsuite` 2.x, and by the missing `allow-plugins` config required since Composer 2.2.
 
 ## 1.9.1 (28. June 2022)
 
