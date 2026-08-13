@@ -4,6 +4,8 @@ namespace luya\mailjet;
 
 use yii\base\Component;
 use Mailjet\Client as MailjetClient;
+use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
 use yii\base\InvalidConfigException;
 
 /**
@@ -60,6 +62,30 @@ class Client extends Component
         }
     }
     
+    /**
+     * Create a Mailjet SDK Client with the configured timeouts.
+     *
+     * Since mailjet/mailjet-apiv3-php 1.6.7 the library expects a PSR-18 client, which is the only
+     * place left where the timeouts can be configured.
+     *
+     * @param string $key
+     * @param string $secret
+     * @param boolean $call
+     * @param array $settings
+     * @return MailjetClient
+     * @since 1.9.2
+     */
+    protected function createClient($key, $secret, $call = true, array $settings = [])
+    {
+        $httpClient = new Psr18Client(HttpClient::create([
+            // symfony/http-client has no dedicated connection timeout, the idle timeout is the closest equivalent
+            'timeout' => $this->connectionTimeout,
+            'max_duration' => $this->timeout,
+        ]));
+
+        return new MailjetClient($key, $secret, $call, $settings, $httpClient, $httpClient, $httpClient);
+    }
+
     private $_client;
     /**
      * Mailjet PHP SDK Client Library.
@@ -69,9 +95,7 @@ class Client extends Component
     public function getClient()
     {
         if ($this->_client === null) {
-            $this->_client = new MailjetClient($this->apiKey, $this->apiSecret, true);
-            $this->_client->setConnectionTimeout($this->connectionTimeout);
-            $this->_client->setTimeout($this->timeout);
+            $this->_client = $this->createClient($this->apiKey, $this->apiSecret, true);
         }
 
         return $this->_client;
@@ -88,7 +112,7 @@ class Client extends Component
     public function getSmsClient()
     {
         if ($this->_smsClient === null) {
-            $this->_smsClient = new MailjetClient($this->smsKey, null, true, ['version' => 'v4', 'call' => false]);
+            $this->_smsClient = $this->createClient($this->smsKey, null, true, ['version' => 'v4', 'call' => false]);
         }
 
         return $this->_smsClient;

@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. This project adheres to [Semantic Versioning](http://semver.org/).
 In order to read more about upgrading and BC breaks have a look at the [UPGRADE Document](UPGRADE.md).
 
+## 1.9.2 (13. August 2026)
+
++ Require `mailjet/mailjet-apiv3-php` 1.6.7 or newer, which dropped `Client::setConnectionTimeout()` and `Client::setTimeout()` when switching to PSR-18. Projects no longer need to pin the mailjet library to `~1.5.0`. The `connectionTimeout` and `timeout` properties are now applied to a `symfony/http-client` based PSR-18 client. Note that the mailjet library requires PHP 8.1 as of that version.
++ The SMS client now uses the configured `connectionTimeout` and `timeout` as well, before it silently used the library defaults.
+
 ## 1.9.1 (28. June 2022)
 
 + [#21](https://github.com/luyadev/luya-mailjet/pull/21) Slice bulk array to 50 items, as there is a limitation
