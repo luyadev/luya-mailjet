@@ -18,6 +18,7 @@
 	},
 	"require-dev" : {
 		"luyadev/luya-testsuite" : "^3.1",
+		"luyadev/luya-module-admin" : "^5.0",
 		"vlucas/phpdotenv": "^2.5"
 	},
 	"autoload" : {
